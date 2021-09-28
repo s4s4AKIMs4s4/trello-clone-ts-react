@@ -1,3 +1,4 @@
+import { off } from 'process';
 import React, {useEffect,useRef,createRef, useState, FC} from 'react';
 import './App.css';
 import {MemoListDiv} from './list'
@@ -33,6 +34,9 @@ const  App:FC = ()=> {
   const [targetDiv,setTargetDiv] = useState<HTMLDivElement>({} as HTMLDivElement)
   const [clientMouse,setClientMouse] = useState<IclientMouse>({clientX:'1',clientY:'1'})
 
+  const [isBlockMoved,setIsBlockMoved] = useState<boolean>(false)
+  const [targetDivElemnt,setTargetDivElement] = useState<HTMLDivElement>({} as HTMLDivElement)
+  const [left,setLeft] = useState<number>(0)
 
 
   const [state, setState] = useState<Istate[]>([
@@ -113,41 +117,51 @@ const  App:FC = ()=> {
     setClientMouse(obj)
     if(flag)
       {
-        targetDiv.style.position = 'absolute'
-        targetDiv.style.left = `${clientMouse.clientX}px`
-        targetDiv.style.top =`${clientMouse.clientY}px`
+        if(isBlockMoved){
+          targetDiv.style.position = 'absolute'
+          targetDiv.style.left = `${clientMouse.clientX}px`
+          targetDiv.style.top =`${clientMouse.clientY}px`
 
-        const obj = [] as Istate[] 
-        state.forEach((val, index) =>{
-          if(state[index].target === 1){
-            obj.push(state[index])
-            console.log('hello')
-            return
-          }
-          if(index+1 === state.length) {obj.push(state[index]); return}
-          if(val.header === 'white space') return
-          
-          if(e.clientX > val.left   &&  e.clientX < state[index+1].left ){  
-            obj.push(state[index])
-            obj.push({
-              header:'white space',
-              id:Math.floor(1000*Math.random()),
-              left: e.clientX,
-              target:null,
-              childrens:[{x:1,y:1,text:''}]
-            })
-           
-            return 
-          }
-          obj.push(val)
+          const obj = [] as Istate[] 
+          state.forEach((val, index) =>{
+            if(state[index].target === 1){
+              obj.push(state[index])
+              console.log('hello')
+              return
+            }
+            if(index+1 === state.length) {obj.push(state[index]); return}
+            if(val.header === 'white space') return
+            
+            if(e.clientX > val.left   &&  e.clientX < state[index+1].left ){  
+              obj.push(state[index])
+              obj.push({
+                header:'white space',
+                id:Math.floor(1000*Math.random()),
+                left: e.clientX,
+                target:null,
+                childrens:[{x:1,y:1,text:''}]
+              })
+            
+              return 
+            }
+            obj.push(val)
 
-        })
-        
-        setState(obj)
+          })
+          setState(obj)
+        }
+        else{
+          targetDivElemnt.style.position = 'absolute'
+          const calc  = Number(clientMouse.clientX) - left
 
+
+          targetDivElemnt.style.left = `${calc}px`
+          targetDivElemnt.style.top =`${clientMouse.clientY}px`
+        }
       }
 
-    }
+    
+
+  }
 
     
 
@@ -155,24 +169,29 @@ const  App:FC = ()=> {
       setFlag(true)
       const target = e.target as HTMLDivElement
       if(target.textContent === 'add values') {setFlag(false); return}
-      setTargetDiv(target)
+      
 
+      console.log(target.className)
+      if(target.className === 'actions'){
 
-
-
-
-      const textTarget = target.querySelector('.block__header')?.textContent
-      console.log(target)
-
-      console.log(textTarget)
-
-      state.forEach((val, index) => {
-        if(val.header === textTarget){
-          //console.log(textTarget)
-          //console.log(state[index].target)
-          state[index].target = 1
-        } 
-      })
+        setIsBlockMoved(false)
+        setTargetDivElement(target)
+        setLeft(target.getBoundingClientRect().x)
+        console.log('left')
+        console.log(left)
+      }
+      else{
+        setIsBlockMoved(true)
+        setTargetDiv(target)   
+        const textTarget = target.querySelector('.block__header')?.textContent
+        state.forEach((val, index) => {
+          if(val.header === textTarget){
+            //console.log(textTarget)
+            //console.log(state[index].target)
+            state[index].target = 1
+          } 
+        })
+      }
     }
 
     function compare(a:Istate, b:Istate){
@@ -190,6 +209,7 @@ const  App:FC = ()=> {
       // console.log( (mario as HTMLDivElement).getBoundingClientRect() ) 
 
       setFlag(false)
+      setIsBlockMoved(false)
       const blocks = document.querySelectorAll('.block') 
       const obj = state
       let select = -1

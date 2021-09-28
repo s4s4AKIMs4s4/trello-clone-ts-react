@@ -58,6 +58,7 @@
 }
 
 .actions{
+  position: relative;
   margin-bottom: 4px;
   background-color: darkgreen;
 }
