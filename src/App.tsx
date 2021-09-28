@@ -8,12 +8,19 @@ interface IclientMouse{
 }
 
 
+interface children{
+  x:number,
+  y:number,
+  text:string,
+}
+
 
 export interface Istate{
   id:number,
   header:string,
   left:number,
-  target: null| number
+  target: null| number,
+  childrens: children[],
 }
 
 
@@ -34,30 +41,35 @@ const  App:FC = ()=> {
       header:'hello',
       left:1,
       target:null,
+      childrens:[{x:1,y:1,text:'1'},{x:1,y:2,text:'12'}]
     },
     {
       id:2,
       header:'word',
       left:2,
       target:null,
+      childrens:[{x:1,y:1,text:'2'}]
     },
     {
       id:3,
       header:'bbbbb',
       left:3,
       target:null,
+      childrens:[{x:1,y:1,text:'3'}]
     },
     {
       id:4,
       header:'ffffffffff',
       left:4,
       target:null,
+      childrens:[{x:1,y:1,text:'4'}]
     },
     {
       id:5,
       header:'sssssssssssssssssssssss',
       left:4,
       target:null,
+      childrens:[{x:1,y:1,text:'5'}]
     },
 
 
@@ -109,6 +121,7 @@ const  App:FC = ()=> {
         state.forEach((val, index) =>{
           if(state[index].target === 1){
             obj.push(state[index])
+            console.log('hello')
             return
           }
           if(index+1 === state.length) {obj.push(state[index]); return}
@@ -121,6 +134,7 @@ const  App:FC = ()=> {
               id:Math.floor(1000*Math.random()),
               left: e.clientX,
               target:null,
+              childrens:[{x:1,y:1,text:''}]
             })
            
             return 
@@ -128,8 +142,7 @@ const  App:FC = ()=> {
           obj.push(val)
 
         })
-        console.log('obj')
-        console.log(obj)
+        
         setState(obj)
 
       }
@@ -143,7 +156,16 @@ const  App:FC = ()=> {
       const target = e.target as HTMLDivElement
       if(target.textContent === 'add values') {setFlag(false); return}
       setTargetDiv(target)
-      const textTarget = target.textContent
+
+
+
+
+
+      const textTarget = target.querySelector('.block__header')?.textContent
+      console.log(target)
+
+      console.log(textTarget)
+
       state.forEach((val, index) => {
         if(val.header === textTarget){
           //console.log(textTarget)
@@ -178,8 +200,8 @@ const  App:FC = ()=> {
         const num = bl.getBoundingClientRect().x 
         if(bl.textContent === 'white space') { select = index; return}
         obj[index].left = num
-        obj[index].header = bl.textContent as string
-        obj[index].id = Math.floor(1000*Math.random())
+        // obj[index].header = bl.textContent as string
+        obj[index].id = Math.floor(10000*Math.random())
         obj[index].target = null
         //console.log(bl.style.left)
       })

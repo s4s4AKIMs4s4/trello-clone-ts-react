@@ -57,3 +57,7 @@
   overflow: hidden;
 }
 
+.actions{
+  margin-bottom: 4px;
+  background-color: darkgreen;
+}

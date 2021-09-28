@@ -20,7 +20,16 @@ const ListDiv:FC<IListDiv> = ({state,destribution}) => {
     </div>)
     else
     return(<div className="block" key={val.id} onMouseDown = {destribution}> 
-              {val.header}
+              <div className = "block__header">
+                {val.header}
+              </div>
+              <div className = "block__element">
+                {val.childrens.map((val:any,index:any) => 
+                  <div className = "actions">
+                    {val.text }
+                  </div>
+                )}
+              </div>
     </div>)
   }
 
