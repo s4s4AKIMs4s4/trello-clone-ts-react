@@ -25,7 +25,7 @@ const ListDiv:FC<IListDiv> = ({state,destribution}) => {
               </div>
               <div className = "block__element">
                 {val.childrens.map((val:any,index:any) => 
-                  <div className = "actions">
+                  <div className = "actions" key = {val.index}>
                     {val.text }
                   </div>
                 )}
@@ -57,9 +57,7 @@ const ListDiv:FC<IListDiv> = ({state,destribution}) => {
           
         </div>
 
-        <div className = 'mario'>
-         marrrio
-        </div>
+
 
       </div>
 
