@@ -24,7 +24,7 @@ export interface IState{
 
 export enum BlockActionEnum{
     SET_BLOCK_SIZE = "SET_BLOCK_SIZE",
-
+    SET_HEADER = 'SET_HEADER'
 }
 
 export interface SetBlock{
@@ -36,6 +36,14 @@ export interface SetBlock{
 //     type:BlockActionEnum.UPDATE_UNIT_SIZE
 // }
 
-export type actionType = SetBlock
+export interface UpdateHeader{
+  type: BlockActionEnum.SET_HEADER,
+  payload:{ 
+    header: string,
+    id: number
+  }
+}
+
+export type actionType = SetBlock | UpdateHeader
 
 

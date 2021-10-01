@@ -1,6 +1,8 @@
 import { off } from 'process';
 import React, {useEffect,useRef,createRef, useState, FC} from 'react';
 import './App.css';
+import { useTypedSelector } from './hooks/typedSelector';
+import { UseActions } from './hooks/useActionsHook';
 import {MemoListDiv} from './list'
 
 interface IclientMouse{
@@ -9,7 +11,7 @@ interface IclientMouse{
 }
 
 
-interface children{
+export interface children{
   x:number,
   y:number,
   text:string,
@@ -29,6 +31,10 @@ export interface Istate{
 
 
 const  App:FC = ()=> {
+  const {UpdateBlockAction,updateEventAction} = UseActions()
+  const state  = useTypedSelector( state => state.block )
+  //const [state, UpdateBlockAction] = useState<Istate[]>([])
+
   const client = useRef<HTMLDivElement>(null)
   const blocks = useRef<HTMLDivElement>(null)
   const [flag,setFlag] = useState<boolean>(false)
@@ -45,51 +51,9 @@ const  App:FC = ()=> {
 
   const [currentAction,setCurrentUction] = useState<children>({} as children)
 
-  const [state, setState] = useState<Istate[]>([
-    {
-      id:1,
-      header:'hello',
-      left:1,
-      target:null,
-      childrens:[{x:1,y:1,text:'1',index:1},{x:1,y:2,text:'12',index:2},{x:1,y:10000,text:'add',index:100000}],
-      length:3,
-    },
-    {
-      id:2,
-      header:'word',
-      left:2,
-      target:null,
-      childrens:[{x:1,y:1,text:'2',index:3},{x:1,y:10000,text:'add',index:100000}],
-      length:2
-    },
-    {
-      id:3,
-      header:'bbbbb',
-      left:3,
-      target:null,
-      childrens:[{x:1,y:1,text:'3',index:4},{x:1,y:10000,text:'add',index:100000}],
-      length:2
-    },
-    {
-      id:4,
-      header:'ffffffffff',
-      left:4,
-      target:null,
-      childrens:[{x:1,y:1,text:'4',index:5},{x:1,y:10000,text:'add',index:100000}],
-      length:2
-    },
-    {
-      id:5,
-      header:'sssssssssssssssssssssss',
-      left:4,
-      target:null,
-      childrens:[{x:1,y:1,text:'5',index:6},{x:1,y:10000,text:'add',index:100000}],
-      length:2
-    },
-
-
-  ])
-
+  
+  
+  const eventState  = useTypedSelector( state => state.event )
 
   function getCurrentAction(){
     const obj = state
@@ -99,7 +63,7 @@ const  App:FC = ()=> {
         if(targetDivElemnt.textContent === childrens[aIterator].text){
           setCurrentUction(childrens[aIterator])
           // obj[sIterator].childrens.splice(aIterator,1)
-          // setState(obj)
+          // UpdateBlockAction(obj)
           //childrens.splice(aIterator,1)
           return
         }
@@ -152,6 +116,9 @@ const  App:FC = ()=> {
       const temp:children[] = [] as children[] 
       for(let i = 0; i < val.length ; i++ ){
         temp.push(listActionsLength[i])
+        if(listActionsLength[i].text === 'add'){
+          listActionsLength[i].y = 10000
+        }
       }
 
       listActionsLength.splice(0, val.length)
@@ -166,7 +133,7 @@ const  App:FC = ()=> {
     // console.log('obj')
     // console.log(obj)
 
-    setState(obj)
+    UpdateBlockAction(obj)
 
     //setApdateActions(false)
   },[updateActions])
@@ -191,8 +158,9 @@ const  App:FC = ()=> {
 
     obj[index].header = state[index].header
     obj[index].id = state[index].id
+ 
   })
-  setState(obj)
+  UpdateBlockAction(obj)
 
  }, [state])
 
@@ -238,7 +206,7 @@ const  App:FC = ()=> {
             obj.push(val)
 
           })
-          setState(obj)
+          UpdateBlockAction(obj)
         }
         else{
           targetDivElemnt.style.position = 'absolute'
@@ -258,29 +226,46 @@ const  App:FC = ()=> {
 
     function destribution(e:React.MouseEvent<HTMLDivElement>){
       setFlag(true)
-      const target = e.target as HTMLDivElement
-      if(target.textContent === 'add values') {setFlag(false); return}
+      let target = e.target as HTMLDivElement
+      console.log('where i just click')
+      console.log(target)
+      // if(target.className = 'block__header'){
+      //   //console.log(target.getAttribute('data-id'))
+      //   setFlag(false)
+      //   updateEventAction(Number(target.getAttribute('data-id')), true )
+        
+      // }
+
+
+      if(target.textContent === 'add values') {setFlag(false); return false}
       
+      if(target.className === 'block__header'){
+        target = target.parentNode as HTMLDivElement
+      }
+
 
       if(target.className === 'actions'){
         setApdateActions(true)
         setIsBlockMoved(false)
         setTargetDivElement(target)
         setLeft(target.getBoundingClientRect().x)
-        
+        return false
       }
       else{
         setIsBlockMoved(true)
         setTargetDiv(target)   
-        const textTarget = target.querySelector('.block__header')?.textContent
+        const textTarget = target.querySelector('.block__header')?.textContent?.split(' ').join('');
+        console.log(textTarget)
         state.forEach((val, index) => {
+          console.log(val.header)
           if(val.header === textTarget){
-            //console.log(textTarget)
-            //console.log(state[index].target)
+            console.log(textTarget)
+            console.log(state[index].target)
             state[index].target = 1
           } 
         })
       }
+      return false
     }
 
     function compare(a:Istate, b:Istate){
@@ -323,7 +308,7 @@ const  App:FC = ()=> {
         if(select !== -1)
           obj.splice(select,1)
         obj.sort(compare)
-        setState(obj)
+        UpdateBlockAction(obj)
       }
       if(updateActions){
         console.log('Apdate')
@@ -377,7 +362,7 @@ const  App:FC = ()=> {
 
         
         sortY(obj)
-        setState(obj)        
+        UpdateBlockAction(obj)        
         setApdateActions(false)
       }
 
@@ -388,7 +373,7 @@ const  App:FC = ()=> {
       obj.forEach((val)=>{
         val.childrens.sort(sortingAlgortimY)
       })
-      //setState(obj)
+      //UpdateBlockAction(obj)
     }
 
     function sortingAlgortimY(a:children,b:children){
@@ -401,7 +386,7 @@ const  App:FC = ()=> {
           for(let aIterator = 0 ; aIterator < childrens.length; aIterator++){
             if(targetDivElemnt.textContent === childrens[aIterator].text){             
               obj[sIterator].childrens.splice(aIterator,1)
-              //setState(obj)
+              //UpdateBlockAction(obj)
               //childrens.splice(aIterator,1)
               break
             }

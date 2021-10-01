@@ -50,7 +50,15 @@ const initialState: IState[] = [
 export default function blockModelReducer(state: IState[] = initialState, action:actionType){
     switch(action.type) {
         case BlockActionEnum.SET_BLOCK_SIZE:
-            return action.payload
+          return action.payload
+        case BlockActionEnum.SET_HEADER:{
+          state.forEach((val) => {
+            if( action.payload.id === val.id ){
+              val.header = action.payload.header
+            } 
+          })
+          return state
+        }
         default: return state
     }
 }
