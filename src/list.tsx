@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import {Istate} from './App'
+import {Istate,children} from './App'
 import {useTypedSelector} from './hooks/typedSelector'
 import {UseActions} from './hooks/useActionsHook'
 
@@ -40,15 +40,38 @@ const ListDiv:FC<IListDiv> = ({state,destribution}) => {
                   }
                  
                   <div className = "block__element">
-                    {val.childrens.map((val:any,index:any) => 
+                    {val.childrens.map((val:children,index:any) => 
                     
-                      <div className = "actions" key = {val.index}>
-                        {val.text }
-                      </div>
+                      insertAdd(val)
+                      // <div className = "actions" key = {val.index}>
+                      //   {val.text }
+                      // </div>
 
                     )}
                   </div>
         </div>)
+  }
+
+
+  function insertAdd(val:children){
+
+    if(val.text !== 'add')
+    return  <div className = "actions" key = {val.index}>
+                        {val.text }
+                      </div>
+    else
+    return <div className = "actions add" key = {val.index}>
+                        {val.text }
+                      </div>                  
+
+    // if(val.text !== 'add'){
+    // return <div className = "actions" key = {val.index}> {val.text } </div>
+    // }
+    // else{
+    //   return <div className = "actions" key = {val.index}>{val.text }</div>
+    // }
+  
+
   }
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +81,9 @@ const ListDiv:FC<IListDiv> = ({state,destribution}) => {
     // const target = e.target 
         // setHeader(target.value)
   }
+
+
+
 
     return (
   
