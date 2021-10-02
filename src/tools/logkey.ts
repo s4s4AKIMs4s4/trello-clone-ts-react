@@ -11,6 +11,7 @@ interface props {
     UpdateBlockAction:Function
     targetDivElemnt: HTMLDivElement
     left: number
+    basis: number
 }
 
 
@@ -24,7 +25,8 @@ export function logKey({
     state,
     targetDiv,
     targetDivElemnt,
-    left}: props) 
+    left,
+    basis}: props) 
 {
 return (e:React.MouseEvent) => {
     const obj = {
@@ -38,8 +40,24 @@ return (e:React.MouseEvent) => {
     if(flag)
       {
         if(isBlockMoved){
+
+
+          
+          
+          const Xposition = Number(clientMouse.clientX) - basis
+
+          console.log('initPosition')
+
+          //console.log(initPosition)
+          
+          console.log('number')
+          console.log(Number(clientMouse.clientX))
+
+          console.log('basis')
+          //console.log(basis)
+
           targetDiv.style.position = 'absolute'
-          targetDiv.style.left = `${clientMouse.clientX}px`
+          targetDiv.style.left = `${Xposition}px`
           targetDiv.style.top =`${clientMouse.clientY}px`
 
           const obj = [] as Istate[] 
@@ -70,6 +88,7 @@ return (e:React.MouseEvent) => {
           UpdateBlockAction(obj)
         }
         else{
+          console.log('dddddddddddddddddddddddddddddddddd')
           targetDivElemnt.style.position = 'absolute'
           const calc  = Number(clientMouse.clientX) - left
 

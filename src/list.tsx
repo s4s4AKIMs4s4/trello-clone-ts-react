@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useRef, useState,useEffect } from 'react'
 import {Istate,children} from './App'
 import {useTypedSelector} from './hooks/typedSelector'
 import {UseActions} from './hooks/useActionsHook'
@@ -17,11 +17,16 @@ const ListDiv:FC<IListDiv> = ({destribution}) => {
   const {UpdateBlockAction,updateEventAction,UpdateHeader} = UseActions()
   const EventState  = useTypedSelector( state => state.event )
   const state  = useTypedSelector( state => state.block )
-  
+  const inputRef = useRef<HTMLInputElement>(null)
 
-
-
-
+  useEffect(() => {
+    if(inputRef.current)
+    {
+      console.log(inputRef)
+      inputRef!.current!.focus()
+      
+    }
+  }, [EventState])
   
 
   
@@ -37,7 +42,7 @@ const ListDiv:FC<IListDiv> = ({destribution}) => {
         <div className="block" key={val.id}  onMouseDown = {destribution} >
                   {(!EventState[index]) 
                     ? <div  className = "block__header"  data-id = {index}> {val.header} </div>
-                    : <input type = 'text'  data-id = {val.id} onChange = {handleInput}/>
+                    : <input type = 'text' ref = {inputRef}  data-id = {val.id} onChange = {handleInput}/>
                   }
                  
                   <div className = "block__element">

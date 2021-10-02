@@ -95,6 +95,7 @@ const  App:FC = ()=> {
 
  }, [state])
     
+  const [basis , setBasis] = useState<number>(0)
 
     function destribution(e:React.MouseEvent<HTMLDivElement>){
       setFlag(true)
@@ -103,6 +104,11 @@ const  App:FC = ()=> {
 
       if(target.textContent === 'add values') {setFlag(false); return false}
       
+
+      const initPosition = target.getBoundingClientRect().x
+      const basis = Number(clientMouse.clientX) - initPosition
+      setBasis(basis)
+
       if(target.className === 'block__header'){
         setSelectInput(true)
         setLastClientMouse({
@@ -152,7 +158,8 @@ const  App:FC = ()=> {
           setClientMouse: setClientMouse,
           state: state,
           targetDiv: targetDiv,
-          targetDivElemnt:targetDivElemnt
+          targetDivElemnt:targetDivElemnt,
+          basis:basis,
         }
       )
     } onMouseUp = {
