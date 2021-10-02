@@ -5,24 +5,25 @@ import {UseActions} from './hooks/useActionsHook'
 
 
 interface IListDiv{
-  state:Istate[],
-  destribution:(e:React.MouseEvent<HTMLDivElement>)=>void,
+  destribution:(e:React.MouseEvent<HTMLDivElement>)=>void
 }
 
 
-const ListDiv:FC<IListDiv> = ({state,destribution}) => {
+const ListDiv:FC<IListDiv> = ({destribution}) => {
 
   const [header,setHeader] = useState<string>('add text')
   const [isInput,showInput] = useState<boolean>(false)    
   
-  const {UpdateBlockAction,updateEventAction} = UseActions()
+  const {UpdateBlockAction,updateEventAction,UpdateHeader} = UseActions()
   const EventState  = useTypedSelector( state => state.event )
+  const state  = useTypedSelector( state => state.block )
   
+
+
+
+
   
-  // function HandlerHeader(e:React.MouseEvent<HTMLDivElement>){
-  //   console.log('eventState')
-  //   console.log(eventState[0])
-  // }
+
   
   function mapping(val:Istate , index: number){
 
@@ -43,9 +44,6 @@ const ListDiv:FC<IListDiv> = ({state,destribution}) => {
                     {val.childrens.map((val:children,index:any) => 
                     
                       insertAdd(val)
-                      // <div className = "actions" key = {val.index}>
-                      //   {val.text }
-                      // </div>
 
                     )}
                   </div>
@@ -64,22 +62,12 @@ const ListDiv:FC<IListDiv> = ({state,destribution}) => {
                         {val.text }
                       </div>                  
 
-    // if(val.text !== 'add'){
-    // return <div className = "actions" key = {val.index}> {val.text } </div>
-    // }
-    // else{
-    //   return <div className = "actions" key = {val.index}>{val.text }</div>
-    // }
-  
-
   }
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value)
     const target = e.target 
-    console.log('input value:')
-    console.log(target.value)
-    // const target = e.target 
-        // setHeader(target.value)
+    UpdateHeader(target.value,Number(target.getAttribute('data-id')))
   }
 
 
@@ -113,4 +101,4 @@ const ListDiv:FC<IListDiv> = ({state,destribution}) => {
     )
 }
 
-export const MemoListDiv =  React.memo(ListDiv)
+export const MemoListDiv =  ListDiv

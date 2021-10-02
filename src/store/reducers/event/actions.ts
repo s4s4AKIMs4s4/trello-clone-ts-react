@@ -5,8 +5,7 @@ import {useTypedSelector} from '../../../hooks/typedSelector'
 export const AllEventActionCreators = {
     updateEventAction:(index: number, isAccess: boolean):IUpdateEvent => 
         ({ type:EventTypesEnum.UPDATE, payload: {[index]:isAccess} }),
-    SetFalse:(): ISetFalse => {
-        const eventState = useTypedSelector(state => state.event)
+    SetFalse:(eventState:IState): ISetFalse => {
         const tempState:IState = {} as IState 
 
         for (let key in eventState) {

@@ -12,15 +12,13 @@ export const BlockActionCreators = {
             payload:state
         }
     },
-    // UpdateHeader: (payload:string, id: number): UpdateHeader => {
-    //     // console.log('store.getState')
-    //     // console.log(store.getState())
-    //     return{
-    //         type: BlockActionEnum.SET_HEADER,
-    //         payload:{
-    //             header: payload,
-    //             id: id
-    //         }
-    //     }
-    // }
+    UpdateHeader: (payload:string, id: number): UpdateHeader => {
+        return{
+            type: BlockActionEnum.SET_HEADER,
+            payload:{
+                header: payload,
+                id: id
+            }
+        }
+    }
 }
