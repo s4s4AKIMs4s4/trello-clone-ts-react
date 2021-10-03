@@ -1,7 +1,22 @@
+#root{
+  background-color: rgb(255, 194, 206);
+}
+body{
+  background-color: rgb(255, 194, 206);
+}
 .root{
+  left: 20px;
+  top: 20px;
   position: absolute;
   height: 100vh;
   width: 100vw;
+ 
+}
+.container{
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(255, 194, 206);
 }
 
 
@@ -27,8 +42,9 @@
   text-align: center;
   width:200px;
   
-  background: coral;
+  background: rgb(248, 174, 236);
   cursor: pointer;
+  border-radius: 5px;
   
 }
 
@@ -40,8 +56,9 @@
   position: relative;
   text-align: center;
   width: 200px;
-  height: 100px;
-  background: coral;
+  height: 50px;
+  background-color: rgb(147, 235, 238);
+  border-radius: 5px;
 }
 
 
@@ -67,11 +84,14 @@
 }
 
 .actions{
+  margin: auto;
+  width: 190px;
   position: relative;
   margin-bottom: 4px;
-  background-color: darkgreen;
+  background-color: rgb(255, 255, 255);
+  border-radius: 3px;
 }
 .add{
   color:red;
-  background-color: darkgrey;
+  background-color: rgb(147, 235, 238);
 }

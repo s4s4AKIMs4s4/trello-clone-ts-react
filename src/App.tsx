@@ -158,6 +158,7 @@ const  App:FC = ()=> {
 
   return (
     <>
+    <div className = 'container'>
     <div className = 'root' onKeyDown={() => {console.log('press f pls')}} onMouseMove = {logKey
       (
         {
@@ -199,6 +200,7 @@ const  App:FC = ()=> {
     }>
       <MemoListDiv  destribution = {destribution} idAction = {idAction} idBlock = {idBlcok}/>
       <div className='Mouse Input' ref = {client}></div>
+    </div>
     </div>
     </>
   );
