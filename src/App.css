@@ -9,7 +9,8 @@
   display: flex;
   gap:40px;
   user-select: none;
-
+ 
+  align-items: flex-start;
 }
 
 
@@ -21,9 +22,11 @@
 
 
 .block{
+  /* align-items: center; */
   position: relative;
   text-align: center;
   width:200px;
+  
   background: coral;
   cursor: pointer;
   

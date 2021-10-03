@@ -94,7 +94,10 @@ const  App:FC = ()=> {
   UpdateBlockAction(obj)
 
  }, [state])
-    
+  
+ const [idAction,setIdAction] = useState<string | null>(null)
+ const [idBlcok,setIdBlcok] = useState<string | null> (null)
+
   const [basis , setBasis] = useState<number>(0)
 
     function destribution(e:React.MouseEvent<HTMLDivElement>){
@@ -123,6 +126,14 @@ const  App:FC = ()=> {
 
    
       if(target.className === 'actions'){
+        setLastClientMouse({
+          clientX:`${e.clientX}`,
+          clientY:`${e.clientY}`,
+        })
+
+        setIdAction(target.getAttribute('data-id'))
+        setIdBlcok((target.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
+
         setApdateActions(true)
         setIsBlockMoved(false)
         setTargetDivElement(target)
@@ -181,10 +192,12 @@ const  App:FC = ()=> {
           dataIdEvent: dataIdEvent,
           SetFalse: SetFalse,
           eventState:eventState,
+          idAction:idAction,
+          idBlock:idBlcok
         }
       )
     }>
-      <MemoListDiv  destribution = {destribution}/>
+      <MemoListDiv  destribution = {destribution} idAction = {idAction} idBlock = {idBlcok}/>
       <div className='Mouse Input' ref = {client}></div>
     </div>
     </>

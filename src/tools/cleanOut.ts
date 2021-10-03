@@ -21,6 +21,8 @@ interface props {
     eventState: ISateEvent,
     dataIdEvent: number,
     SetFalse:Function,
+    idAction: string | null,
+    idBlock: string | null,
 }
 
 
@@ -66,7 +68,9 @@ export function cleanOut({
     updateEventAction,
     dataIdEvent,
     SetFalse,
-    eventState
+    eventState,
+    idAction,
+    idBlock,
 } : props )
 
 {
@@ -74,7 +78,7 @@ export function cleanOut({
 return () => {
 
     if( isDeltaMouse(clientMouse,lastClientMouse)  )
-    {
+    { 
       console.log('inside is')
     SetFalse(eventState)
     if(isBlockMoved){
@@ -146,8 +150,12 @@ return () => {
     
   }
   else{
-    console.log('it is here')
+    if(!updateActions)
+    {console.log('it is here')
     updateEventAction(dataIdEvent,true)
+    setFlag(false)
+    setIsBlockMoved(false)}
+    setApdateActions(false)
     setFlag(false)
     setIsBlockMoved(false)
   }

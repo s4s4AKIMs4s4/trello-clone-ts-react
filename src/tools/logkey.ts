@@ -88,7 +88,7 @@ return (e:React.MouseEvent) => {
           UpdateBlockAction(obj)
         }
         else{
-          console.log('dddddddddddddddddddddddddddddddddd')
+          // console.log('dddddddddddddddddddddddddddddddddd')
           targetDivElemnt.style.position = 'absolute'
           const calc  = Number(clientMouse.clientX) - left
 
