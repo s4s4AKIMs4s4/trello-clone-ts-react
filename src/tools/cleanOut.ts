@@ -1,6 +1,4 @@
-import React from 'react'
 import {Istate, children, IclientMouse} from '../App'
-import {UseActions} from '../hooks/useActionsHook'
 import {IState as ISateEvent} from '../store/reducers/event/types'
 
 
@@ -57,34 +55,29 @@ function GetFinalBlockPosition(state: Istate[],
       setFlag(false)
       setIsBlockMoved(false)
       const blocks = document.querySelectorAll('.block') 
-      
-      const obj = state
       let select = -1
       blocks.forEach((val, index)=>{
-        if(index === obj.length) return
+        if(index === state.length) return
         const bl = val as HTMLDivElement
         const num = bl.getBoundingClientRect().x 
         if(bl.textContent === 'white space') { select = index; return}
-        obj[index].left = num
-        obj[index].id = Math.floor(10000*Math.random())
-        obj[index].target = null
-
-
+        state[index].left = num
+        state[index].id = Math.floor(10000*Math.random())
+        state[index].target = null
       })
       if(select !== -1)
-        obj.splice(select,1)
-      obj.sort(compare)
-      UpdateBlockAction(obj)
+        state.splice(select,1)
+      state.sort(compare)
+      UpdateBlockAction(state)
     }
 }
 
-function deleteNode(obj:Istate[], state:Istate[], targetDivElemnt: HTMLDivElement){
-      
+function deleteNode(state:Istate[], targetDivElemnt: HTMLDivElement){
   for(let sIterator = 0; sIterator< state.length;sIterator++){
-    const childrens = obj[sIterator].childrens
+    const childrens = state[sIterator].childrens
     for(let aIterator = 0 ; aIterator < childrens.length; aIterator++){
       if(targetDivElemnt.textContent === childrens[aIterator].text){             
-        obj[sIterator].childrens.splice(aIterator,1)
+        state[sIterator].childrens.splice(aIterator,1)
         break
       }
     }    
@@ -103,7 +96,36 @@ function sortingAlgortimY(a:children,b:children){
 }
 
 
+function getNewAction(state:Istate[],clientMouse:IclientMouse,currentAction : children ){
+  const action = currentAction
+  for(let i = 0; i < state.length; i++){
+    state[i].length = state[i].childrens.length
+    if(i === 0){
+      if( state[i].childrens[0].x  >= Number(clientMouse.clientX) ){
+        console.log('0')
+        action.index = Math.floor(10000 * Math.random())
+        state[i].childrens.push(action)
+        state[i].length = state[i].childrens.length
+        break;
+      }
+    }
+    if(i === state.length - 1){
+      if( state[i].childrens[0].x  <= Number(clientMouse.clientX) ){
+        console.log('1')
+        action.index = Math.floor(10000 * Math.random())
+        state[i].childrens.push(action)
+        state[i].length = state[i].childrens.length
+      }
+      break;
+    }
 
+    if( (state[i].childrens[0].x <= Number(clientMouse.clientX) )  && (  Number(clientMouse.clientX) <= state[i+1].childrens[0].x))  {
+      action.index = Math.floor(10000 * Math.random())
+      state[i].childrens.push(action) 
+      state[i].length = state[i].childrens.length
+    }
+  }
+}
 
 function getFinalActionPositions(
   state: Istate[],
@@ -113,49 +135,13 @@ function getFinalActionPositions(
    UpdateBlockAction: Function, 
    setApdateActions:(val: boolean) => void)
   {
-    let obj = state
-    const actions = document.querySelectorAll('.actions') 
+    deleteNode(state, targetDivElemnt)
+    getNewAction(state,clientMouse,currentAction)
 
-
-    const action = currentAction
-    deleteNode(obj, state, targetDivElemnt)
-    for(let i = 0; i < obj.length; i++){
-      
-    obj[i].length = obj[i].childrens.length
-      if(i === 0){
-        if( obj[i].childrens[0].x  >= Number(clientMouse.clientX) ){
-          console.log('0')
-          action.index = Math.floor(10000 * Math.random())
-          obj[i].childrens.push(action)
-          obj[i].length = obj[i].childrens.length
-          break;
-        }
-      }
-      if(i === obj.length - 1){
-        if( obj[i].childrens[0].x  <= Number(clientMouse.clientX) ){
-          console.log('1')
-          action.index = Math.floor(10000 * Math.random())
-          obj[i].childrens.push(action)
-          obj[i].length = obj[i].childrens.length
-        }
-        break;
-      }
-
-      if( (obj[i].childrens[0].x <= Number(clientMouse.clientX) )  && (  Number(clientMouse.clientX) <= obj[i+1].childrens[0].x))  {
-        action.index = Math.floor(10000 * Math.random())
-        obj[i].childrens.push(action) 
-        obj[i].length = obj[i].childrens.length
-      }
-
-    }
-
-    sortY(obj)
-    UpdateBlockAction(obj)        
+    sortY(state)
+    UpdateBlockAction(state)        
     setApdateActions(false)
 }
-
-
-
 
 export function cleanOut({
     targetDivElemnt,
