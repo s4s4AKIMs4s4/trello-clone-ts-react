@@ -1,5 +1,4 @@
-import { off } from 'process';
-import React, {useEffect,useRef,createRef, useState, FC} from 'react';
+import React, {useEffect,useRef, useState, FC} from 'react';
 import './App.css';
 import { useTypedSelector } from './hooks/typedSelector';
 import { UseActions } from './hooks/useActionsHook';
@@ -37,32 +36,23 @@ export interface Istate{
 const  App:FC = ()=> {
   const {UpdateBlockAction,updateEventAction, SetFalse} = UseActions()
   const state  = useTypedSelector( state => state.block )
-  //const [state, UpdateBlockAction] = useState<Istate[]>([])
-
   const client = useRef<HTMLDivElement>(null)
-  const blocks = useRef<HTMLDivElement>(null)
   const [flag,setFlag] = useState<boolean>(false)
-
-
   const [updateActions, setApdateActions] = useState<boolean>(false)
-
   const [targetDiv,setTargetDiv] = useState<HTMLDivElement>({} as HTMLDivElement)
   const [clientMouse,setClientMouse] = useState<IclientMouse>({clientX:'1',clientY:'1'})
-
   const [isBlockMoved,setIsBlockMoved] = useState<boolean>(false)
   const [targetDivElemnt,setTargetDivElement] = useState<HTMLDivElement>({} as HTMLDivElement)
   const [left,setLeft] = useState<number>(0)
-
   const [currentAction,setCurrentUction] = useState<children>({} as children)
-
-  
-  
-  
-  // select input propertyes
   const [isSelectInput,setSelectInput] = useState<boolean>(false)
   const [lastClientMouse,setLastClientMouse] = useState<IclientMouse>({} as IclientMouse)
   const eventState  = useTypedSelector( state => state.event )
   const [dataIdEvent,setDataIdEvent] = useState<number>(0)
+  const [idAction,setIdAction] = useState<string | null>(null)
+  const [idBlcok,setIdBlcok] = useState<string | null> (null)
+  const [basis , setBasis] = useState<number>(0)
+
 
   useEffect(() => {
     updateActionSize({
@@ -77,83 +67,79 @@ const  App:FC = ()=> {
 
  useEffect (() => {
   const blocks = document.querySelectorAll('.block') 
-  const obj = state
-
-  blocks.forEach((val, index)=>{
-    if(index === obj.length) return
-    const bl = val as HTMLDivElement
-    const num = bl.getBoundingClientRect().x
-
-    if(obj[index].target !== 1)
-      obj[index].left = num
-
-    obj[index].header = state[index].header
-    obj[index].id = state[index].id
- 
+  blocks.forEach((element, index)=>{
+    if(index === state.length) return
+    const block = element as HTMLDivElement
+    const num = block.getBoundingClientRect().x
+    if(state[index].target !== 1)
+      state[index].left = num 
   })
-  UpdateBlockAction(obj)
-
+  UpdateBlockAction(state)
  }, [state])
   
- const [idAction,setIdAction] = useState<string | null>(null)
- const [idBlcok,setIdBlcok] = useState<string | null> (null)
 
-  const [basis , setBasis] = useState<number>(0)
 
-    function destribution(e:React.MouseEvent<HTMLDivElement>){
-      setFlag(true)
-      let target = e.target as HTMLDivElement
-     
 
-      if(target.textContent === 'add values') {setFlag(false); return false}
-      
 
-      const initPosition = target.getBoundingClientRect().x
-      const basis = Number(clientMouse.clientX) - initPosition
-      setBasis(basis)
+ const blockHeaderHandler = (e:React.MouseEvent<HTMLDivElement>, target:HTMLDivElement) => {
+  setSelectInput(true)
+  setLastClientMouse({
+    clientX:`${e.clientX}`,
+    clientY:`${e.clientY}`,
+  })
 
-      if(target.className === 'block__header'){
-        setSelectInput(true)
-        setLastClientMouse({
-          clientX:`${e.clientX}`,
-          clientY:`${e.clientY}`,
-        })
+  setDataIdEvent(Number(target.getAttribute('data-id')))
+  return target.parentNode as HTMLDivElement 
+ }
 
-        setDataIdEvent(Number(target.getAttribute('data-id')))
-        target = target.parentNode as HTMLDivElement
-        
-      }
+ const actionHandler = (e:React.MouseEvent<HTMLDivElement>, target:HTMLDivElement) => {
+  setLastClientMouse({
+    clientX:`${e.clientX}`,
+    clientY:`${e.clientY}`,
+  })
 
-   
-      if(target.className === 'actions'){
-        setLastClientMouse({
-          clientX:`${e.clientX}`,
-          clientY:`${e.clientY}`,
-        })
+  setIdAction(target.getAttribute('data-id'))
+  setIdBlcok((target.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
 
-        setIdAction(target.getAttribute('data-id'))
-        setIdBlcok((target.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
+  setApdateActions(true)
+  setIsBlockMoved(false)
+  setTargetDivElement(target)
+  setLeft(target.getBoundingClientRect().x)
+ }
 
-        setApdateActions(true)
-        setIsBlockMoved(false)
-        setTargetDivElement(target)
-        setLeft(target.getBoundingClientRect().x)
-        return false
-      }
-      else{
-        setIsBlockMoved(true)
-        setTargetDiv(target)   
-        const textTarget = target.querySelector('.block__header')?.textContent?.split(' ').join('');
-        state.forEach((val, index) => {
-          
-          if(val.header === textTarget){
-            state[index].target = 1
-          } 
-        })
-      
+ const blockHandler = (e:React.MouseEvent<HTMLDivElement>, target:HTMLDivElement) => {
+  setIsBlockMoved(true)
+  setTargetDiv(target)   
+  const textTarget = target.querySelector('.block__header')?.textContent?.split(' ').join('');
+
+  state.forEach((val, index) => {    
+    if(val.header === textTarget){
+      state[index].target = 1
+    } 
+  }) 
+ }
+
+  function destribution(e:React.MouseEvent<HTMLDivElement>){
+    let target = e.target as HTMLDivElement
+    if(target.textContent === 'add values') {setFlag(false); return false}
+    setFlag(true)
+
+    const initPosition = target.getBoundingClientRect().x
+    const basis = Number(clientMouse.clientX) - initPosition
+    setBasis(basis)
+
+    if(target.className === 'block__header'){
+      target = blockHeaderHandler(e, target)
     }
-      return false
+
+    if(target.className === 'actions'){
+      actionHandler(e, target)
     }
+    else{
+      blockHandler(e, target)
+    }
+    return false
+  }
 
 
   return (
