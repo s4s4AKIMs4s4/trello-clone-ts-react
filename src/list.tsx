@@ -17,7 +17,7 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
   const [header,setHeader] = useState<string>('add block')
   const [isInput,showInput] = useState<boolean>(false)    
   
-  const {UpdateBlockAction,updateEventAction,UpdateHeader,UpdateActionHeader} = UseActions()
+  const {UpdateHeader,UpdateActionHeader} = UseActions()
   const EventState  = useTypedSelector( state => state.event )
   const state  = useTypedSelector( state => state.block )
   const inputRef = useRef<HTMLInputElement>(null)

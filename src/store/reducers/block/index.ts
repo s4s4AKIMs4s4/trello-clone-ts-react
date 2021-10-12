@@ -8,7 +8,7 @@ const initialState: IState[] = [
       header:'hello',
       left:1,
       target:null,
-      childrens:[{x:1,y:1,text:'1',index:1},{x:1,y:2,text:'12',index:2},{x:1,y:10000,text:'add',index:100000}],
+      childrens:[{x:1,y:1,text:'1',index:1},{x:1,y:2,text:'12',index:2},{x:1,y:1000,text:'add',index:100000}],
       length:3,
     },
     {

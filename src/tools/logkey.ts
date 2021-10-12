@@ -19,15 +19,21 @@ interface props {
 
 const constructNewSateWithWhiteSpace = (e:React.MouseEvent, state: Istate[]) => {
   const newState = [] as Istate[]
+  state.forEach((val) => {
+    console.log(val.header)
+  })
   state.forEach((val, index) =>{
+    console.log('e.clientX ',e.clientX)
+    console.log('val ',val)
+    console.log('state[index+1] ',state[index+1])
     if(state[index].target === 1){
       newState.push(state[index])
       return
     }
     if(index+1 === state.length) {newState.push(state[index]); return}
     if(val.header === 'white space') return
-    
     if(e.clientX > val.left   &&  e.clientX < state[index+1].left ){  
+      console.log('set newState')
       newState.push(state[index])
       newState.push({
         header:'white space',
@@ -43,6 +49,7 @@ const constructNewSateWithWhiteSpace = (e:React.MouseEvent, state: Istate[]) => 
     newState.push(val)
 
   })
+  console.log('newState', newState)
   return newState
 }
 
@@ -85,6 +92,7 @@ return (e:React.MouseEvent) => {
     setClientMouse(obj)
     if(flag)
       {
+        console.log('isBlockMoved: ',isBlockMoved)
         if(isBlockMoved){
           moveBlock(clientMouse, basis, state, e, targetDiv,UpdateBlockAction )
         }

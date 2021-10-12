@@ -63,11 +63,11 @@ function GetFinalBlockPosition(state: Istate[],
         if(bl.textContent === 'white space') { select = index; return}
         state[index].left = num
         state[index].id = Math.floor(10000*Math.random())
-        state[index].target = null
       })
       if(select !== -1)
         state.splice(select,1)
       state.sort(compare)
+      zeroingNullTarget(state)
       UpdateBlockAction(state)
     }
 }
@@ -86,7 +86,9 @@ function deleteNode(state:Istate[], targetDivElemnt: HTMLDivElement){
 
 function sortY(obj:Istate[]){
       
-  obj.forEach((val)=>{
+  obj.forEach((val, it)=>{
+    console.log("it: ", it)
+    console.log(val.childrens)
     val.childrens.sort(sortingAlgortimY)
   })
 }
@@ -98,6 +100,10 @@ function sortingAlgortimY(a:children,b:children){
 
 function getNewAction(state:Istate[],clientMouse:IclientMouse,currentAction : children ){
   const action = currentAction
+  action.x = Number(clientMouse.clientX)
+  action.y = Number(clientMouse.clientY)
+
+  console.log('currentAction: ', currentAction)
   for(let i = 0; i < state.length; i++){
     state[i].length = state[i].childrens.length
     if(i === 0){
@@ -127,6 +133,11 @@ function getNewAction(state:Istate[],clientMouse:IclientMouse,currentAction : ch
   }
 }
 
+function zeroingNullTarget(state: Istate[]) {
+  state.forEach((val)=>{
+    val.target = null
+  })
+}
 function getFinalActionPositions(
   state: Istate[],
    currentAction : children,
@@ -192,6 +203,8 @@ export function cleanOut({
     else{
       if(!updateActions)
       {
+      zeroingNullTarget(state)
+      UpdateBlockAction(state)
       updateEventAction(dataIdEvent,true)
       setFlag(false)
       setIsBlockMoved(false)}
