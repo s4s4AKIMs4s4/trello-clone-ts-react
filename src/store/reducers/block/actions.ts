@@ -43,17 +43,7 @@ export const BlockActionCreators = {
         (dispatch: AppDispatch) =>
         {
         for(let i = 0; i < state.length; i++){
-            const len = JSON.parse( JSON.stringify( state[i].childrens[state[i].childrens.length - 1].x) )
-
-            //console.log('hello')
             if( state[i].id === Number(idBlock) ){
-               // console.log('hello')
-                // state[i].childrens.unshift({
-                //     x:555,
-                //     y:999,
-                //     index:Date.now(),
-                //     text: description
-                // })
                 const newClildrens:children[] = []
                 state[i].childrens.forEach((val) => {
                     newClildrens.push(val)
@@ -66,9 +56,24 @@ export const BlockActionCreators = {
                 state[i].childrens = newClildrens 
                 state = JSON.parse(JSON.stringify(state))
                 break;
-            }
-            
+            }    
         }
         BlockActionCreators.UpdateBlockAction(state)
-    }
+    },
+    deleteAction:(state: Istate[], idAction: string | null | undefined, IdBlock: string | null | undefined) =>
+        (dispatch: AppDispatch) => {
+            for(let iB = 0; iB < state.length; iB++ ){
+                if( state[iB].id === Number(IdBlock) ){
+                    const childrens = state[iB].childrens
+                    for(let iA = 0; iA < childrens.length; iA++ ){
+                        if(childrens[iA].index === Number(idAction)){
+                            childrens.splice(iA,1)
+                            state[iB].length--
+                            dispatch(BlockActionCreators.UpdateBlockAction(state))
+                            return
+                        }
+                    }
+                }
+            }
+        }
 }

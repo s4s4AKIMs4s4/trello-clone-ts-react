@@ -34,7 +34,7 @@ export interface Istate{
 
 
 const  App:FC = ()=> {
-  const {UpdateBlockAction,updateEventAction, SetFalse} = UseActions()
+  const {UpdateBlockAction,updateEventAction, SetFalse, deleteAction} = UseActions()
   const state  = useTypedSelector( state => state.block )
   const client = useRef<HTMLDivElement>(null)
   const [flag,setFlag] = useState<boolean>(false)
@@ -148,7 +148,15 @@ const  App:FC = ()=> {
       console.log(target.parentElement?.tagName)
     }
     if(target.className === 'closeIcon' || target.parentElement?.tagName === 'SPAN' ){
-      console.log('beeter now')
+      // 3 -action
+      // 5 - block
+
+      console.log(target.parentElement?.parentElement?.parentElement?.parentElement?.parentElement)
+      console.log('idAction', target.parentElement?.parentElement?.parentElement?.getAttribute('data-id'))
+      console.log('idBlock', target.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.getAttribute('data-id'))
+      const idA = target.parentElement?.parentElement?.parentElement?.getAttribute('data-id')
+      const idB = target.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.getAttribute('data-id')
+      deleteAction(state,idA,idB)
       setFlag(false)
     }
     if(target.textContent === 'add') {console.log('f');setFlag(false); return false}
