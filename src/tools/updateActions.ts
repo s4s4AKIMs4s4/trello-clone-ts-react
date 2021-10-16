@@ -42,6 +42,7 @@ const CalculateNewState = (state: Istate[], listActionsLength:children[]) => {
     for(let i = 0; i < val.length ; i++ ){
       temp.push(listActionsLength[i])
       if(listActionsLength[i].text === 'add'){
+        console.log('adddddddddddddddddddd')
         listActionsLength[i].y = 10000
       }
     }

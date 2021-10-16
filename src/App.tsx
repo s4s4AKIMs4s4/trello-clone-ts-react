@@ -75,6 +75,8 @@ const  App:FC = ()=> {
       state[index].left = num 
   })
   UpdateBlockAction(state)
+  console.log('обновилось ура')
+  console.log(state)
  }, [state])
   
 
@@ -120,6 +122,7 @@ const  App:FC = ()=> {
  }
 
   function destribution(e:React.MouseEvent<HTMLDivElement>){
+    console.log(state)
     let target = e.target as HTMLDivElement
     if(target.textContent === 'add values') {setFlag(false); return false}
     setFlag(true)
@@ -133,6 +136,7 @@ const  App:FC = ()=> {
     }
 
     if(target.className === 'actions'){
+      
       actionHandler(e, target)
     }
     else{

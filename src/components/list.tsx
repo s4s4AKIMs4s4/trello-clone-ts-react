@@ -5,6 +5,8 @@ import {UseActions} from '../hooks/useActionsHook'
 import { Modal, Button } from 'antd';
 import { Input } from 'antd';
 import { ChangeModal } from './Modals/changeModal';
+import { AddActionModal } from './Modals/addBlockModal';
+import { CloseOutlined } from '@ant-design/icons'
 
 interface IListDiv{
   destribution:(e:React.MouseEvent<HTMLDivElement>)=>void,
@@ -79,6 +81,10 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
     setIsModalVisibleChange(value)
   }
 
+  const setAddModalState = (value: boolean ) =>{
+    setIsModalVisibleAddAction(value)
+  }
+
 
   
 
@@ -87,9 +93,11 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
     if(val.text !== 'add')
     return  <div className = "actions" key = {val.index} onClick = {showModalChange} data-id = {val.index}>
                         {val.text }
-                      </div>
+                        
+                        {/* <span className = 'closeIcon'> <CloseOutlined /> </span> */}
+            </div>
     else
-    return <div className = "actions add" key = {val.index}>
+    return <div className = "actions" key = {val.index} onClick = {(e) =>{setAddModalState(true)} }>
                         {val.text }
                       </div>                  
 
@@ -122,6 +130,14 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
           idBlock = {idBlock}
           isModalVisibleChange = {isModalVisibleChange}
           changeModalSate = {changeModalState}
+        />
+
+        <AddActionModal  
+          setModalSate = {setAddModalState} 
+          isModalVisibleChange = {isModalVisibleAddAction}
+          idAction = {idAction}
+          idBlock = {idBlock}
+          state = {state}
         />
 
       </div>

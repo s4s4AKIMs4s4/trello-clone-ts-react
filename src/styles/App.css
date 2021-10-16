@@ -95,3 +95,7 @@ body{
   color:red;
   background-color: rgb(147, 235, 238);
 }
+.closeIcon{
+  position: absolute;
+  right: 5px;
+}
