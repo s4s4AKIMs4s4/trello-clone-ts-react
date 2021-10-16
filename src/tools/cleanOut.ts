@@ -73,6 +73,8 @@ function GetFinalBlockPosition(state: Istate[],
 }
 
 function deleteNode(state:Istate[], targetDivElemnt: HTMLDivElement){
+  if(!targetDivElemnt.children[0])
+    return 
   for(let sIterator = 0; sIterator< state.length;sIterator++){
     const childrens = state[sIterator].childrens
     for(let aIterator = 0 ; aIterator < childrens.length; aIterator++){

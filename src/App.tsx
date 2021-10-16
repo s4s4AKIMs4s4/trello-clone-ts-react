@@ -124,10 +124,8 @@ const  App:FC = ()=> {
   function destribution(e:React.MouseEvent<HTMLDivElement>){
     
     let target = e.target as HTMLDivElement
-    if(target.textContent === 'add values') {setFlag(false); return false}
+    
     setFlag(true)
-    console.log('current action')
-    console.log(target.className)
     const initPosition = target.getBoundingClientRect().x
     const basis = Number(clientMouse.clientX) - initPosition
     setBasis(basis)
@@ -145,6 +143,15 @@ const  App:FC = ()=> {
     else{
       blockHandler(e, target)
     }
+    console.log(target.getAttribute('data-id'))
+    if(target.parentElement?.tagName){
+      console.log(target.parentElement?.tagName)
+    }
+    if(target.className === 'closeIcon' || target.parentElement?.tagName === 'SPAN' ){
+      console.log('beeter now')
+      setFlag(false)
+    }
+    if(target.textContent === 'add') {console.log('f');setFlag(false); return false}
     return false
   }
 
