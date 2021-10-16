@@ -92,9 +92,8 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
 
     if(val.text !== 'add')
     return  <div className = "actions" key = {val.index} onClick = {showModalChange} data-id = {val.index}>
-                        {val.text }
-                        
-                        {/* <span className = 'closeIcon'> <CloseOutlined /> </span> */}
+                        <span className = 'text'> {val.text } </span>
+                        <span className = 'closeIcon'> <CloseOutlined /> </span> 
             </div>
     else
     return <div className = "actions" key = {val.index} onClick = {(e) =>{setAddModalState(true)} }>

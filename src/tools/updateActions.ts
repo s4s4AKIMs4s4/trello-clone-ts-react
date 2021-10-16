@@ -68,10 +68,21 @@ export function  updateActionSize({targetDivElemnt,UpdateBlockAction,setCurrentU
 
 
 function getCurrentAction(state: Istate[],targetDivElemnt: HTMLDivElement, setCurrentUction:(children: children) => void){
-    for(let sIterator = 0; sIterator< state.length;sIterator++){
+  console.log('targetDivElemnt 1')
+  console.log(targetDivElemnt)  
+  if(Object.keys(targetDivElemnt).length === 0 )
+    return
+  else{
+    if(!targetDivElemnt.children[1])
+      return 
+  }
+  for(let sIterator = 0; sIterator< state.length;sIterator++){
       const childrens = state[sIterator].childrens
       for(let aIterator = 0 ; aIterator < childrens.length; aIterator++){
-        if(targetDivElemnt.textContent === childrens[aIterator].text){
+        console.log('targetDivElemnt.children[0].textContendddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd')
+        console.log(targetDivElemnt.children[0].textContent?.split(' ').join(''))
+        if(targetDivElemnt.children[0].textContent?.split(' ').join('') === childrens[aIterator].text){
+         
           setCurrentUction(childrens[aIterator])
           return
         }

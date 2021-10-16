@@ -122,15 +122,18 @@ const  App:FC = ()=> {
  }
 
   function destribution(e:React.MouseEvent<HTMLDivElement>){
-    console.log(state)
+    
     let target = e.target as HTMLDivElement
     if(target.textContent === 'add values') {setFlag(false); return false}
     setFlag(true)
-
+    console.log('current action')
+    console.log(target.className)
     const initPosition = target.getBoundingClientRect().x
     const basis = Number(clientMouse.clientX) - initPosition
     setBasis(basis)
-
+    if(target.className === 'text'){
+      target = target.parentElement as HTMLDivElement
+    }
     if(target.className === 'block__header'){
       target = blockHeaderHandler(e, target)
     }

@@ -98,4 +98,9 @@ body{
 .closeIcon{
   position: absolute;
   right: 5px;
+  visibility: hidden;
+}
+
+.actions:hover .closeIcon{
+  visibility: visible;
 }

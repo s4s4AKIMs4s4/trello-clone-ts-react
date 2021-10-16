@@ -76,7 +76,13 @@ function deleteNode(state:Istate[], targetDivElemnt: HTMLDivElement){
   for(let sIterator = 0; sIterator< state.length;sIterator++){
     const childrens = state[sIterator].childrens
     for(let aIterator = 0 ; aIterator < childrens.length; aIterator++){
-      if(targetDivElemnt.textContent === childrens[aIterator].text){             
+      // console.log('targetDivElemnt.children[0].textContent')
+      // console.log(targetDivElemnt.children[0].textContent)
+      // console.log('childrens[aIterator].text')
+      // console.log(childrens[aIterator].text)
+
+      if(targetDivElemnt.children[0].textContent?.split(' ').join('') === childrens[aIterator].text){             
+        console.log('ee')
         state[sIterator].childrens.splice(aIterator,1)
         break
       }
@@ -146,6 +152,12 @@ function getFinalActionPositions(
    UpdateBlockAction: Function, 
    setApdateActions:(val: boolean) => void)
   {
+
+
+    console.log('targetDivElemnt')
+    console.log(targetDivElemnt)
+    console.log('currentAction')
+    console.log(currentAction)
     deleteNode(state, targetDivElemnt)
     getNewAction(state,clientMouse,currentAction)
 
@@ -201,6 +213,7 @@ export function cleanOut({
         } 
     }
     else{
+      
       if(!updateActions)
       {
       zeroingNullTarget(state)
