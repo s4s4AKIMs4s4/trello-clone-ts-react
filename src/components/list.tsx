@@ -1,9 +1,10 @@
 import React, { FC, useRef, useState,useEffect, HtmlHTMLAttributes } from 'react'
-import {Istate,children} from './App'
-import {useTypedSelector} from './hooks/typedSelector'
-import {UseActions} from './hooks/useActionsHook'
+import {Istate,children} from '../App'
+import {useTypedSelector} from '../hooks/typedSelector'
+import {UseActions} from '../hooks/useActionsHook'
 import { Modal, Button } from 'antd';
 import { Input } from 'antd';
+import { ChangeModal } from './Modals/changeModal';
 
 interface IListDiv{
   destribution:(e:React.MouseEvent<HTMLDivElement>)=>void,
@@ -22,7 +23,8 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
   const state  = useTypedSelector( state => state.block )
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisibleChange, setIsModalVisibleChange] = useState(false);
+  const [isModalVisibleAddAction, setIsModalVisibleAddAction] = useState(false);
 
   const [hederChange,setGeaderChange] = useState<string>('null')
 
@@ -69,23 +71,21 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
     UpdateHeader(target.value,Number(target.getAttribute('data-id')))
   }
 
-  const showModal = () => {
-    setIsModalVisible(true);
+  const showModalChange = () => {
+    setIsModalVisibleChange(true);
   };
 
-  const handleOk = () => {
-    UpdateActionHeader(state,idBlock,idAction,hederChange)
-    setIsModalVisible(false);
-  };
+  const changeModalState = (value: boolean ) =>{
+    setIsModalVisibleChange(value)
+  }
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+
+  
 
   function insertAdd(val:children){
 
     if(val.text !== 'add')
-    return  <div className = "actions" key = {val.index} onClick = {showModal} data-id = {val.index}>
+    return  <div className = "actions" key = {val.index} onClick = {showModalChange} data-id = {val.index}>
                         {val.text }
                       </div>
     else
@@ -93,12 +93,6 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
                         {val.text }
                       </div>                  
 
-  }
-
-
-
-  const handlerInput = (e:React.ChangeEvent<HTMLInputElement>) =>{
-    setGeaderChange(e.target.value)
   }
 
 
@@ -121,14 +115,14 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
           
         </div>
 
-        <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-        <p>idAction - {idAction} </p>
-        <p>id block - {idBlock}</p>
-        <p>add new header</p>
-        <Input placeholder="Basic usage" onChange = {handlerInput}/>
-        
 
-        </Modal>
+        <ChangeModal 
+          state = {state} 
+          idAction = {idAction}
+          idBlock = {idBlock}
+          isModalVisibleChange = {isModalVisibleChange}
+          changeModalSate = {changeModalState}
+        />
 
       </div>
 

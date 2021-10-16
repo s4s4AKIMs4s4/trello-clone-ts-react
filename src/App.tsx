@@ -1,8 +1,8 @@
 import React, {useEffect,useRef, useState, FC} from 'react';
-import './App.css';
+import  './styles/App.css'
 import { useTypedSelector } from './hooks/typedSelector';
 import { UseActions } from './hooks/useActionsHook';
-import {MemoListDiv} from './list'
+import {MemoListDiv} from './components/list'
 import {cleanOut} from './tools/cleanOut'
 import {logKey} from './tools/logkey'
 import {updateActionSize} from './tools/updateActions' 

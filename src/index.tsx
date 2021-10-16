@@ -5,11 +5,6 @@ import {Provider} from "react-redux";
 import {store} from "./store";
 import './Antd.css'
 
-
-
-
-
-
   ReactDOM.render(
     <Provider store={store}>
             <App />
