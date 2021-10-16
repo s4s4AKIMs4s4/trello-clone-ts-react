@@ -44,17 +44,16 @@ export const BlockActionCreators = {
         {
         for(let i = 0; i < state.length; i++){
             if( state[i].id === Number(idBlock) ){
-                const newClildrens:children[] = []
-                state[i].childrens.forEach((val) => {
-                    newClildrens.push(val)
-                })
-                state[i].length++
-                newClildrens.push({ x:555,
+                const lenChildrens = state[i].childrens.length
+                const lasElement = state[i].childrens[lenChildrens - 1]
+                state[i].childrens[lenChildrens - 1] = {
+                    x:lasElement.x,
                     y:999,
                     index:Date.now(),
-                    text: description})
-                state[i].childrens = newClildrens 
-                state = JSON.parse(JSON.stringify(state))
+                    text: description}
+                
+                state[i].childrens[lenChildrens] = lasElement 
+                state[i].length++
                 break;
             }    
         }
