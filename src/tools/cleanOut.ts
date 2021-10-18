@@ -92,6 +92,17 @@ function deleteNode(state:Istate[], targetDivElemnt: HTMLDivElement){
   }
 }
 
+function deleteWhitespace(state:Istate[]){
+  for(let i = 0 ; i < state.length;i++){
+    for(let it = 0 ; it < state[i].childrens.length;it++){
+      if(state[i].childrens[it].text === 'white space'){
+        console.log('ddddddddddddddddddddddddddddddddddddddddd')
+        state[i].childrens.splice(it,1)
+      }
+    }
+  }
+}
+
 function sortY(obj:Istate[]){
       
   obj.forEach((val, it)=>{
@@ -161,6 +172,7 @@ function getFinalActionPositions(
     console.log('currentAction')
     console.log(currentAction)
     deleteNode(state, targetDivElemnt)
+    deleteWhitespace(state)
     getNewAction(state,clientMouse,currentAction)
 
     sortY(state)
@@ -213,6 +225,7 @@ export function cleanOut({
             UpdateBlockAction, 
             setApdateActions)
         } 
+        setFlag(false)
     }
     else{
       

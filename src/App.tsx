@@ -180,6 +180,7 @@ const  App:FC = ()=> {
           targetDiv: targetDiv,
           targetDivElemnt:targetDivElemnt,
           basis:basis,
+          idBlock:idBlcok,
         }
       )
     } onMouseUp = {
