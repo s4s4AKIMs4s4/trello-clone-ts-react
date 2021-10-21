@@ -122,7 +122,7 @@ function getNewAction(state:Istate[],clientMouse:IclientMouse,currentAction : ch
   action.x = Number(clientMouse.clientX)
   action.y = Number(clientMouse.clientY)
 
-  console.log('currentAction: ', currentAction)
+  console.log('currentAction: ', action)
   for(let i = 0; i < state.length; i++){
     state[i].length = state[i].childrens.length
     if(i === 0){
@@ -136,7 +136,6 @@ function getNewAction(state:Istate[],clientMouse:IclientMouse,currentAction : ch
     }
     if(i === state.length - 1){
       if( state[i].childrens[0].x  <= Number(clientMouse.clientX) ){
-        console.log('1')
         action.index = Math.floor(10000 * Math.random())
         state[i].childrens.push(action)
         state[i].length = state[i].childrens.length
@@ -166,11 +165,6 @@ function getFinalActionPositions(
    setApdateActions:(val: boolean) => void)
   {
 
-
-    console.log('targetDivElemnt')
-    console.log(targetDivElemnt)
-    console.log('currentAction')
-    console.log(currentAction)
     deleteNode(state, targetDivElemnt)
     deleteWhitespace(state)
     getNewAction(state,clientMouse,currentAction)

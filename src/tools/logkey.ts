@@ -100,28 +100,52 @@ export function useLogKey({
         if( state[i].left < e.clientX && state[i+1].left > e.clientX ){
           if(state[i].id !== currentInterseptionBlcok)
           {
+            console.log('reser white space')
             deleteWhitespace(state)
             UpdateBlockAction(state)
           }
+            deleteWhitespace(state)
             const prevChildren = state[i].childrens
             let flag = false
+            console.log('prevChildrens')
+            console.log(prevChildren)
+            console.log('e.clientX')
+            console.log(e.clientY)
             for (let it = 0; it < prevChildren.length; it++){
-                if(it === prevChildren.length - 1 ){
+                if(it === 0 && prevChildren[it].y + 7  >= e.clientY ){
+                  // console.log('prevChildren[it].yprevChildren[it].yprevChildren[it].yprevChildren[it].yprevChildren[it].yprevChildren[it].yprevChildren[it].y')
+                  // console.log('prevChildren[it].y')
+                  // console.log(prevChildren[it].y)
+                  newClildren.push(whiteSpaceObj)
                   newClildren.push(prevChildren[it])
-                  continue
+                  continue;
+                }
+                if(it === prevChildren.length - 1 ){
+                    newClildren.push(prevChildren[it])
+                    continue
                 }
               if(prevChildren[it].text === 'white space'){
                 flag = true
-                continue;
+                continue
               }   
-              if(prevChildren[it+1].y > e.clientY   && prevChildren[it].y < e.clientY ){
+              if(  (prevChildren[it+1].y >= e.clientY && prevChildren[it].y <= e.clientY)  ){
                 flag = true
+                // if(prevChildren[it+1].text === 'white space'){
+                //   continue
+                // }
+                
+                newClildren.push(prevChildren[it])
                 newClildren.push(whiteSpaceObj)
+                
+
+                continue;
               }
                 newClildren.push(prevChildren[it])
             }
             SetCurrentInterseptionBlcok(state[i].id)
             state[i].childrens = newClildren  
+            console.log('now childrens')
+            console.log(state[i].childrens)
           } 
         }
       return state
