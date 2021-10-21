@@ -4,7 +4,7 @@ import { useTypedSelector } from './hooks/typedSelector';
 import { UseActions } from './hooks/useActionsHook';
 import {MemoListDiv} from './components/list'
 import {cleanOut} from './tools/cleanOut'
-import {logKey} from './tools/logkey'
+import {useLogKey} from './tools/logkey'
 import {updateActionSize} from './tools/updateActions' 
 
 
@@ -75,8 +75,6 @@ const  App:FC = ()=> {
       state[index].left = num 
   })
   UpdateBlockAction(state)
-  console.log('обновилось ура')
-  console.log(state)
  }, [state])
   
 
@@ -151,9 +149,6 @@ const  App:FC = ()=> {
       // 3 -action
       // 5 - block
 
-      console.log(target.parentElement?.parentElement?.parentElement?.parentElement?.parentElement)
-      console.log('idAction', target.parentElement?.parentElement?.parentElement?.getAttribute('data-id'))
-      console.log('idBlock', target.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.getAttribute('data-id'))
       const idA = target.parentElement?.parentElement?.parentElement?.getAttribute('data-id')
       const idB = target.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.getAttribute('data-id')
       deleteAction(state,idA,idB)
@@ -167,7 +162,7 @@ const  App:FC = ()=> {
   return (
     <>
     <div className = 'container'>
-    <div className = 'root' onKeyDown={() => {console.log('press f pls')}} onMouseMove = {logKey
+    <div className = 'root' onKeyDown={() => {console.log('press f pls')}} onMouseMove = {useLogKey
       (
         {
           UpdateBlockAction: UpdateBlockAction,

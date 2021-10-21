@@ -92,7 +92,7 @@ function deleteNode(state:Istate[], targetDivElemnt: HTMLDivElement){
   }
 }
 
-function deleteWhitespace(state:Istate[]){
+export function deleteWhitespace(state:Istate[]){
   for(let i = 0 ; i < state.length;i++){
     for(let it = 0 ; it < state[i].childrens.length;it++){
       if(state[i].childrens[it].text === 'white space'){
