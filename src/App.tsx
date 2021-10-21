@@ -66,6 +66,7 @@ const  App:FC = ()=> {
 
 
  useEffect (() => {
+   console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
   const blocks = document.querySelectorAll('.block') 
   blocks.forEach((element, index)=>{
     if(index === state.length) return

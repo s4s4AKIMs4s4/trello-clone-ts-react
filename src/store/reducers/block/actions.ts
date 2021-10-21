@@ -1,5 +1,5 @@
 import { store } from '../..'
-import {BlockActionEnum,SetBlock,IState,UpdateHeader, children} from './types'
+import {BlockActionEnum,SetBlock,IState,UpdateHeader, children,IAddBlock} from './types'
 import {AppDispatch} from '../../index'
 import { Istate } from '../../../App'
 import { Children } from 'react'
@@ -59,6 +59,7 @@ export const BlockActionCreators = {
         }
         BlockActionCreators.UpdateBlockAction(state)
     },
+    
     deleteAction:(state: Istate[], idAction: string | null | undefined, IdBlock: string | null | undefined) =>
         (dispatch: AppDispatch) => {
             for(let iB = 0; iB < state.length; iB++ ){
@@ -74,5 +75,23 @@ export const BlockActionCreators = {
                     }
                 }
             }
-        }
+        },
+    addBlock:(state:Istate[], nameHeader: string): IAddBlock=>
+        {
+            state.push({
+                id: Date.now(),
+                header:nameHeader,
+                left: 500,
+                target: null,
+                childrens:[{x:1,y:10000,text:'add',index:100000}],
+                length:1
+                }
+            )
+            return{
+                type:BlockActionEnum.ADD_BlOCK,
+                payload:state,
+            }
+    }
+   
+
 }

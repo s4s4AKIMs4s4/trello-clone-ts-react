@@ -104,3 +104,6 @@ body{
 .actions:hover .closeIcon{
   visibility: visible;
 }
+.hiddenAction{
+  visibility: hidden;
+}

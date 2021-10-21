@@ -24,7 +24,8 @@ export interface IState{
 
 export enum BlockActionEnum{
     SET_BLOCK_SIZE = "SET_BLOCK_SIZE",
-    SET_HEADER = 'SET_HEADER'
+    SET_HEADER = 'SET_HEADER',
+    ADD_BlOCK = 'Add_BlOCK'
 }
 
 export interface SetBlock{
@@ -43,7 +44,11 @@ export interface UpdateHeader{
     id: number
   }
 }
+export interface IAddBlock{
+  type: BlockActionEnum.ADD_BlOCK,
+  payload:IState[]
+}
 
-export type actionType = SetBlock | UpdateHeader
+export type actionType = SetBlock | UpdateHeader | IAddBlock
 
 

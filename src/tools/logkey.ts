@@ -96,8 +96,12 @@ export function useLogKey({
     
       let newClildren:children[] = [] 
       // if(currentInterseptionBlcok )
+      console.log('state in log Keys')
+      console.log(state)
       for(let i = 0; i < state.length-1; i++ ){
-        if( state[i].left < e.clientX && state[i+1].left > e.clientX ){
+        if( (state[i].left < e.clientX && state[i+1].left > e.clientX )){
+          console.log('state[i]dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd')
+          console.log(state[i])
           if(state[i].id !== currentInterseptionBlcok)
           {
             console.log('reser white space')

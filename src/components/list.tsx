@@ -7,6 +7,7 @@ import { Input } from 'antd';
 import { ChangeModal } from './Modals/changeModal';
 import { AddActionModal } from './Modals/addBlockModal';
 import { CloseOutlined } from '@ant-design/icons'
+import {AddBlockModal} from './Modals/addBlock'
 
 interface IListDiv{
   destribution:(e:React.MouseEvent<HTMLDivElement>)=>void,
@@ -27,6 +28,7 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
 
   const [isModalVisibleChange, setIsModalVisibleChange] = useState(false);
   const [isModalVisibleAddAction, setIsModalVisibleAddAction] = useState(false);
+  const [isModalVisibleAddBlock, setIsModalVisibleAddBlock,] = useState(false);
 
   const [hederChange,setGeaderChange] = useState<string>('null')
 
@@ -85,16 +87,30 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
     setIsModalVisibleAddAction(value)
   }
 
+  const setAddBlockState = (value: boolean) =>{
+    setIsModalVisibleAddBlock(value)
+  }
+  const showModalBlock = () => {
+    console.log('modla block')
+    setIsModalVisibleAddBlock(true)
+  }
+
 
   
 
   function insertAdd(val:children){
 
     if(val.text !== 'add')
-    return  <div className = "actions" key = {val.index} onClick = {showModalChange} data-id = {val.index}>
-                        <span className = 'text'> {val.text } </span>
-                        <span className = 'closeIcon'> <CloseOutlined  data-id = "SVG" onClick = {() => {console.log('f');alert('а вот и я неждали!')}}/> </span> 
-            </div>
+      if(val.text === 'white space')
+        return <div className = "actions hiddenAction" key = {val.index} onClick = {showModalChange} data-id = {val.index}>
+                <span className = 'text'> {val.text } </span>
+                <span className = 'closeIcon'> <CloseOutlined  data-id = "SVG" onClick = {() => {console.log('f');alert('а вот и я неждали!')}}/> </span> 
+              </div>
+      else  
+        return  <div className = "actions" key = {val.index} onClick = {showModalChange} data-id = {val.index}>
+                            <span className = 'text'> {val.text } </span>
+                            <span className = 'closeIcon'> <CloseOutlined  data-id = "SVG" onClick = {() => {console.log('f');alert('а вот и я неждали!')}}/> </span> 
+                </div>
     else
     return <div className = "actions" key = {val.index} onClick = {(e) =>{setAddModalState(true)} }>
                         {val.text }
@@ -112,16 +128,21 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
             (mapping(val, index))
           )}
           
-            <div className="blocklast" key={1001} onMouseDown = {destribution} onClick = {(e) => e.stopPropagation()}>
-            { 
-            (!isInput)
-                ? <strong onClick = {(e) => { showInput(true)}} > {header} </strong>
-                : <input type = 'text' value = {header}  onChange = {handleInput}/>
-            }
+            <div className="blocklast" key={1001} onClick = {showModalBlock}>
+            
+           
+                 <strong> {header} </strong>
+               
+            
             </div>
           
         </div>
 
+        <AddBlockModal
+          state = {state}
+          isModalVisibleChange = {isModalVisibleAddBlock}
+          setModalSate ={setAddBlockState}
+        />
 
         <ChangeModal 
           state = {state} 
