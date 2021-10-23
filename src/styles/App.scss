@@ -1,9 +1,6 @@
-#root{
-  background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2048x2048/71be2ce149705d7d30915d7a5a39f284/photo-1517584623449-78bf7667d0f6.jpg");
-}
-body{
- background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2048x2048/71be2ce149705d7d30915d7a5a39f284/photo-1517584623449-78bf7667d0f6.jpg");
-}
+
+
+
 .root{
   left: 20px;
   top: 20px;
@@ -18,14 +15,14 @@ body{
   width: 100vw;
   background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1537x1920/de342fdc09a1fdc41b9b740ca299f923/photo-1584611488576-dec3ac160327.jpg");
   background-position: 50%;
+  overflow: scroll
 }
 
 
 .container{
   display: flex;
-  gap:40px;
+  gap:20px;
   user-select: none;
- 
   align-items: flex-start;
 }
 

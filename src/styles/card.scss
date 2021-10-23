@@ -1,49 +1,62 @@
 $blockColor: #ebecf0;
+$blockWidth: 280px;
+$ActionWidth: 260px;
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 .block{
   position: relative;
   text-align: center;
-  width:300px;
-  
+  width:$blockWidth;
+
   background: $blockColor;
   cursor: pointer;
   border-radius: 5px;
-  
 }
 
 .block__header{
   position: relative;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
 }
 
 .blocklast{
   position: relative;
   text-align: center;
-  width: 200px;
+  width: $blockWidth;
   height: 25px;
   background-color:  $blockColor;
   border-radius: 5px;
+  font-family: 'Roboto', sans-serif;
 }
 
 
 .block.hidden{
   position: relative;
   text-align: center;
-  width: 200px;
+  width: $blockWidth;
   height: 100px;
   background: white;
   z-index: -1;
   color:white
 }
 .actions{
-  margin: auto;
-  width: 190px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 0;
+  margin: 0 7px 0 7px;
+  width: $ActionWidth;
+  height:25px;
   position: relative;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
   background-color: rgb(255, 255, 255);
+  box-shadow:  0 1px 0 #091e4240;
   border-radius: 3px;
+  font-size: 1rem;
 }
 .add{
   color:red;
   background-color: rgb(147, 235, 238);
+  margin-bottom: 7px;
 }
 .closeIcon{
   position: absolute;
