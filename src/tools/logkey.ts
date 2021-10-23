@@ -26,9 +26,6 @@ const constructNewSateWithWhiteSpace = (e:React.MouseEvent, state: Istate[]) => 
     console.log(val.header)
   })
   state.forEach((val, index) =>{
-    console.log('e.clientX ',e.clientX)
-    console.log('val ',val)
-    console.log('state[index+1] ',state[index+1])
     if(state[index].target === 1){
       newState.push(state[index])
       return
@@ -36,7 +33,6 @@ const constructNewSateWithWhiteSpace = (e:React.MouseEvent, state: Istate[]) => 
     if(index+1 === state.length) {newState.push(state[index]); return}
     if(val.header === 'white space') return
     if(e.clientX > val.left   &&  e.clientX < state[index+1].left ){  
-      console.log('set newState')
       newState.push(state[index])
       newState.push({
         header:'white space',
@@ -95,31 +91,20 @@ export function useLogKey({
       }
     
       let newClildren:children[] = [] 
-      // if(currentInterseptionBlcok )
-      console.log('state in log Keys')
-      console.log(state)
       for(let i = 0; i < state.length-1; i++ ){
         if( (state[i].left < e.clientX && state[i+1].left > e.clientX )){
-          console.log('state[i]dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd')
-          console.log(state[i])
+         
           if(state[i].id !== currentInterseptionBlcok)
           {
-            console.log('reser white space')
             deleteWhitespace(state)
             UpdateBlockAction(state)
           }
             deleteWhitespace(state)
             const prevChildren = state[i].childrens
             let flag = false
-            console.log('prevChildrens')
-            console.log(prevChildren)
-            console.log('e.clientX')
-            console.log(e.clientY)
+
             for (let it = 0; it < prevChildren.length; it++){
                 if(it === 0 && prevChildren[it].y + 7  >= e.clientY ){
-                  // console.log('prevChildren[it].yprevChildren[it].yprevChildren[it].yprevChildren[it].yprevChildren[it].yprevChildren[it].yprevChildren[it].y')
-                  // console.log('prevChildren[it].y')
-                  // console.log(prevChildren[it].y)
                   newClildren.push(whiteSpaceObj)
                   newClildren.push(prevChildren[it])
                   continue;
@@ -134,9 +119,7 @@ export function useLogKey({
               }   
               if(  (prevChildren[it+1].y >= e.clientY && prevChildren[it].y <= e.clientY)  ){
                 flag = true
-                // if(prevChildren[it+1].text === 'white space'){
-                //   continue
-                // }
+
                 
                 newClildren.push(prevChildren[it])
                 newClildren.push(whiteSpaceObj)
@@ -148,8 +131,7 @@ export function useLogKey({
             }
             SetCurrentInterseptionBlcok(state[i].id)
             state[i].childrens = newClildren  
-            console.log('now childrens')
-            console.log(state[i].childrens)
+
           } 
         }
       return state

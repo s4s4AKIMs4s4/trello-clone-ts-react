@@ -78,11 +78,6 @@ function deleteNode(state:Istate[], targetDivElemnt: HTMLDivElement){
   for(let sIterator = 0; sIterator< state.length;sIterator++){
     const childrens = state[sIterator].childrens
     for(let aIterator = 0 ; aIterator < childrens.length; aIterator++){
-      // console.log('targetDivElemnt.children[0].textContent')
-      // console.log(targetDivElemnt.children[0].textContent)
-      // console.log('childrens[aIterator].text')
-      // console.log(childrens[aIterator].text)
-
       if(targetDivElemnt.children[0].textContent?.split(' ').join('') === childrens[aIterator].text){             
         console.log('ee')
         state[sIterator].childrens.splice(aIterator,1)
@@ -96,7 +91,6 @@ export function deleteWhitespace(state:Istate[]){
   for(let i = 0 ; i < state.length;i++){
     for(let it = 0 ; it < state[i].childrens.length;it++){
       if(state[i].childrens[it].text === 'white space'){
-        console.log('ddddddddddddddddddddddddddddddddddddddddd')
         state[i].childrens.splice(it,1)
       }
     }
@@ -121,14 +115,11 @@ function getNewAction(state:Istate[],clientMouse:IclientMouse,currentAction : ch
   const action = currentAction
   action.x = Number(clientMouse.clientX)
   action.y = Number(clientMouse.clientY)
-
-  console.log('currentAction: ', action)
   for(let i = 0; i < state.length; i++){
     state[i].length = state[i].childrens.length
     if(i === 0){
       if( state[i].childrens[0].x  >= Number(clientMouse.clientX) ){
-        console.log('0')
-        action.index = Math.floor(10000 * Math.random())
+        action.index = Date.now()
         state[i].childrens.push(action)
         state[i].length = state[i].childrens.length
         break;
@@ -136,7 +127,7 @@ function getNewAction(state:Istate[],clientMouse:IclientMouse,currentAction : ch
     }
     if(i === state.length - 1){
       if( state[i].childrens[0].x  <= Number(clientMouse.clientX) ){
-        action.index = Math.floor(10000 * Math.random())
+        action.index = Date.now()
         state[i].childrens.push(action)
         state[i].length = state[i].childrens.length
       }
@@ -144,7 +135,7 @@ function getNewAction(state:Istate[],clientMouse:IclientMouse,currentAction : ch
     }
 
     if( (state[i].childrens[0].x <= Number(clientMouse.clientX) )  && (  Number(clientMouse.clientX) <= state[i+1].childrens[0].x))  {
-      action.index = Math.floor(10000 * Math.random())
+      action.index = Date.now()
       state[i].childrens.push(action) 
       state[i].length = state[i].childrens.length
     }

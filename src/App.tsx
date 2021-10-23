@@ -1,12 +1,12 @@
 import React, {useEffect,useRef, useState, FC} from 'react';
-import  './styles/App.css'
+import  './styles/card.scss'
 import { useTypedSelector } from './hooks/typedSelector';
 import { UseActions } from './hooks/useActionsHook';
 import {MemoListDiv} from './components/list'
 import {cleanOut} from './tools/cleanOut'
 import {useLogKey} from './tools/logkey'
 import {updateActionSize} from './tools/updateActions' 
-
+import "./styles/App.scss"
 
 export interface IclientMouse{
   clientX:string,
@@ -66,7 +66,6 @@ const  App:FC = ()=> {
 
 
  useEffect (() => {
-   console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
   const blocks = document.querySelectorAll('.block') 
   blocks.forEach((element, index)=>{
     if(index === state.length) return
