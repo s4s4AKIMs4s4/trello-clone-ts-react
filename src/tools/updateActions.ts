@@ -19,7 +19,7 @@ export function  updateActionSize({targetDivElemnt,UpdateBlockAction,setCurrentU
     for(let sIterator = 0; sIterator< state.length;sIterator++){
         const childrens = state[sIterator].childrens
         for(let aIterator = 0 ; aIterator < childrens.length; aIterator++){
-          if(targetDivElemnt.children[0].textContent?.split(' ').join('') === childrens[aIterator].text){
+          if(targetDivElemnt.children[0].textContent?.split(' ').join('') === childrens[aIterator].text?.split(' ').join('')){
             setCurrentUction(childrens[aIterator])
             return
           }

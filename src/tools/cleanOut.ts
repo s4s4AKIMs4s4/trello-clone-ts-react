@@ -116,7 +116,7 @@ export function cleanOut({
     for(let sIterator = 0; sIterator< state.length;sIterator++){
       const childrens = state[sIterator].childrens
       for(let aIterator = 0 ; aIterator < childrens.length; aIterator++){
-        if(targetDivElemnt.children[0].textContent?.split(' ').join('') === childrens[aIterator].text){             
+        if(targetDivElemnt.children[0].textContent?.split(' ').join('') === childrens[aIterator].text?.split(' ').join('')){             
           state[sIterator].childrens.splice(aIterator,1)
           break
         }
@@ -189,12 +189,13 @@ export function cleanOut({
     console.log('clean out')
       if( isDeltaMouse()  )
       { 
-        if(!flag)
-          return
+        
         SetFalse(eventState)
         if(isBlockMoved){
           GetFinalBlockPosition()
         }
+        if(!flag)
+          return
         if(updateActions){
           getFinalActionPositions()
         } 
