@@ -1,4 +1,4 @@
-import {Istate,children} from '../App'
+import {Istate,children} from '../data/board'
 
 interface props{
     state: Istate[],

@@ -1,4 +1,4 @@
-import {Istate, children, IclientMouse} from '../App'
+import {Istate, children, IclientMouse} from '../data/board'
 import {IState as ISateEvent} from '../store/reducers/event/types'
 
 
@@ -89,7 +89,7 @@ export function cleanOut({
           const num = bl.getBoundingClientRect().x 
           if(bl.textContent === 'white space') { select = index; return}
           state[index].left = num
-          state[index].id = Date.now()
+          state[index].id = Math.floor(1000* Math.random())
         })
         if(select !== -1)
           state.splice(select,1)

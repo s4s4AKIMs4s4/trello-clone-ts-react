@@ -1,7 +1,7 @@
 import { store } from '../..'
 import {BlockActionEnum,SetBlock,IState,UpdateHeader, children,IAddBlock} from './types'
 import {AppDispatch} from '../../index'
-import { Istate } from '../../../App'
+import { Istate } from '../../../data/board'
 import { Children } from 'react'
 import { stringify } from 'querystring'
 

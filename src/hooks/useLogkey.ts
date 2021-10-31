@@ -1,5 +1,5 @@
 import { Children, useState } from 'react'
-import {IclientMouse, Istate} from '../App'
+import {IclientMouse, Istate} from '../data/board'
 import { children } from '../store/reducers/block/types'
 import {deleteWhitespace} from '../tools/cleanOut'
 

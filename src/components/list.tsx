@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState,useEffect, HtmlHTMLAttributes } from 'react'
-import {Istate,children} from '../App'
+import {Istate,children} from '../data/board'
 import {useTypedSelector} from '../hooks/typedSelector'
 import {UseActions} from '../hooks/useActionsHook'
 import { Modal, Button } from 'antd';

@@ -6,30 +6,10 @@ import {MemoListDiv} from './components/list'
 import {cleanOut} from './tools/cleanOut'
 import {useLogKey} from './hooks/useLogkey'
 import {updateActionSize} from './tools/updateActions' 
+import {IclientMouse,Istate,children} from './data/board'
 import "./styles/App.scss"
 
-export interface IclientMouse{
-  clientX:string,
-  clientY:string
-}
 
-
-export interface children{
-  x:number,
-  y:number,
-  text:string,
-  index:number,
-}
-
-
-export interface Istate{
-  id:number,
-  header:string,
-  left:number,
-  target: null| number,
-  childrens: children[],
-  length:number,
-}
 
 
 
