@@ -23,70 +23,6 @@ interface props {
     idBlock: string | null,
 }
 
-
-function isDeltaMouse(clientMouse: IclientMouse,lastClientMouse: IclientMouse){
-  const currentX = Number(clientMouse.clientX)
-  const currentY = Number(clientMouse.clientY)
-  const lastX = Number(lastClientMouse.clientX)
-  const lastY = Number(lastClientMouse.clientY)
-
-  if( currentX !== lastX || currentY !== lastY  ){
-    return true
-  }
-  else{
-    return false 
-  } 
-}
-function compare(a:Istate, b:Istate){
-  return a.left - b.left
-}
-
-
-function GetFinalBlockPosition(state: Istate[],
-  UpdateBlockAction: Function,
-  eventState: ISateEvent, 
-  isBlockMoved: boolean, 
-  SetFalse:Function,  
-  setFlag: (val:boolean) => void, 
-  setIsBlockMoved: (val:boolean) => void,)
-  {
-    SetFalse(eventState)
-    if(isBlockMoved){
-      setFlag(false)
-      setIsBlockMoved(false)
-      const blocks = document.querySelectorAll('.block') 
-      let select = -1
-      blocks.forEach((val, index)=>{
-        if(index === state.length) return
-        const bl = val as HTMLDivElement
-        const num = bl.getBoundingClientRect().x 
-        if(bl.textContent === 'white space') { select = index; return}
-        state[index].left = num
-        state[index].id = Math.floor(10000*Math.random())
-      })
-      if(select !== -1)
-        state.splice(select,1)
-      state.sort(compare)
-      zeroingNullTarget(state)
-      UpdateBlockAction(state)
-    }
-}
-
-function deleteNode(state:Istate[], targetDivElemnt: HTMLDivElement){
-  if(!targetDivElemnt.children[0])
-    return 
-  for(let sIterator = 0; sIterator< state.length;sIterator++){
-    const childrens = state[sIterator].childrens
-    for(let aIterator = 0 ; aIterator < childrens.length; aIterator++){
-      if(targetDivElemnt.children[0].textContent?.split(' ').join('') === childrens[aIterator].text){             
-        console.log('ee')
-        state[sIterator].childrens.splice(aIterator,1)
-        break
-      }
-    }    
-  }
-}
-
 export function deleteWhitespace(state:Istate[]){
   for(let i = 0 ; i < state.length;i++){
     for(let it = 0 ; it < state[i].childrens.length;it++){
@@ -97,73 +33,6 @@ export function deleteWhitespace(state:Istate[]){
   }
 }
 
-function sortY(obj:Istate[]){
-      
-  obj.forEach((val, it)=>{
-    console.log("it: ", it)
-    console.log(val.childrens)
-    val.childrens.sort(sortingAlgortimY)
-  })
-}
-
-function sortingAlgortimY(a:children,b:children){
-  return a.y - b.y
-}
-
-
-function getNewAction(state:Istate[],clientMouse:IclientMouse,currentAction : children ){
-  const action = currentAction
-  action.x = Number(clientMouse.clientX)
-  action.y = Number(clientMouse.clientY)
-  for(let i = 0; i < state.length; i++){
-    state[i].length = state[i].childrens.length
-    if(i === 0){
-      if( state[i].childrens[0].x  >= Number(clientMouse.clientX) ){
-        action.index = Date.now()
-        state[i].childrens.push(action)
-        state[i].length = state[i].childrens.length
-        break;
-      }
-    }
-    if(i === state.length - 1){
-      if( state[i].childrens[0].x  <= Number(clientMouse.clientX) ){
-        action.index = Date.now()
-        state[i].childrens.push(action)
-        state[i].length = state[i].childrens.length
-      }
-      break;
-    }
-
-    if( (state[i].childrens[0].x <= Number(clientMouse.clientX) )  && (  Number(clientMouse.clientX) <= state[i+1].childrens[0].x))  {
-      action.index = Date.now()
-      state[i].childrens.push(action) 
-      state[i].length = state[i].childrens.length
-    }
-  }
-}
-
-function zeroingNullTarget(state: Istate[]) {
-  state.forEach((val)=>{
-    val.target = null
-  })
-}
-function getFinalActionPositions(
-  state: Istate[],
-   currentAction : children,
-   targetDivElemnt: HTMLDivElement, 
-   clientMouse:IclientMouse, 
-   UpdateBlockAction: Function, 
-   setApdateActions:(val: boolean) => void)
-  {
-
-    deleteNode(state, targetDivElemnt)
-    deleteWhitespace(state)
-    getNewAction(state,clientMouse,currentAction)
-
-    sortY(state)
-    UpdateBlockAction(state)        
-    setApdateActions(false)
-}
 
 export function cleanOut({
     targetDivElemnt,
@@ -187,28 +56,132 @@ export function cleanOut({
 } : props )
 
 {
+
+  function isDeltaMouse(){
+    const currentX = Number(clientMouse.clientX)
+    const currentY = Number(clientMouse.clientY)
+    const lastX = Number(lastClientMouse.clientX)
+    const lastY = Number(lastClientMouse.clientY)
+  
+    if( currentX !== lastX || currentY !== lastY  ){
+      return true
+    }
+    else{
+      return false 
+    } 
+  }
+  function compare(a:Istate, b:Istate){
+    return a.left - b.left
+  }
+  
+  
+  function GetFinalBlockPosition()
+    {
+      SetFalse(eventState)
+      if(isBlockMoved){
+        setFlag(false)
+        setIsBlockMoved(false)
+        const blocks = document.querySelectorAll('.block') 
+        let select = -1
+        blocks.forEach((val, index)=>{
+          if(index === state.length) return
+          const bl = val as HTMLDivElement
+          const num = bl.getBoundingClientRect().x 
+          if(bl.textContent === 'white space') { select = index; return}
+          state[index].left = num
+          state[index].id = Date.now()
+        })
+        if(select !== -1)
+          state.splice(select,1)
+        state.sort(compare)
+        zeroingNullTarget()
+        UpdateBlockAction(state)
+      }
+  }
+  
+  function deleteNode(state:Istate[], targetDivElemnt: HTMLDivElement){
+    if(!targetDivElemnt.children[0])
+      return 
+    for(let sIterator = 0; sIterator< state.length;sIterator++){
+      const childrens = state[sIterator].childrens
+      for(let aIterator = 0 ; aIterator < childrens.length; aIterator++){
+        if(targetDivElemnt.children[0].textContent?.split(' ').join('') === childrens[aIterator].text){             
+          state[sIterator].childrens.splice(aIterator,1)
+          break
+        }
+      }    
+    }
+  }
+  
+ 
+  
+  function sortY(){    
+    state.forEach((val, it)=>{
+      val.childrens.sort(sortingAlgortimY)
+    })
+  }
+  
+  function sortingAlgortimY(a:children,b:children){
+    return a.y - b.y
+  }
+  
+  
+  function getNewAction(){
+    const action = currentAction
+    action.x = Number(clientMouse.clientX)
+    action.y = Number(clientMouse.clientY)
+    for(let i = 0; i < state.length; i++){
+      state[i].length = state[i].childrens.length
+      if(i === 0){
+        if( state[i].childrens[0].x  >= Number(clientMouse.clientX) ){
+          action.index = Date.now()
+          state[i].childrens.push(action)
+          state[i].length = state[i].childrens.length
+          break;
+        }
+      }
+      if(i === state.length - 1){
+        if( state[i].childrens[0].x  <= Number(clientMouse.clientX) ){
+          action.index = Date.now()
+          state[i].childrens.push(action)
+          state[i].length = state[i].childrens.length
+        }
+        break;
+      }
+  
+      if( (state[i].childrens[0].x <= Number(clientMouse.clientX) )  && (  Number(clientMouse.clientX) <= state[i+1].childrens[0].x))  {
+        action.index = Date.now()
+        state[i].childrens.push(action) 
+        state[i].length = state[i].childrens.length
+      }
+    }
+  }
+  
+  function zeroingNullTarget() {
+    state.forEach((val)=>{
+      val.target = null
+    })
+  }
+  function getFinalActionPositions()
+    {
+  
+      deleteNode(state, targetDivElemnt)
+      deleteWhitespace(state)
+      getNewAction()
+  
+      sortY()
+      UpdateBlockAction(state)        
+      setApdateActions(false)
+  }
   return () => {
-      if( isDeltaMouse(clientMouse,lastClientMouse)  )
+      if( isDeltaMouse()  )
       { 
         SetFalse(eventState)
         if(isBlockMoved){
-          GetFinalBlockPosition(
-            state,
-            UpdateBlockAction,
-            eventState, 
-            isBlockMoved, 
-            SetFalse,  
-            setFlag, 
-            setIsBlockMoved)
+          GetFinalBlockPosition()
         }
         if(updateActions){
-          getFinalActionPositions(
-            state,
-            currentAction,
-            targetDivElemnt, 
-            clientMouse, 
-            UpdateBlockAction, 
-            setApdateActions)
+          getFinalActionPositions()
         } 
         setFlag(false)
     }
@@ -216,7 +189,7 @@ export function cleanOut({
       
       if(!updateActions)
       {
-      zeroingNullTarget(state)
+      zeroingNullTarget()
       UpdateBlockAction(state)
       updateEventAction(dataIdEvent,true)
       setFlag(false)

@@ -4,12 +4,9 @@ import { useTypedSelector } from './hooks/typedSelector';
 import { UseActions } from './hooks/useActionsHook';
 import {MemoListDiv} from './components/list'
 import {cleanOut} from './tools/cleanOut'
-import {useLogKey} from './tools/logkey'
+import {useLogKey} from './hooks/useLogkey'
 import {updateActionSize} from './tools/updateActions' 
 import "./styles/App.scss"
-
-
-
 
 export interface IclientMouse{
   clientX:string,
@@ -68,7 +65,7 @@ const  App:FC = ()=> {
 
 
 
- useEffect (() => {
+ useEffect (() => { 
   const blocks = document.querySelectorAll('.block') 
   blocks.forEach((element, index)=>{
     if(index === state.length) return
@@ -80,10 +77,6 @@ const  App:FC = ()=> {
   UpdateBlockAction(state)
  }, [state])
   
-
-
-
-
  const blockHeaderHandler = (e:React.MouseEvent<HTMLDivElement>, target:HTMLDivElement) => {
   setSelectInput(true)
   setLastClientMouse({
@@ -144,7 +137,6 @@ const  App:FC = ()=> {
     else{
       blockHandler(e, target)
     }
-    console.log(target.getAttribute('data-id'))
     if(target.parentElement?.tagName){
       console.log(target.parentElement?.tagName)
     }
@@ -165,7 +157,7 @@ const  App:FC = ()=> {
   return (
     <>
     <div className = 'container'>
-    <div className = 'root' onKeyDown={() => {console.log('press f pls')}} onMouseMove = {useLogKey
+    <div className = 'root'  onMouseMove = {useLogKey
       (
         {
           UpdateBlockAction: UpdateBlockAction,

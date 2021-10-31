@@ -1,7 +1,7 @@
 import { Children, useState } from 'react'
 import {IclientMouse, Istate} from '../App'
 import { children } from '../store/reducers/block/types'
-import {deleteWhitespace} from './cleanOut'
+import {deleteWhitespace} from '../tools/cleanOut'
 
 interface props {
     flag:boolean,
@@ -16,56 +16,6 @@ interface props {
     basis: number
     idBlock: string | null
 }
-
-
-
-
-const constructNewSateWithWhiteSpace = (e:React.MouseEvent, state: Istate[]) => {
-  const newState = [] as Istate[]
-  state.forEach((val) => {
-    console.log(val.header)
-  })
-  state.forEach((val, index) =>{
-    if(state[index].target === 1){
-      newState.push(state[index])
-      return
-    }
-    if(index+1 === state.length) {newState.push(state[index]); return}
-    if(val.header === 'white space') return
-    if(e.clientX > val.left   &&  e.clientX < state[index+1].left ){  
-      newState.push(state[index])
-      newState.push({
-        header:'white space',
-        id:Math.floor(1000*Math.random()),
-        left: e.clientX,
-        target:null,
-        childrens:[{x:1,y:1,text:'', index:20}],
-        length:1
-      })
-    
-      return 
-    }
-    newState.push(val)
-
-  })
-  return newState
-}
-
-
-
-const moveBlock = (clientMouse: IclientMouse, basis: number, state :Istate[], e:React.MouseEvent, targetDiv:HTMLDivElement,UpdateBlockAction: Function ) => {
-  const Xposition = Number(clientMouse.clientX) - basis
-  targetDiv.style.position = 'absolute'
-  targetDiv.style.left = `${Xposition}px`
-  targetDiv.style.top =`${clientMouse.clientY}px`
-
-  const newState = constructNewSateWithWhiteSpace(e, state)
-  UpdateBlockAction(newState)
-}
-
-
-
-
 
 export function useLogKey({
   flag,
@@ -82,7 +32,49 @@ export function useLogKey({
   {
     const [currentInterseptionBlcok, SetCurrentInterseptionBlcok] = useState<number | null>(null)
 
-    const newActionWithWhiteSpace = (state:Istate [],idBlock: string | null, e:React.MouseEvent) => {
+    const constructNewSateWithWhiteSpace = (e:React.MouseEvent) => {
+      const newState = [] as Istate[]
+      state.forEach((val) => {
+        console.log(val.header)
+      })
+      state.forEach((val, index) =>{
+        if(state[index].target === 1){
+          newState.push(state[index])
+          return
+        }
+        if(index+1 === state.length) {newState.push(state[index]); return}
+        if(val.header === 'white space') return
+        if(e.clientX > val.left   &&  e.clientX < state[index+1].left ){  
+          newState.push(state[index])
+          newState.push({
+            header:'white space',
+            id:Math.floor(1000*Math.random()),
+            left: e.clientX,
+            target:null,
+            childrens:[{x:1,y:1,text:'', index:20}],
+            length:1
+          })
+        
+          return 
+        }
+        newState.push(val)
+    
+      })
+      return newState
+    }
+
+    
+    const moveBlock = (e:React.MouseEvent) => {
+      const Xposition = Number(clientMouse.clientX) - basis
+      targetDiv.style.position = 'absolute'
+      targetDiv.style.left = `${Xposition}px`
+      targetDiv.style.top =`${clientMouse.clientY}px`
+    
+      const newState = constructNewSateWithWhiteSpace(e)
+      UpdateBlockAction(newState)
+    }
+
+    const newActionWithWhiteSpace = (e:React.MouseEvent) => {
       const whiteSpaceObj = {
         index: Date.now(),
         text:'white space',
@@ -137,12 +129,12 @@ export function useLogKey({
       return state
     }
     
-    const moveAction = (clientMouse: IclientMouse, left: number, targetDivElemnt:HTMLDivElement,idBlock: string | null,  e:React.MouseEvent, state: Istate[], UpdateBlockAction: Function) => {
+    const moveAction = (e:React.MouseEvent) => {
       targetDivElemnt.style.position = 'absolute'
       const calc  = Number(clientMouse.clientX) - left
       targetDivElemnt.style.left = `${calc}px`
       targetDivElemnt.style.top =`${clientMouse.clientY}px`
-      UpdateBlockAction(newActionWithWhiteSpace(state,idBlock,e,))
+      UpdateBlockAction(newActionWithWhiteSpace(e))
     
     }
     
@@ -155,10 +147,10 @@ export function useLogKey({
       if(flag)
         {
           if(isBlockMoved){
-            moveBlock(clientMouse, basis, state, e, targetDiv,UpdateBlockAction )
+            moveBlock(e)
           }
           else{
-            moveAction(clientMouse, left, targetDivElemnt,idBlock, e, state,UpdateBlockAction)
+            moveAction(e)
           }
         }
 
