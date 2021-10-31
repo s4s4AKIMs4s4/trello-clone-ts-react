@@ -34,19 +34,30 @@ const  App:FC = ()=> {
   const [idBlcok,setIdBlcok] = useState<string | null> (null)
   const [basis , setBasis] = useState<number>(0)
 
+  const [flagUpdateAction,setFlagUpdateAction] = useState<boolean>(false)
 
   useEffect(() => {
+
+    console.log('kek')
+    // state[3].childrens.forEach((val) => {
+    //   console.log(val)
+    // })
     updateActionSize({
       UpdateBlockAction: UpdateBlockAction,
       setCurrentUction: setCurrentUction,
       state: state,
       targetDivElemnt:targetDivElemnt,
     })
+    // console.log('chebureck')
+    // state[3].childrens.forEach((val) => {
+    //   console.log(val)
+    // })
   },[updateActions])
 
 
 
  useEffect (() => { 
+   console.log('update')
   const blocks = document.querySelectorAll('.block') 
   blocks.forEach((element, index)=>{
     if(index === state.length) return
@@ -70,6 +81,8 @@ const  App:FC = ()=> {
  }
 
  const actionHandler = (e:React.MouseEvent<HTMLDivElement>, target:HTMLDivElement) => {
+  setApdateActions(true)
+
   setLastClientMouse({
     clientX:`${e.clientX}`,
     clientY:`${e.clientY}`,
@@ -97,7 +110,7 @@ const  App:FC = ()=> {
  }
 
   function destribution(e:React.MouseEvent<HTMLDivElement>){
-    
+    console.log('destribution')
     let target = e.target as HTMLDivElement
     
     setFlag(true)
@@ -112,7 +125,9 @@ const  App:FC = ()=> {
     }
 
     if(target.className === 'actions'){
-      
+      console.log('yep')
+      console.log(state)
+      setFlagUpdateAction(true)
       actionHandler(e, target)
     }
     else{
@@ -152,6 +167,7 @@ const  App:FC = ()=> {
           targetDivElemnt:targetDivElemnt,
           basis:basis,
           idBlock:idBlcok,
+          setFlagUpdateAction:setFlagUpdateAction,
         }
       )
     } onMouseUp = {

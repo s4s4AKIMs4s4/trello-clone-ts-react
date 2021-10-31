@@ -15,6 +15,7 @@ interface props {
     left: number
     basis: number
     idBlock: string | null
+    setFlagUpdateAction:Function
 }
 
 export function useLogKey({
@@ -28,7 +29,8 @@ export function useLogKey({
   targetDivElemnt,
   left,
   basis,
-  idBlock}: props) 
+  idBlock,
+  setFlagUpdateAction}: props) 
   {
     const [currentInterseptionBlcok, SetCurrentInterseptionBlcok] = useState<number | null>(null)
 
@@ -97,11 +99,13 @@ export function useLogKey({
 
             for (let it = 0; it < prevChildren.length; it++){
                 if(it === 0 && prevChildren[it].y + 7  >= e.clientY ){
+                  console.log('push white')
                   newClildren.push(whiteSpaceObj)
                   newClildren.push(prevChildren[it])
                   continue;
                 }
                 if(it === prevChildren.length - 1 ){
+                  console.log('must')
                     newClildren.push(prevChildren[it])
                     continue
                 }
@@ -111,7 +115,7 @@ export function useLogKey({
               }   
               if(  (prevChildren[it+1].y >= e.clientY && prevChildren[it].y <= e.clientY)  ){
                 flag = true
-
+                console.log('p')
                 
                 newClildren.push(prevChildren[it])
                 newClildren.push(whiteSpaceObj)
@@ -134,11 +138,15 @@ export function useLogKey({
       const calc  = Number(clientMouse.clientX) - left
       targetDivElemnt.style.left = `${calc}px`
       targetDivElemnt.style.top =`${clientMouse.clientY}px`
+
       UpdateBlockAction(newActionWithWhiteSpace(e))
+
     
     }
     
   return (e:React.MouseEvent) => {
+      // console.log('state inside hook')
+      // console.log(state)
       const obj = {
         clientX:e.clientX.toString(),
         clientY:e.clientY.toString()
@@ -150,7 +158,22 @@ export function useLogKey({
             moveBlock(e)
           }
           else{
-            moveAction(e)
+            // console.log('Old state')
+            // state[3].childrens.forEach((val) => {
+            //   console.log(val)
+            // })
+            //if(!updateActions)
+            //  return
+            //setFlagUpdateAction(true)
+            setTimeout(() => {
+              moveAction(e)
+            }, 20);
+           
+            //setFlagUpdateAction(false)
+            // console.log('New state')
+            // state[3].childrens.forEach((val) => {
+            //   console.log(val)
+            // })
           }
         }
 

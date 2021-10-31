@@ -176,6 +176,7 @@ export function cleanOut({
       setApdateActions(false)
   }
   return () => {
+    console.log('clean out')
       if( isDeltaMouse()  )
       { 
         if(!flag)
