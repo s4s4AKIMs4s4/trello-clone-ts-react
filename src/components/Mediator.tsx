@@ -4,7 +4,7 @@ import '../styles/card.scss'
 import { useTypedSelector } from '../hooks/typedSelector';
 import { UseActions } from '../hooks/useActionsHook';
 import {MemoListDiv} from './list'
-import {cleanOut} from '../tools/cleanOut'
+import {cleanOut, deleteWhitespace} from '../tools/cleanOut'
 import {useLogKey} from '../hooks/useLogkey'
 import {updateActionSize} from '../tools/updateActions' 
 import {IclientMouse,Istate,children} from '../data/board'
@@ -42,16 +42,14 @@ const  App:FC = ()=> {
     // state[3].childrens.forEach((val) => {
     //   console.log(val)
     // })
+    deleteWhitespace(state)
     updateActionSize({
       UpdateBlockAction: UpdateBlockAction,
       setCurrentUction: setCurrentUction,
       state: state,
       targetDivElemnt:targetDivElemnt,
     })
-    // console.log('chebureck')
-    // state[3].childrens.forEach((val) => {
-    //   console.log(val)
-    // })
+
   },[updateActions])
 
 

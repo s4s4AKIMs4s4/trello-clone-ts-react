@@ -86,8 +86,11 @@ export function useLogKey({
     
       let newClildren:children[] = [] 
       for(let i = 0; i < state.length-1; i++ ){
-        if( (state[i].left < e.clientX && state[i+1].left > e.clientX )){
-         
+        if( (state[i].left < e.clientX && state[i+1].left > e.clientX ) || (state[state.length-1].left <= e.clientX && i === state.length - 2 )){
+
+          if(state[state.length-1].left <= e.clientX && i === state.length - 2 ) {           
+            i++
+          }
           if(state[i].id !== currentInterseptionBlcok)
           {
             deleteWhitespace(state)
@@ -129,7 +132,7 @@ export function useLogKey({
             state[i].childrens = newClildren  
 
           } 
-        }
+      }
       return state
     }
     
@@ -158,22 +161,13 @@ export function useLogKey({
             moveBlock(e)
           }
           else{
-            // console.log('Old state')
-            // state[3].childrens.forEach((val) => {
-            //   console.log(val)
-            // })
-            //if(!updateActions)
-            //  return
-            //setFlagUpdateAction(true)
+
             setTimeout(() => {
               moveAction(e)
-            }, 20);
+            }, 5);
+            // deleteWhitespace(state)
            
-            //setFlagUpdateAction(false)
-            // console.log('New state')
-            // state[3].childrens.forEach((val) => {
-            //   console.log(val)
-            // })
+
           }
         }
 
