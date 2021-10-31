@@ -44,8 +44,32 @@ export function useLogKey({
           newState.push(state[index])
           return
         }
+        if(val.header === 'white space'){ 
+          if(index === 0){
+            if(val.left+ 50>= e.clientX ){
+            
+            newState.push(state[index])
+            return
+            }
+          }
+          return
+        }
+        if(index === 0){
+          if(val.left+ 50>= e.clientX ){
+          newState.push({
+            header:'white space',
+            id:Math.floor(1000*Math.random()),
+            left: e.clientX,
+            target:null,
+            childrens:[{x:1,y:1,text:'', index:20}],
+            length:1
+          })
+          newState.push(state[index])
+          return
+          }
+        }
         if(index+1 === state.length) {newState.push(state[index]); return}
-        if(val.header === 'white space') return
+        
         if(e.clientX > val.left   &&  e.clientX < state[index+1].left ){  
           newState.push(state[index])
           newState.push({
