@@ -1,13 +1,14 @@
 import React, {useEffect,useRef, useState, FC} from 'react';
-import  './styles/card.scss'
-import { useTypedSelector } from './hooks/typedSelector';
-import { UseActions } from './hooks/useActionsHook';
-import {MemoListDiv} from './components/list'
-import {cleanOut} from './tools/cleanOut'
-import {useLogKey} from './hooks/useLogkey'
-import {updateActionSize} from './tools/updateActions' 
-import {IclientMouse,Istate,children} from './data/board'
-import "./styles/App.scss"
+import '../styles/card.scss'
+//import  './styles/card.scss'
+import { useTypedSelector } from '../hooks/typedSelector';
+import { UseActions } from '../hooks/useActionsHook';
+import {MemoListDiv} from './list'
+import {cleanOut} from '../tools/cleanOut'
+import {useLogKey} from '../hooks/useLogkey'
+import {updateActionSize} from '../tools/updateActions' 
+import {IclientMouse,Istate,children} from '../data/board'
+import "../styles/App.scss"
 
 
 
@@ -173,7 +174,8 @@ const  App:FC = ()=> {
           SetFalse: SetFalse,
           eventState:eventState,
           idAction:idAction,
-          idBlock:idBlcok
+          idBlock:idBlcok,
+          flag:flag,
         }
       )
     }>

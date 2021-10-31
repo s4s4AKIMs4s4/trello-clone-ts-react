@@ -1,7 +1,6 @@
 import {Istate, children, IclientMouse} from '../data/board'
 import {IState as ISateEvent} from '../store/reducers/event/types'
 
-
 interface props {
     targetDivElemnt: HTMLDivElement,
     isBlockMoved: boolean, 
@@ -21,6 +20,7 @@ interface props {
     SetFalse:Function,
     idAction: string | null,
     idBlock: string | null,
+    flag: boolean
 }
 
 export function deleteWhitespace(state:Istate[]){
@@ -53,6 +53,7 @@ export function cleanOut({
     eventState,
     idAction,
     idBlock,
+    flag
 } : props )
 
 {
@@ -83,13 +84,14 @@ export function cleanOut({
         setIsBlockMoved(false)
         const blocks = document.querySelectorAll('.block') 
         let select = -1
+        
         blocks.forEach((val, index)=>{
           if(index === state.length) return
           const bl = val as HTMLDivElement
           const num = bl.getBoundingClientRect().x 
           if(bl.textContent === 'white space') { select = index; return}
           state[index].left = num
-          state[index].id = Math.floor(1000* Math.random())
+          state[index].id = Math.floor(1000* Math.random())  * Math.floor(1000* Math.random()) *  Math.floor(1000* Math.random())
         })
         if(select !== -1)
           state.splice(select,1)
@@ -176,6 +178,8 @@ export function cleanOut({
   return () => {
       if( isDeltaMouse()  )
       { 
+        if(!flag)
+          return
         SetFalse(eventState)
         if(isBlockMoved){
           GetFinalBlockPosition()
