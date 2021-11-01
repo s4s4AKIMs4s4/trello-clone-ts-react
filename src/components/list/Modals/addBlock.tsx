@@ -1,8 +1,8 @@
 import { Modal, Button } from 'antd';
 import { Input } from 'antd';
 import { FC, useState } from 'react';
-import { UseActions } from '../../hooks/useActionsHook';
-import { Istate } from '../../data/board';
+import { UseActions } from '../../../hooks/useActionsHook';
+import { Istate } from '../../../data/board';
 
 interface IAddModal{
     isModalVisibleChange: boolean,

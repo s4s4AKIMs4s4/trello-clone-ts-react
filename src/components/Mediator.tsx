@@ -1,13 +1,12 @@
 import React, {useEffect,useRef, useState, FC} from 'react';
 import '../styles/card.scss'
-//import  './styles/card.scss'
 import { useTypedSelector } from '../hooks/typedSelector';
 import { UseActions } from '../hooks/useActionsHook';
-import {MemoListDiv} from './list'
+import {MemoListDiv} from './list/index'
 import {cleanOut, deleteWhitespace} from '../tools/cleanOut'
 import {useLogKey} from '../hooks/useLogkey'
 import {updateActionSize} from '../tools/updateActions' 
-import {IclientMouse,Istate,children} from '../data/board'
+import {IclientMouse,children} from '../data/board'
 import "../styles/App.scss"
 
 
@@ -37,11 +36,6 @@ const  App:FC = ()=> {
   const [flagUpdateAction,setFlagUpdateAction] = useState<boolean>(false)
 
   useEffect(() => {
-
-    console.log('kek')
-    // state[3].childrens.forEach((val) => {
-    //   console.log(val)
-    // })
     deleteWhitespace(state)
     updateActionSize({
       UpdateBlockAction: UpdateBlockAction,
@@ -55,7 +49,6 @@ const  App:FC = ()=> {
 
 
  useEffect (() => { 
-   console.log('update')
   const blocks = document.querySelectorAll('.block') 
   blocks.forEach((element, index)=>{
     if(index === state.length) return
@@ -108,7 +101,6 @@ const  App:FC = ()=> {
  }
 
   function destribution(e:React.MouseEvent<HTMLDivElement>){
-    console.log('destribution')
     let target = e.target as HTMLDivElement
     
     setFlag(true)
@@ -123,27 +115,20 @@ const  App:FC = ()=> {
     }
 
     if(target.className === 'actions'){
-      console.log('yep')
-      console.log(state)
       setFlagUpdateAction(true)
       actionHandler(e, target)
     }
     else{
       blockHandler(e, target)
     }
-    if(target.parentElement?.tagName){
-      console.log(target.parentElement?.tagName)
-    }
+    
     if(target.className === 'closeIcon' || target.parentElement?.tagName === 'SPAN' ){
-      // 3 -action
-      // 5 - block
-
       const idA = target.parentElement?.parentElement?.parentElement?.getAttribute('data-id')
       const idB = target.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.getAttribute('data-id')
       deleteAction(state,idA,idB)
       setFlag(false)
     }
-    if(target.textContent === 'add') {console.log('f');setFlag(false); return false}
+    if(target.textContent === 'add') {setFlag(false); return false}
     return false
   }
 

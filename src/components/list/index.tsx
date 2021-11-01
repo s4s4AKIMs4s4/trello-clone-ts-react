@@ -1,9 +1,7 @@
-import React, { FC, useRef, useState,useEffect, HtmlHTMLAttributes } from 'react'
-import {Istate,children} from '../data/board'
-import {useTypedSelector} from '../hooks/typedSelector'
-import {UseActions} from '../hooks/useActionsHook'
-import { Modal, Button } from 'antd';
-import { Input } from 'antd';
+import React, { FC, useRef, useState,useEffect } from 'react'
+import {Istate,children} from '../../data/board'
+import {useTypedSelector} from '../../hooks/typedSelector'
+import {UseActions} from '../../hooks/useActionsHook'
 import { ChangeModal } from './Modals/changeModal';
 import { AddActionModal } from './Modals/addBlockModal';
 import { CloseOutlined } from '@ant-design/icons'
@@ -19,7 +17,6 @@ interface IListDiv{
 const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
 
   const [header,setHeader] = useState<string>('add block')
-  const [isInput,showInput] = useState<boolean>(false)    
   
   const {UpdateHeader,UpdateActionHeader} = UseActions()
   const EventState  = useTypedSelector( state => state.event )
@@ -29,12 +26,7 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
   const [isModalVisibleChange, setIsModalVisibleChange] = useState(false);
   const [isModalVisibleAddAction, setIsModalVisibleAddAction] = useState(false);
   const [isModalVisibleAddBlock, setIsModalVisibleAddBlock,] = useState(false);
-
-  const [hederChange,setGeaderChange] = useState<string>('null')
-
   useEffect(() => {
-    console.log(idAction)
-    console.log(idBlock)
     if(inputRef.current)
     {
       console.log(inputRef)
@@ -43,9 +35,7 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
     }
   }, [EventState])
   
-
-  
-  function mapping(val:Istate , index: number){
+  function mappingBlockWithAction(val:Istate , index: number){
 
     if(val.header ==='white space')
     return (
@@ -59,12 +49,9 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
                     ? <div  className = "block__header"  data-id = {index}> {val.header} </div>
                     : <input type = 'text' ref = {inputRef}  data-id = {val.id} onChange = {handleInput}/>
                   }
-                 
                   <div className = "block__element">
                     {val.childrens.map((val:children,index:any) => 
-                    
-                      insertAdd(val)
-
+                      insertAction(val)
                     )}
                   </div>
         </div>)
@@ -91,14 +78,10 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
     setIsModalVisibleAddBlock(value)
   }
   const showModalBlock = () => {
-    console.log('modla block')
     setIsModalVisibleAddBlock(true)
   }
 
-
-  
-
-  function insertAdd(val:children){
+  function insertAction(val:children){
 
     if(val.text !== 'add')
       if(val.text === 'white space')
@@ -115,7 +98,6 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
     return <div className = "actions" key = {val.index} onClick = {(e) =>{setAddModalState(true)} }>
                         {val.text }
                       </div>                  
-
   }
 
 
@@ -125,16 +107,11 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
         <div className='container' >
           {
             state.map((val, index) =>
-            (mapping(val, index))
+            (mappingBlockWithAction(val, index))
           )}
-          
-            <div className="blocklast" key={1001} onClick = {showModalBlock}>
-            
-           
-                 <strong> {header} </strong>
-               
-            
-            </div>
+          <div className="blocklast" key={1001} onClick = {showModalBlock}>
+            <strong> {header} </strong>
+          </div>
           
         </div>
 
@@ -159,11 +136,7 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
           idBlock = {idBlock}
           state = {state}
         />
-
       </div>
-
-
-        
     )
 }
 

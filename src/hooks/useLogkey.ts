@@ -1,4 +1,4 @@
-import { Children, useState } from 'react'
+import {useState } from 'react'
 import {IclientMouse, Istate} from '../data/board'
 import { children } from '../store/reducers/block/types'
 import {deleteWhitespace} from '../tools/cleanOut'
@@ -36,9 +36,7 @@ export function useLogKey({
 
     const constructNewSateWithWhiteSpace = (e:React.MouseEvent) => {
       const newState = [] as Istate[]
-      state.forEach((val) => {
-        console.log(val.header)
-      })
+      
       state.forEach((val, index) =>{
         if(state[index].target === 1){
           newState.push(state[index])
@@ -126,13 +124,13 @@ export function useLogKey({
 
             for (let it = 0; it < prevChildren.length; it++){
                 if(it === 0 && prevChildren[it].y + 7  >= e.clientY ){
-                  console.log('push white')
+                  
                   newClildren.push(whiteSpaceObj)
                   newClildren.push(prevChildren[it])
                   continue;
                 }
                 if(it === prevChildren.length - 1 ){
-                  console.log('must')
+                  
                     newClildren.push(prevChildren[it])
                     continue
                 }
@@ -142,7 +140,7 @@ export function useLogKey({
               }   
               if(  (prevChildren[it+1].y >= e.clientY && prevChildren[it].y <= e.clientY)  ){
                 flag = true
-                console.log('p')
+                
                 
                 newClildren.push(prevChildren[it])
                 newClildren.push(whiteSpaceObj)
@@ -165,15 +163,10 @@ export function useLogKey({
       const calc  = Number(clientMouse.clientX) - left
       targetDivElemnt.style.left = `${calc}px`
       targetDivElemnt.style.top =`${clientMouse.clientY}px`
-
       UpdateBlockAction(newActionWithWhiteSpace(e))
-
-    
     }
     
   return (e:React.MouseEvent) => {
-      // console.log('state inside hook')
-      // console.log(state)
       const obj = {
         clientX:e.clientX.toString(),
         clientY:e.clientY.toString()
@@ -189,9 +182,6 @@ export function useLogKey({
             setTimeout(() => {
               moveAction(e)
             }, 5);
-            // deleteWhitespace(state)
-           
-
           }
         }
 

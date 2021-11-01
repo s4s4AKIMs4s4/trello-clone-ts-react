@@ -3,8 +3,13 @@ $blockWidth: 280px;
 $ActionWidth: 260px;
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-.block{
+%commonBlock{
   position: relative;
+  font-family: 'Roboto', sans-serif;
+}
+
+.block{
+  @extend %commonBlock; 
   text-align: center;
   width:$blockWidth;
 
@@ -14,25 +19,23 @@ $ActionWidth: 260px;
 }
 
 .block__header{
-  position: relative;
-  font-family: 'Roboto', sans-serif;
+  @extend %commonBlock;
   font-weight: 600;
   font-size: 1rem;
 }
 
 .blocklast{
-  position: relative;
+  @extend %commonBlock;
   text-align: center;
   width: $blockWidth;
   height: 25px;
   background-color:  $blockColor;
   border-radius: 5px;
-  font-family: 'Roboto', sans-serif;
 }
 
 
 .block.hidden{
-  position: relative;
+  @extend %commonBlock;
   text-align: center;
   width: $blockWidth;
   height: 100px;
@@ -41,7 +44,7 @@ $ActionWidth: 260px;
   color:white
 }
 .actions{
-  font-family: 'Roboto', sans-serif;
+  @extend %commonBlock;
   font-weight: 0;
   margin: 0 7px 0 7px;
   width: $ActionWidth;

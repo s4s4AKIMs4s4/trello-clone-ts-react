@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './components/Mediator';
 import {Provider} from "react-redux";
 import {store} from "./store";
-import './Antd.css'
+import './styles/Antd.css'
 
   ReactDOM.render(
     <Provider store={store}>
