@@ -89,10 +89,15 @@ export function useLogKey({
 
     
     const moveBlock = (e:React.MouseEvent) => {
-      const Xposition = Number(clientMouse.clientX) - basis
+      let xBasis = 0
+      if(state[0].left < 0 ){
+        xBasis = -state[0].left
+      }
+      const Xposition = xBasis + Number(e.clientX) - basis
+      console.log(Xposition)
       targetDiv.style.position = 'absolute'
       targetDiv.style.left = `${Xposition}px`
-      targetDiv.style.top =`${clientMouse.clientY}px`
+      targetDiv.style.top =`${e.clientY}px`
     
       const newState = constructNewSateWithWhiteSpace(e)
       UpdateBlockAction(newState)
@@ -108,7 +113,7 @@ export function useLogKey({
     
       let newClildren:children[] = [] 
       for(let i = 0; i < state.length-1; i++ ){
-        if( (state[i].left < e.clientX && state[i+1].left > e.clientX ) || (state[state.length-1].left <= e.clientX && i === state.length - 2 )){
+        if( (state[i].left < e.screenX && state[i+1].left > e.screenX ) || (state[state.length-1].left <= e.screenX && i === state.length - 2 )){
 
           if(state[state.length-1].left <= e.clientX && i === state.length - 2 ) {           
             i++

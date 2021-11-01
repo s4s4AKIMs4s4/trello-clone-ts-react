@@ -104,7 +104,7 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
     return (
   
       <div>
-        <div className='container' >
+        <div className='container'  >
           {
             state.map((val, index) =>
             (mappingBlockWithAction(val, index))

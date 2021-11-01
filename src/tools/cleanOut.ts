@@ -24,10 +24,7 @@ interface props {
 }
 
 export function deleteWhitespace(state:Istate[]){
-  console.log('old state')
-  state[3].childrens.forEach((val) => {
-    console.log(val)
-  })
+  
   
   for(let i = 0 ; i < state.length;i++){
     for(let it = 0 ; it < state[i].childrens.length;it++){
@@ -36,10 +33,7 @@ export function deleteWhitespace(state:Istate[]){
       }
     }
   }
-  console.log('new state')
-  state[3].childrens.forEach((val) => {
-    console.log(val)
-  })
+  
 }
 
 
