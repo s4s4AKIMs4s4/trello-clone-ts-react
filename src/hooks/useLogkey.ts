@@ -1,3 +1,4 @@
+import { Console } from 'console'
 import {useState } from 'react'
 import {IclientMouse, Istate} from '../data/board'
 import { children } from '../store/reducers/block/types'
@@ -94,7 +95,9 @@ export function useLogKey({
         xBasis = -state[0].left
       }
       const Xposition = xBasis + Number(e.clientX) - basis
-      console.log(Xposition)
+      console.log('Xposition');
+      console.log(Xposition);
+      
       targetDiv.style.position = 'absolute'
       targetDiv.style.left = `${Xposition}px`
       targetDiv.style.top =`${e.clientY}px`
@@ -103,7 +106,7 @@ export function useLogKey({
       UpdateBlockAction(newState)
     }
 
-    const newActionWithWhiteSpace = (e:React.MouseEvent) => {
+    const newActionWithWhiteSpace = (e:React.MouseEvent, left: number) => {
       const whiteSpaceObj = {
         index: Date.now(),
         text:'white space',
@@ -112,10 +115,35 @@ export function useLogKey({
       }
     
       let newClildren:children[] = [] 
+      let xBasis = 0
+      if(state[0].left < 0 ){
+        xBasis = -state[0].left
+      }
+    
+    // console.log('-2')
+    // console.log(state[state.length - 2].left)
+    // console.log('clx')
+    // console.log(e.clientX)
+    let difSpace = Math.abs(state[1].left - state[0].left)
+      let stateSizeble:Array<number> = []
+      let sum = 0
+      for(let i = 0;i< state.length;i++){
+        stateSizeble[i] = sum
+        sum += difSpace
+        console.log('stateSizeble ',i)
+        console.log(stateSizeble[i])
+      }
+      if(xBasis === 0){
+        difSpace = 0
+      }
+      
+      const cl = xBasis + e.clientX
+      console.log('clientX')
+      console.log(cl)
       for(let i = 0; i < state.length-1; i++ ){
-        if( (state[i].left < e.screenX && state[i+1].left > e.screenX ) || (state[state.length-1].left <= e.screenX && i === state.length - 2 )){
+        if( (stateSizeble[i]   < cl && stateSizeble[i+1] > cl || (stateSizeble[stateSizeble.length-1] <= e.screenX && i === state.length - 2 )) ){
 
-          if(state[state.length-1].left <= e.clientX && i === state.length - 2 ) {           
+          if(stateSizeble[stateSizeble.length-1] <= cl && i === stateSizeble.length - 2 ) {           
             i++
           }
           if(state[i].id !== currentInterseptionBlcok)
@@ -168,7 +196,7 @@ export function useLogKey({
       const calc  = Number(clientMouse.clientX) - left
       targetDivElemnt.style.left = `${calc}px`
       targetDivElemnt.style.top =`${clientMouse.clientY}px`
-      UpdateBlockAction(newActionWithWhiteSpace(e))
+      UpdateBlockAction(newActionWithWhiteSpace(e,left), )
     }
     
   return (e:React.MouseEvent) => {

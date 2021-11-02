@@ -43,6 +43,15 @@ const  App:FC = ()=> {
       state: state,
       targetDivElemnt:targetDivElemnt,
     })
+    const blocks = document.querySelectorAll('.block') 
+    blocks.forEach((element, index)=>{
+    if(index === state.length) return
+    const block = element as HTMLDivElement
+    const num = block.getBoundingClientRect().x
+    if(state[index].target !== 1)
+      state[index].left = num 
+  })
+  UpdateBlockAction(state)
 
   },[updateActions])
 
