@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/Mediator';
+import Login from './components/Login';
 import {Provider} from "react-redux";
 import {store} from "./store";
 import './styles/Antd.css'
+import AuthPage from './components/authPage';
 
   ReactDOM.render(
     <Provider store={store}>
-            <App />
+            <AuthPage/>
     </Provider>,
 document.getElementById('root')
 );

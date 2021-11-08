@@ -2,7 +2,7 @@ import { bindActionCreators } from "redux";
 import {IState, actionType, BlockActionEnum} from './types'
 
 
-const initialState: IState[] = [
+export const initialState: IState[] = [
     {
       id:1,
       header:'hello',

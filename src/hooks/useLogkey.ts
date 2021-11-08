@@ -120,26 +120,23 @@ export function useLogKey({
         xBasis = -state[0].left
       }
     
-    // console.log('-2')
-    // console.log(state[state.length - 2].left)
-    // console.log('clx')
-    // console.log(e.clientX)
+  
     let difSpace = Math.abs(state[1].left - state[0].left)
       let stateSizeble:Array<number> = []
       let sum = 0
       for(let i = 0;i< state.length;i++){
         stateSizeble[i] = sum
         sum += difSpace
-        console.log('stateSizeble ',i)
-        console.log(stateSizeble[i])
+        // console.log('stateSizeble ',i)
+        // console.log(stateSizeble[i])
       }
       if(xBasis === 0){
         difSpace = 0
       }
       
       const cl = xBasis + e.clientX
-      console.log('clientX')
-      console.log(cl)
+      // console.log('clientX')
+      // console.log(cl)
       for(let i = 0; i < state.length-1; i++ ){
         if( (stateSizeble[i]   < cl && stateSizeble[i+1] > cl || (stateSizeble[stateSizeble.length-1] <= e.screenX && i === state.length - 2 )) ){
 

@@ -6,16 +6,32 @@ import {MemoListDiv} from './list/index'
 import {cleanOut, deleteWhitespace} from '../tools/cleanOut'
 import {useLogKey} from '../hooks/useLogkey'
 import {updateActionSize} from '../tools/updateActions' 
-import {IclientMouse,children} from '../data/board'
+import {IclientMouse,children, Istate} from '../data/board'
 import "../styles/App.scss"
+import {initialState} from '../store/reducers/block/index'
+import {AxiosResponse } from 'axios'
+import axios from 'axios'
+import firebase from '../utils/firebase'
+import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+import Login from './Login';
+import Logout from './Logout';
+import { IState } from '../store/reducers/block/types';
 
+export interface IfirebaseUser{
+  [id:string]:{
+    email:Array<string>,
+    initialState: IState[]
+  }
+  
 
-
+}
+export type firebase = Array<IfirebaseUser>
 
 
 const  App:FC = ()=> {
   const {UpdateBlockAction,updateEventAction, SetFalse, deleteAction} = UseActions()
   const state  = useTypedSelector( state => state.block )
+  const auth  = useTypedSelector( state => state.googleAuth )
   const client = useRef<HTMLDivElement>(null)
   const [flag,setFlag] = useState<boolean>(false)
   const [updateActions, setApdateActions] = useState<boolean>(false)
@@ -32,9 +48,64 @@ const  App:FC = ()=> {
   const [idAction,setIdAction] = useState<string | null>(null)
   const [idBlcok,setIdBlcok] = useState<string | null> (null)
   const [basis , setBasis] = useState<number>(0)
-
+  const [fireKey,setfireKey] = useState<string>('')
   const [flagUpdateAction,setFlagUpdateAction] = useState<boolean>(false)
+  
+  function getUser(users: IfirebaseUser, user:string):[val:string,val1:Istate[]] | undefined{
+    console.log(user)
+    for(let [key, val] of Object.entries(users)){
+      console.log(key)
+      console.log(val.email[0])
 
+      if(val.email[0] === user)
+        console.log('here')
+        return [key, val.initialState]
+    }
+    
+    
+  }
+  useEffect(() => {
+    async function fetch(){
+      const url = 'https://quize-e13b8-default-rtdb.europe-west1.firebasedatabase.app'
+      const trello = 'trello'
+      const email = 'akimovivan388@gmail.com'
+      const db = getFirestore(firebase);
+     // console.log(db)
+      const firebaseInit = {
+        email:[email],
+        initialState
+      }
+      //const p = {header:'title'}
+      let key:string = ''
+      try{
+       //console.log(JSON.stringify(firebaseInit))
+       const users =  await axios.get('https://trello-b4421-default-rtdb.europe-west1.firebasedatabase.app/notes.json')
+       let userDate = getUser(users.data, auth.userEmail)
+       console.log(userDate)
+       if(userDate){
+        const [key, stateFirebas] = userDate
+        console.log('key')
+        console.log(stateFirebas)
+        UpdateBlockAction(stateFirebas as Istate[])
+        setfireKey(key)
+        console.log('I am here')
+       }
+       else{
+       //  key = await axios.post('https://trello-b4421-default-rtdb.europe-west1.firebasedatabase.app/notes.json', JSON.stringify(firebaseInit))
+       }
+    //   console.log(users.data, auth.userEmail)
+       //const id = await axios.patch('https://trello-b4421-default-rtdb.europe-west1.firebasedatabase.app/notes/-MnpgMsmvXpch7VoO9yz.json',JSON.stringify(firebaseInit))
+       // const id = await axios.put('https://trello-b4421-default-rtdb.europe-west1.firebasedatabase.app/notes/-MnpgMsmvXpch7VoO9yz.json',JSON.stringify(firebaseInit))
+      //  console.log(auth.userEmail)
+        // const id = await axios.post('https://trello-b4421-default-rtdb.europe-west1.firebasedatabase.app/notes.json', JSON.stringify(firebaseInit))
+      }
+      catch(err:any){
+        console.log(err.message)
+      }
+     
+    }
+    console.log(fetch())
+  },[])
   useEffect(() => {
     deleteWhitespace(state)
     updateActionSize({
@@ -52,7 +123,15 @@ const  App:FC = ()=> {
       state[index].left = num 
   })
   UpdateBlockAction(state)
-
+  console.log(fireKey)
+  if(fireKey !== ''){
+    const firebaseInit = {
+      email:[auth.userEmail],
+      initialState:state
+    }
+    axios.patch(`https://trello-b4421-default-rtdb.europe-west1.firebasedatabase.app/notes/${fireKey}.json`,JSON.stringify(firebaseInit)).then(()=>{console.log('Ok')})
+    
+  }
   },[updateActions])
 
 
@@ -67,6 +146,14 @@ const  App:FC = ()=> {
       state[index].left = num 
   })
   UpdateBlockAction(state)
+  console.log(fireKey)
+  if(fireKey !== ''){
+    const firebaseInit = {
+      email:[auth.userEmail],
+      initialState:state
+    }
+    axios.patch(`https://trello-b4421-default-rtdb.europe-west1.firebasedatabase.app/notes/${fireKey}.json`,JSON.stringify(firebaseInit)).then(()=>{console.log('Ok')})
+  }
  }, [state])
   
  const blockHeaderHandler = (e:React.MouseEvent<HTMLDivElement>, target:HTMLDivElement) => {
@@ -144,6 +231,8 @@ const  App:FC = ()=> {
 
   return (
     <>
+    {/* <Login/>
+    <Logout/> */}
     <div className = 'container'>
     <div className = 'root'  onMouseMove = {useLogKey
       (
