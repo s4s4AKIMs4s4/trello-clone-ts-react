@@ -27,7 +27,7 @@ $ActionWidth: 260px;
 .blocklast{
   @extend %commonBlock;
   text-align: center;
-  width: $blockWidth;
+  width: calc($blockWidth + 20px);
   height: 25px;
   background-color:  $blockColor;
   border-radius: 5px;

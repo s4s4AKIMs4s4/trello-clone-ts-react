@@ -1,4 +1,6 @@
+import axios from 'axios'
 import {Istate, children, IclientMouse} from '../data/board'
+import { useTypedSelector } from './typedSelector'
 import {IState as ISateEvent} from '../store/reducers/event/types'
 
 interface props {
@@ -20,12 +22,11 @@ interface props {
     SetFalse:Function,
     idAction: string | null,
     idBlock: string | null,
-    flag: boolean
+    flag: boolean,
+    fireKey: string
 }
 
 export function deleteWhitespace(state:Istate[]){
-  
-  
   for(let i = 0 ; i < state.length;i++){
     for(let it = 0 ; it < state[i].childrens.length;it++){
       if(state[i].childrens[it].text === 'white space'){
@@ -37,7 +38,7 @@ export function deleteWhitespace(state:Istate[]){
 }
 
 
-export function cleanOut({
+export function CleanOut({
     targetDivElemnt,
     isBlockMoved,
     setFlag,
@@ -48,18 +49,17 @@ export function cleanOut({
     clientMouse,
     setApdateActions,
     UpdateBlockAction,
-    isSelectInput,
     lastClientMouse,
     updateEventAction,
     dataIdEvent,
     SetFalse,
     eventState,
-    idAction,
-    idBlock,
-    flag
+    flag,
+    fireKey,
 } : props )
 
 {
+  const auth  = useTypedSelector( state => state.googleAuth )
 
   function isDeltaMouse(){
     const currentX = Number(clientMouse.clientX)
@@ -180,7 +180,6 @@ export function cleanOut({
       deleteWhitespace(state)
   }
   return () => {
-    console.log('clean out')
       if( isDeltaMouse()  )
       { 
         
@@ -207,6 +206,13 @@ export function cleanOut({
       setApdateActions(false)
       setFlag(false)
       setIsBlockMoved(false)
+    }
+    if(fireKey !== ''){
+      const firebaseInit = {
+        email:[auth.userEmail],
+        initialState:state
+      }
+      axios.patch(`https://trello-b4421-default-rtdb.europe-west1.firebasedatabase.app/notes/${fireKey}.json`,JSON.stringify(firebaseInit)).then(()=>{console.log('Ok')})
     }
 
   }

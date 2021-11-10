@@ -1,6 +1,6 @@
 import { useTypedSelector } from "../hooks/typedSelector";
-import Login from "./Login";
-import App from "./Mediator";
+import Login from "../components/Login";
+import App from "../components/Mediator";
 
 function AuthPage() {
     const auth  = useTypedSelector( state => state.googleAuth )
@@ -9,8 +9,7 @@ function AuthPage() {
             (auth.userEmail !== '')
                 ? <App/>
                 : <Login/>   
-        }
-       
+        }   
     </div>
 }
 

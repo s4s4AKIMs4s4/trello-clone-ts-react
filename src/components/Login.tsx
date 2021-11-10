@@ -13,13 +13,14 @@ function Login() {
         refreshTokenSetup(res)
         SetUserEmail(res.profileObj.email)
         console.log(auth.userEmail)
+        localStorage.setItem('userEmail',auth.userEmail)
     }
     const onFailure = (res:any) => {
         console.log('fail')
     }
 
     return (
-        <div>
+        <div className = "loginWrapper">
             <GoogleLogin
                 clientId = {clientId}
                 buttonText = "Login"
@@ -28,6 +29,7 @@ function Login() {
                 cookiePolicy = {'single_host_origin'}
                 style = {{marginTop:'100px'}}
                 isSignedIn = {true}
+                className ='loginButtom'
             />
         </div>
 

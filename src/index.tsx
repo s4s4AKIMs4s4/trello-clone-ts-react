@@ -5,7 +5,7 @@ import Login from './components/Login';
 import {Provider} from "react-redux";
 import {store} from "./store";
 import './styles/Antd.css'
-import AuthPage from './components/authPage';
+import AuthPage from './pages/authPage';
 
   ReactDOM.render(
     <Provider store={store}>

@@ -2,7 +2,7 @@ import { Console } from 'console'
 import {useState } from 'react'
 import {IclientMouse, Istate} from '../data/board'
 import { children } from '../store/reducers/block/types'
-import {deleteWhitespace} from '../tools/cleanOut'
+import {deleteWhitespace} from './UseCleanOut'
 
 interface props {
     flag:boolean,

@@ -40,4 +40,18 @@
   background: violet;
   overflow: hidden;
 }
+.loginWrapper{
+  position: relative;
+  margin-left:auto;
+  margin-right: auto;
+  height: 100vh;
+  text-align: center;
+}
+
+.loginButtom{
+  position: inherit;
+  top:50%;
+  width: 150px;
+}
+
 
