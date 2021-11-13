@@ -6,6 +6,7 @@ import { ChangeModal } from './Modals/changeModal';
 import { AddActionModal } from './Modals/addBlockModal';
 import { CloseOutlined } from '@ant-design/icons'
 import {AddBlockModal} from './Modals/addBlock'
+import { Button } from 'antd';
 
 interface IListDiv{
   destribution:(e:React.MouseEvent<HTMLDivElement>)=>void,
@@ -116,7 +117,7 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
             (mappingBlockWithAction(val, index))
           )}
           <div className="blocklast" key={1001} onClick = {showModalBlock}>
-            <button> Add block </button>
+            <Button className = "addBlockButton"> Add block </Button>
           </div>
           
         </div>
