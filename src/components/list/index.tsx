@@ -6,7 +6,6 @@ import { ChangeModal } from './Modals/changeModal';
 import { AddActionModal } from './Modals/addBlockModal';
 import { CloseOutlined } from '@ant-design/icons'
 import {AddBlockModal} from './Modals/addBlock'
-import { Button } from 'antd';
 
 interface IListDiv{
   destribution:(e:React.MouseEvent<HTMLDivElement>)=>void,
@@ -83,7 +82,10 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
   }
 
   function insertAction(val:children){
-
+    const style = {
+      backgroundColor:'transparent',
+      boxShadow:  '0 0 0' ,
+    }
     if(val.text !== 'add')
       if(val.text === 'white space')
         return <div className = "actions hiddenAction" key = {val.index} onClick = {showModalChange} data-id = {val.index}>
@@ -96,8 +98,11 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
                             <span className = 'closeIcon'> <CloseOutlined  data-id = "SVG" onClick = {() => {console.log('f');alert('а вот и я неждали!')}}/> </span> 
                 </div>
     else
-    return <div className = "actions actionLast" key = {val.index} onClick = {(e) =>{setAddModalState(true)} }>
+    return <div className = "actions" style = {style} key = {val.index} onClick = {(e) =>{setAddModalState(true)} }>
                         {val.text }
+                        <span className= 'deleteBlock'>
+                          delete
+                        </span>
                       </div>                  
   }
 
@@ -110,9 +115,9 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
             state.map((val, index) =>
             (mappingBlockWithAction(val, index))
           )}
-         
-          <Button onClick = {showModalBlock}>Add blcok</Button>
-          
+          <div className="blocklast" key={1001} onClick = {showModalBlock}>
+            <button> Add block </button>
+          </div>
           
         </div>
 

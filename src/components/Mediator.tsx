@@ -14,7 +14,7 @@ import {IfirebaseUser} from '../data/fireBase'
 
 
 const  App:FC = ()=> {
-  const {UpdateBlockAction,updateEventAction, SetFalse, deleteAction} = UseActions()
+  const {UpdateBlockAction,updateEventAction, SetFalse, deleteAction,deleteBlcok} = UseActions()
   const state  = useTypedSelector( state => state.block )
   const auth  = useTypedSelector( state => state.googleAuth )
   const client = useRef<HTMLDivElement>(null)
@@ -151,6 +151,12 @@ const  App:FC = ()=> {
   function destribution(e:React.MouseEvent<HTMLDivElement>){
     let target = e.target as HTMLDivElement
     
+    if(target.className === 'deleteBlock'){
+      
+      //setIdBlcok
+      console.log((target.parentNode?.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
+      deleteBlcok(state,(target.parentNode?.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
+    }
     setFlag(true)
     const initPosition = target.getBoundingClientRect().x
     const basis = Number(clientMouse.clientX) - initPosition
@@ -166,6 +172,10 @@ const  App:FC = ()=> {
       setFlagUpdateAction(true)
       actionHandler(e, target)
     }
+
+    // if(target.className === 'deleteBlock'){
+    //   console.log('aboba')
+    // }
     else{
       blockHandler(e, target)
     }

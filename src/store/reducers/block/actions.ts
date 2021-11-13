@@ -39,6 +39,7 @@ export const BlockActionCreators = {
             
         }
     },
+   
     AddAction: (state:Istate[],idBlock: string | null, description: string) =>
         (dispatch: AppDispatch) =>
         {
@@ -91,7 +92,17 @@ export const BlockActionCreators = {
                 type:BlockActionEnum.ADD_BlOCK,
                 payload:state,
             }
-    }
+    },
+    deleteBlcok:(state:Istate[], idBlock: string | null) => 
+        (dispatch:AppDispatch) =>{
+        for(let i = 0 ; i< state.length ;i++){
+            if(state[i].id === Number(idBlock))
+                state.splice(i,1)
+        }
+        dispatch(BlockActionCreators.UpdateBlockAction(state))
+        return
+        }
+    
    
 
 }

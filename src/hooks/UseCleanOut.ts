@@ -179,15 +179,7 @@ export function CleanOut({
       setApdateActions(false)
       deleteWhitespace(state)
   }
-  function deleteWhiteBlock(){
-    for(let i = 0 ; i < state.length;i++){
-        if(state[i].header === 'white space'){
-          state.splice(i,1)
-        }    
-    }
-  }
   return () => {
-   // deleteWhiteBlock()
       if( isDeltaMouse()  )
       { 
         
@@ -215,7 +207,6 @@ export function CleanOut({
       setFlag(false)
       setIsBlockMoved(false)
     }
-    deleteWhiteBlock()
     if(fireKey !== ''){
       const firebaseInit = {
         email:[auth.userEmail],
