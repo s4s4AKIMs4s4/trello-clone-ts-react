@@ -5,7 +5,7 @@ import {IState, actionType, BlockActionEnum} from './types'
 export const initialState: IState[] = [
     {
       id:1,
-      header:'hello',
+      header:'One block',
       left:1,
       target:null,
       childrens:[{x:1,y:1,text:'1',index:1},{x:1,y:2,text:'12',index:2},{x:1,y:1000,text:'add',index:100000}],
@@ -13,7 +13,7 @@ export const initialState: IState[] = [
     },
     {
       id:2,
-      header:'word',
+      header:'Two block',
       left:2,
       target:null,
       childrens:[{x:1,y:1,text:'2',index:3},{x:1,y:10000,text:'add',index:100000}],
@@ -21,7 +21,7 @@ export const initialState: IState[] = [
     },
     {
       id:3,
-      header:'bbbbb',
+      header:'Three block',
       left:3,
       target:null,
       childrens:[{x:1,y:1,text:'3',index:4},{x:1,y:10000,text:'add',index:100000}],
@@ -29,20 +29,13 @@ export const initialState: IState[] = [
     },
     {
       id:4,
-      header:'ffffffffff',
+      header:'four block',
       left:4,
       target:null,
-      childrens:[{x:1,y:1,text:'4',index:5},{x:1,y:10000,text:'add',index:100000}],
+      childrens:[{x:1,y:1,text:'4',index:4},{x:1,y:10000,text:'add',index:100000}],
       length:2
     },
-    {
-      id:5,
-      header:'sssssssssssssssssssssss',
-      left:4,
-      target:null,
-      childrens:[{x:1,y:1,text:'5',index:6},{x:1,y:10000,text:'add',index:100000}],
-      length:2
-    },
+
   ]
 
 

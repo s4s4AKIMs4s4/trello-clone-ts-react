@@ -1,7 +1,7 @@
 import { Console } from 'console'
 import {useState } from 'react'
 import {IclientMouse, Istate} from '../data/board'
-import { children } from '../store/reducers/block/types'
+import { children, IState } from '../store/reducers/block/types'
 import {deleteWhitespace} from './UseCleanOut'
 
 interface props {
@@ -34,6 +34,28 @@ export function useLogKey({
   setFlagUpdateAction}: props) 
   {
     const [currentInterseptionBlcok, SetCurrentInterseptionBlcok] = useState<number | null>(null)
+
+
+    const deleteTwoWihiteSpace = (newState: IState[]) => {
+      let isTwoWhite = false
+      console.log('New State')
+      newState.forEach((val) =>{
+        console.log(val)
+      })
+      
+      for(let i = 0 ; i < newState.length;i++){
+        if(newState[i].header === 'white space' && isTwoWhite === false){
+          isTwoWhite = true
+          continue
+        } 
+        console.log(isTwoWhite)   
+        if(newState[i].header === 'white space' && isTwoWhite === true){
+          console.log('delete')
+          newState.splice(i,1)
+        }  
+      }
+      return newState
+    }
 
     const constructNewSateWithWhiteSpace = (e:React.MouseEvent) => {
       const newState = [] as Istate[]
@@ -85,7 +107,7 @@ export function useLogKey({
         newState.push(val)
     
       })
-      return newState
+      return deleteTwoWihiteSpace(newState)
     }
 
     

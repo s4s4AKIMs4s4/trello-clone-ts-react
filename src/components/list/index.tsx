@@ -6,6 +6,7 @@ import { ChangeModal } from './Modals/changeModal';
 import { AddActionModal } from './Modals/addBlockModal';
 import { CloseOutlined } from '@ant-design/icons'
 import {AddBlockModal} from './Modals/addBlock'
+import { Button } from 'antd';
 
 interface IListDiv{
   destribution:(e:React.MouseEvent<HTMLDivElement>)=>void,
@@ -95,7 +96,7 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
                             <span className = 'closeIcon'> <CloseOutlined  data-id = "SVG" onClick = {() => {console.log('f');alert('а вот и я неждали!')}}/> </span> 
                 </div>
     else
-    return <div className = "actions" key = {val.index} onClick = {(e) =>{setAddModalState(true)} }>
+    return <div className = "actions actionLast" key = {val.index} onClick = {(e) =>{setAddModalState(true)} }>
                         {val.text }
                       </div>                  
   }
@@ -109,9 +110,9 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
             state.map((val, index) =>
             (mappingBlockWithAction(val, index))
           )}
-          <div className="blocklast" key={1001} onClick = {showModalBlock}>
-            <strong> {header} </strong>
-          </div>
+         
+          <Button onClick = {showModalBlock}>Add blcok</Button>
+          
           
         </div>
 

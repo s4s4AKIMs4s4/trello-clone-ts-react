@@ -26,18 +26,16 @@ $ActionWidth: 260px;
 
 .blocklast{
   @extend %commonBlock;
-  text-align: center;
-  width: calc($blockWidth + 20px);
-  height: 25px;
   background-color:  $blockColor;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 
 .block.hidden{
   @extend %commonBlock;
   text-align: center;
-  width: $blockWidth;
+  width: 150px;
   height: 100px;
   background: white;
   z-index: -1;
@@ -56,6 +54,7 @@ $ActionWidth: 260px;
   border-radius: 3px;
   font-size: 1rem;
   z-index: 3;
+  overflow: hidden;
 }
 .add{
   color:red;
@@ -73,4 +72,14 @@ $ActionWidth: 260px;
 }
 .hiddenAction{
   visibility: hidden;
+}
+.actionLast{
+  background-color:transparent;
+  box-shadow:  0 0 0;
+}
+
+.actionLast:hover{
+  background-color: rgb(255, 255, 255);
+  box-shadow:  0 1px 0 #091e4240;
+  border-radius: 3px;
 }
