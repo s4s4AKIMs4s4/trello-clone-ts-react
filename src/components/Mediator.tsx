@@ -158,6 +158,15 @@ const  App:FC = ()=> {
       deleteBlcok(state,(target.parentNode?.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
     }
     setFlag(true)
+    if(target.getAttribute('data-id') === 'sckip'){
+      console.log('hello')
+      setIdBlcok((target.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
+      //actionHandler(e, target)
+      setFlag(false);
+      setIsBlockMoved(false)
+      setApdateActions(false)
+      return false
+    }
     const initPosition = target.getBoundingClientRect().x
     const basis = Number(clientMouse.clientX) - initPosition
     setBasis(basis)
@@ -179,8 +188,9 @@ const  App:FC = ()=> {
     else{
       blockHandler(e, target)
     }
-    
-    if(target.className === 'closeIcon' || target.parentElement?.tagName === 'SPAN' ){
+    console.log(target.className )
+    if(target.className === 'closeIcon' || target.parentElement?.tagName === 'SPAN' || target.parentElement?.tagName === 'svg' ){
+      console.log('f')
       const idA = target.parentElement?.parentElement?.parentElement?.getAttribute('data-id')
       const idB = target.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.getAttribute('data-id')
       deleteAction(state,idA,idB)
@@ -202,6 +212,7 @@ const  App:FC = ()=> {
           clientMouse: clientMouse,
           flag: flag,
           isBlockMoved: isBlockMoved,
+          ApdateActions: updateActions,
           left: left,
           setClientMouse: setClientMouse,
           state: state,

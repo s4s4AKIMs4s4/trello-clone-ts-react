@@ -2,7 +2,6 @@ import axios from 'axios'
 import {Istate, children, IclientMouse} from '../data/board'
 import { useTypedSelector } from './typedSelector'
 import {IState as ISateEvent} from '../store/reducers/event/types'
-
 interface props {
     targetDivElemnt: HTMLDivElement,
     isBlockMoved: boolean, 
@@ -26,7 +25,7 @@ interface props {
     fireKey: string
 }
 
-export function deleteWhitespace(state:Istate[]){
+export function   deleteWhitespace(state:Istate[]){
   for(let i = 0 ; i < state.length;i++){
     for(let it = 0 ; it < state[i].childrens.length;it++){
       if(state[i].childrens[it].text === 'white space'){
@@ -191,6 +190,9 @@ export function CleanOut({
           return
         if(updateActions){
           getFinalActionPositions()
+          setTimeout(() =>{
+            deleteWhitespace(state)
+          })
         } 
         setFlag(false)
     }

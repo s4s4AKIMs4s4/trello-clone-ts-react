@@ -16,7 +16,8 @@ interface props {
     left: number
     basis: number
     idBlock: string | null
-    setFlagUpdateAction:Function
+    setFlagUpdateAction:Function,
+    ApdateActions: boolean
 }
 
 export function useLogKey({
@@ -31,7 +32,8 @@ export function useLogKey({
   left,
   basis,
   idBlock,
-  setFlagUpdateAction}: props) 
+  setFlagUpdateAction,
+  ApdateActions}: props) 
   {
     const [currentInterseptionBlcok, SetCurrentInterseptionBlcok] = useState<number | null>(null)
 
@@ -229,11 +231,11 @@ export function useLogKey({
           if(isBlockMoved){
             moveBlock(e)
           }
-          else{
-
+          if(ApdateActions){
+              console.log('all')
             setTimeout(() => {
               moveAction(e)
-            }, 5);
+            });
           }
         }
 

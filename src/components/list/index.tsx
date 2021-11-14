@@ -99,7 +99,7 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
                             <span className = 'closeIcon'> <CloseOutlined  data-id = "SVG" onClick = {() => {console.log('f');alert('а вот и я неждали!')}}/> </span> 
                 </div>
     else
-    return <div className = "actions" style = {style} key = {val.index} onClick = {(e) =>{setAddModalState(true)} }>
+    return <div className = "actions" data-id = "sckip"style = {style} key = {val.index} onClick = {(e) =>{setAddModalState(true)} }>
                         {val.text }
                         <span className= 'deleteBlock'>
                           delete
