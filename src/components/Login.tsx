@@ -10,10 +10,16 @@ function Login() {
     const auth  = useTypedSelector( state => state.googleAuth )
 
     const onSuccess = (res: any) =>{
-        refreshTokenSetup(res)
+        try{
+        refreshTokenSetup(res,auth.userEmail)
+        console.log(auth.userEmail)
         SetUserEmail(res.profileObj.email)
         console.log(auth.userEmail)
         localStorage.setItem('userEmail',auth.userEmail)
+        }
+        catch(e:any){
+            localStorage.removeItem('userEmail')
+        }
     }
     const onFailure = (res:any) => {
         console.log('fail')
@@ -23,7 +29,7 @@ function Login() {
         <div className = "loginWrapper">
             <GoogleLogin
                 clientId = {clientId}
-                buttonText = "Login"
+                buttonText = "Login with Google"
                 onSuccess = {onSuccess}
                 onFailure = {onFailure}
                 cookiePolicy = {'single_host_origin'}

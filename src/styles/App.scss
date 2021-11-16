@@ -7,7 +7,39 @@
   position: absolute;
   height: 100vh;
   width: 100vw;
+  
 }
+.containerAuthPage::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);  
+  z-index: 1;
+}
+
+.containerAuthPage{
+  backdrop-filter: blur(9px);
+  position: relative;
+  backdrop-filter: grayscale(30%);
+  height: 100vh;
+  width: 100vw;
+  background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1537x1920/de342fdc09a1fdc41b9b740ca299f923/photo-1584611488576-dec3ac160327.jpg");
+  //background-color:rgba(0,0,0,.9);
+  background-position: 50%;
+  overflow: hidden;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  column-gap: 400px;
+  
+
+}
+
+
 
 .container{
   position: absolute;
@@ -40,18 +72,13 @@
   background: violet;
   overflow: hidden;
 }
-.loginWrapper{
-  position: relative;
-  margin-left:auto;
-  margin-right: auto;
-  height: 100vh;
-  text-align: center;
-}
+
 
 .loginButtom{
   position: inherit;
-  top:50%;
-  width: 150px;
+  
+  font-weight: 700;
+  width: 250px;
 }
 
 

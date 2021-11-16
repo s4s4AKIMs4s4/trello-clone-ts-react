@@ -98,3 +98,46 @@ $ActionWidth: 260px;
 .addBlockButton{
   border-radius: 4px;
 }
+.container{
+  width: 100vw;
+  height: 100vh;
+}
+.typing-demo {
+  width: 27ch;
+  animation: typing 2.8s steps(27), blink .5s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid;
+  font-family: monospace;
+  font-size: 5em;
+  color: white;
+  font-weight: 800;
+  z-index: 5;
+}
+.loginWrapper{
+  margin-top: 10px;
+  z-index: 5;
+  font-size: 2rem;
+}
+.loginButtom + span{
+
+  z-index: 5;
+  font-size: 2rem;
+  font-weight: 700;
+}
+span{
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+@keyframes typing {
+  from {
+    width: 0
+  }
+}
+    
+@keyframes blink {
+  50% {
+    border-color: transparent
+  }
+}
