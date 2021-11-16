@@ -5,17 +5,21 @@ import { refreshTokenSetup } from '../utils/refreshToken'
 
 
 const clientId = '1063570108565-7ss78t1ivsudrkk6vnqhlr3c13g9tfnk.apps.googleusercontent.com'
-function Login() {
+interface props{
+    type: boolean
+}
+function Login({type}:props) {
     const {SetUserEmail} = UseActions()
     const auth  = useTypedSelector( state => state.googleAuth )
 
     const onSuccess = (res: any) =>{
         try{
-        refreshTokenSetup(res,auth.userEmail)
+        refreshTokenSetup(res, res.profileObj.email)
         console.log(auth.userEmail)
         SetUserEmail(res.profileObj.email)
         console.log(auth.userEmail)
-        localStorage.setItem('userEmail',auth.userEmail)
+        localStorage.setItem('userEmail',res.profileObj.email)
+        console.log(localStorage.getItem('userEmail'))
         }
         catch(e:any){
             localStorage.removeItem('userEmail')
@@ -26,7 +30,7 @@ function Login() {
     }
 
     return (
-        <div className = "loginWrapper">
+        <div className = { (type)? `loginWrapper` : 'loginHidden'}>
             <GoogleLogin
                 clientId = {clientId}
                 buttonText = "Login with Google"

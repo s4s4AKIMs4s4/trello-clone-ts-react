@@ -113,11 +113,15 @@ $ActionWidth: 260px;
   color: white;
   font-weight: 800;
   z-index: 5;
+  
 }
 .loginWrapper{
   margin-top: 10px;
   z-index: 5;
   font-size: 2rem;
+}
+.loginHidden{
+  visibility: hidden;
 }
 .loginButtom + span{
 
