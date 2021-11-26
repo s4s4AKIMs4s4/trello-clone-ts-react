@@ -1,4 +1,3 @@
-import { Console } from 'console'
 import {useState } from 'react'
 import {IclientMouse, Istate} from '../data/board'
 import { children, IState } from '../store/reducers/block/types'
@@ -13,7 +12,7 @@ interface props {
     state: Istate[]
     UpdateBlockAction:Function
     targetDivElemnt: HTMLDivElement
-    left: number
+    actionLeft: number
     basis: number
     idBlock: string | null
     ApdateActions: boolean
@@ -28,7 +27,7 @@ export function useLogKey({
   state,
   targetDiv,
   targetDivElemnt,
-  left,
+  actionLeft,
   basis,
   idBlock,
   ApdateActions}: props) 
@@ -206,10 +205,10 @@ export function useLogKey({
     
     const moveAction = (e:React.MouseEvent) => {
       targetDivElemnt.style.position = 'absolute'
-      const calc  = Number(clientMouse.clientX) - left
+      const calc  = Number(clientMouse.clientX) - actionLeft
       targetDivElemnt.style.left = `${calc}px`
       targetDivElemnt.style.top =`${clientMouse.clientY}px`
-      UpdateBlockAction(newActionWithWhiteSpace(e,left), )
+      UpdateBlockAction(newActionWithWhiteSpace(e,actionLeft), )
     }
     
   return (e:React.MouseEvent) => {

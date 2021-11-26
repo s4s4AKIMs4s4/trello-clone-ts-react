@@ -1,4 +1,4 @@
-import React, {useEffect,useRef, useState, FC} from 'react';
+import React, {useEffect, useState, FC} from 'react';
 import '../styles/card.scss'
 import { useTypedSelector } from '../hooks/typedSelector';
 import { UseActions } from '../hooks/useActionsHook';
@@ -13,25 +13,34 @@ import FireBase from '../abstractions/http/FirebaseApi';
 
 
 const  App:FC = ()=> {
-  const {UpdateBlockAction,updateEventAction, SetFalse, deleteAction,deleteBlcok} = UseActions()
-  const state  = useTypedSelector( state => state.block )
-  const auth  = useTypedSelector( state => state.googleAuth )
   const [isMove,setIsMove] = useState<boolean>(false)
-  const [updateActions, setApdateActions] = useState<boolean>(false)
-  const [targetDiv,setTargetDiv] = useState<HTMLDivElement>({} as HTMLDivElement)
-  const [clientMouse,setClientMouse] = useState<IclientMouse>({clientX:'1',clientY:'1'})
   const [isBlockMoved,setIsBlockMoved] = useState<boolean>(false)
-  const [targetDivElemnt,setTargetDivElement] = useState<HTMLDivElement>({} as HTMLDivElement)
-  const [left,setLeft] = useState<number>(0)
-  const [currentAction,setCurrentUction] = useState<children>({} as children)
   const [isSelectInput,setSelectInput] = useState<boolean>(false)
+  const [updateActions, setApdateActions] = useState<boolean>(false)
+  //mouse position
+  const [clientMouse,setClientMouse] = useState<IclientMouse>({clientX:'1',clientY:'1'})
   const [lastClientMouse,setLastClientMouse] = useState<IclientMouse>({} as IclientMouse)
-  const eventState  = useTypedSelector( state => state.event )
-  const [dataIdEvent,setDataIdEvent] = useState<number>(0)
+  //information for current Action and Block
   const [idAction,setIdAction] = useState<string | null>(null)
   const [idBlcok,setIdBlcok] = useState<string | null> (null)
+  //Action and Block itself
+  const [targetDiv,setTargetDiv] = useState<HTMLDivElement>({} as HTMLDivElement)
+  const [targetDivElemnt,setTargetDivElement] = useState<HTMLDivElement>({} as HTMLDivElement)
+  const [currentAction,setCurrentUction] = useState<children>({} as children)
+  const [actionLeft,setActionLeft] = useState<number>(0)
   const [basis , setBasis] = useState<number>(0)
-  const [fireKey,setfireKey] = useState<string>('')
+  //states for data Input in block ([0,length of Blocks])
+  const eventState  = useTypedSelector( state => state.event )
+  const [dataIdEvent,setDataIdEvent] = useState<number>(0)
+  //id current user 
+  const [userId,setUserId] = useState<string>('')
+  //main state of App (set of Blocks and Actions)
+  const state  = useTypedSelector( state => state.block )
+  //google auth
+  const auth  = useTypedSelector( state => state.googleAuth )
+  //manipulate bloks and action
+  const {UpdateBlockAction,updateEventAction, SetFalse, deleteAction,deleteBlcok} = UseActions()
+  //flag to indicate moving block or action
   
   function getUser(users: IfirebaseUser, user:string):[val:string,val1:Istate[]] | undefined{
     for(let [key, val] of Object.entries(users)){
@@ -45,14 +54,15 @@ const  App:FC = ()=> {
       try{
        const users = await FireBase.getUsers()
        let userDate = getUser(users.data, auth.userEmail)
+
        if(userDate){
         const [key, stateFirebas] = userDate
         UpdateBlockAction(stateFirebas)
-        setfireKey(key)
+        setUserId(key)
        }
        else{
         const firebaseResponse: any = await FireBase.initNewUser(auth)      
-        setfireKey(firebaseResponse.data.name)
+        setUserId(firebaseResponse.data.name)
        }
       }
       catch(err:any){
@@ -117,7 +127,7 @@ const  App:FC = ()=> {
   setApdateActions(true)
   setIsBlockMoved(false)
   setTargetDivElement(target)
-  setLeft(target.getBoundingClientRect().x)
+  setActionLeft(target.getBoundingClientRect().x)
  }
 
  const blockHandler = (e:React.MouseEvent<HTMLDivElement>, target:HTMLDivElement) => {
@@ -182,7 +192,7 @@ const  App:FC = ()=> {
           isMove: isMove,
           isBlockMoved: isBlockMoved,
           ApdateActions: updateActions,
-          left: left,
+          actionLeft: actionLeft,
           setClientMouse: setClientMouse,
           state: state,
           targetDiv: targetDiv,
@@ -213,7 +223,7 @@ const  App:FC = ()=> {
           idAction:idAction,
           idBlock:idBlcok,
           isMove:isMove,
-          fireKey:fireKey
+          userId:userId
         }
       )
     }>

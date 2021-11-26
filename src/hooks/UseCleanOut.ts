@@ -1,8 +1,8 @@
-import axios from 'axios'
 import {Istate, children, IclientMouse} from '../data/board'
 import { useTypedSelector } from './typedSelector'
 import {IState as ISateEvent} from '../store/reducers/event/types'
 import FireBase from '../abstractions/http/FirebaseApi'
+
 interface props {
     targetDivElemnt: HTMLDivElement,
     isBlockMoved: boolean, 
@@ -23,7 +23,7 @@ interface props {
     idAction: string | null,
     idBlock: string | null,
     isMove: boolean,
-    fireKey: string
+    userId: string
 }
 
 export function   deleteWhitespace(state:Istate[]){
@@ -55,7 +55,7 @@ export function CleanOut({
     SetFalse,
     eventState,
     isMove,
-    fireKey,
+    userId,
 } : props )
 
 {
@@ -210,12 +210,12 @@ export function CleanOut({
       setIsMove(false)
       setIsBlockMoved(false)
     }
-    if(fireKey !== ''){
+    if(userId !== ''){
       const firebaseInit = {
         email:[auth.userEmail],
         initialState:state
       }
-      FireBase.sendData(auth,state,fireKey).then(() => console.log('ok') )
+      FireBase.sendData(auth,state,userId).then(() => console.log('ok') )
     }
 
   }
