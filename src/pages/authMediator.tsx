@@ -3,9 +3,6 @@ import App from "../components/Mediator";
 import AuthPage from "./authPage";
 function AuthPagMediator() {
     const auth  = useTypedSelector( state => state.googleAuth )
-    function f(){
-        return localStorage.getItem('userEmail')
-    }
     return <div>
                 { 
                 (auth.userEmail)
