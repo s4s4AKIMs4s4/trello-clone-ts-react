@@ -4,7 +4,6 @@ import { IState } from "../../store/reducers/block/types"
 import {Istate as GoogleState} from '../../store/reducers/googleAuth/types'
 
 class FireBase{
-    //https://trello-b4421-default-rtdb.europe-west1.firebasedatabase.app/notes.json
     static firebaseApi = process.env.REACT_APP_TRELLO_PROJECT_ID as string
     static getUsers(){
         return axios.get(FireBase.firebaseApi+'/notes.json')   

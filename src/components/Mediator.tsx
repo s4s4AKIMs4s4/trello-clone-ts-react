@@ -8,8 +8,6 @@ import {useLogKey} from '../hooks/useLogkey'
 import {updateActionSize} from '../tools/updateActions' 
 import {IclientMouse,children, Istate} from '../data/board'
 import "../styles/App.scss"
-import {initialState} from '../store/reducers/block/index'
-import axios from 'axios'
 import {IfirebaseUser} from '../data/fireBase'
 import FireBase from '../abstractions/http/FirebaseApi';
 
@@ -43,12 +41,9 @@ const  App:FC = ()=> {
         return [key, val.initialState]
       }
     }
-    
-    
   }
   useEffect(() => {
     async function fetch(){
-
       try{
        const users = await FireBase.getUsers()
        let userDate = getUser(users.data, auth.userEmail)
@@ -69,15 +64,7 @@ const  App:FC = ()=> {
     fetch()
   },[])
 
-
-  useEffect(() => {
-    deleteWhitespace(state)
-    updateActionSize({
-      UpdateBlockAction: UpdateBlockAction,
-      setCurrentUction: setCurrentUction,
-      state: state,
-      targetDivElemnt:targetDivElemnt,
-    })
+  function resizeBlocks(){
     const blocks = document.querySelectorAll('.block') 
     blocks.forEach((element, index)=>{
     if(index === state.length) return
@@ -87,21 +74,24 @@ const  App:FC = ()=> {
       state[index].left = num 
   })
   UpdateBlockAction(state)
+  }
+
+
+  useEffect(() => {
+    deleteWhitespace(state)
+    updateActionSize({
+      UpdateBlockAction: UpdateBlockAction,
+      setCurrentUction: setCurrentUction,
+      state: state,
+      targetDivElemnt:targetDivElemnt,
+    })
+    resizeBlocks()
 
   },[updateActions])
 
 
-
  useEffect (() => { 
-  const blocks = document.querySelectorAll('.block') 
-  blocks.forEach((element, index)=>{
-    if(index === state.length) return
-    const block = element as HTMLDivElement
-    const num = block.getBoundingClientRect().x
-    if(state[index].target !== 1)
-      state[index].left = num 
-  })
-  UpdateBlockAction(state)
+  resizeBlocks()
  }, [state])
   
  const blockHeaderHandler = (e:React.MouseEvent<HTMLDivElement>, target:HTMLDivElement) => {
@@ -149,7 +139,6 @@ const  App:FC = ()=> {
     
     if(target.className === 'deleteBlock'){
       
-      console.log((target.parentNode?.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
       deleteBlcok(state,(target.parentNode?.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
     }
     setFlag(true)
@@ -181,7 +170,6 @@ const  App:FC = ()=> {
     }
     console.log(target.className )
     if(target.className === 'closeIcon' || target.parentElement?.tagName === 'SPAN' || target.parentElement?.tagName === 'svg' ){
-      console.log('f')
       const idA = target.parentElement?.parentElement?.parentElement?.getAttribute('data-id')
       const idB = target.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.getAttribute('data-id')
       deleteAction(state,idA,idB)
