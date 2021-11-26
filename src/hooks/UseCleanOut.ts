@@ -6,7 +6,7 @@ import FireBase from '../abstractions/http/FirebaseApi'
 interface props {
     targetDivElemnt: HTMLDivElement,
     isBlockMoved: boolean, 
-    setFlag: (val:boolean) => void,
+    setIsMove: (val:boolean) => void,
     setIsBlockMoved: (val:boolean) => void,
     state: Istate[],
     updateActions :boolean,
@@ -22,7 +22,7 @@ interface props {
     SetFalse:Function,
     idAction: string | null,
     idBlock: string | null,
-    flag: boolean,
+    isMove: boolean,
     fireKey: string
 }
 
@@ -41,7 +41,7 @@ export function   deleteWhitespace(state:Istate[]){
 export function CleanOut({
     targetDivElemnt,
     isBlockMoved,
-    setFlag,
+    setIsMove,
     setIsBlockMoved,
     state,
     updateActions,
@@ -54,7 +54,7 @@ export function CleanOut({
     dataIdEvent,
     SetFalse,
     eventState,
-    flag,
+    isMove,
     fireKey,
 } : props )
 
@@ -83,7 +83,7 @@ export function CleanOut({
     {
       SetFalse(eventState)
       if(isBlockMoved){
-        setFlag(false)
+        setIsMove(false)
         setIsBlockMoved(false)
         const blocks = document.querySelectorAll('.block') 
         let select = -1
@@ -187,7 +187,7 @@ export function CleanOut({
         if(isBlockMoved){
           GetFinalBlockPosition()
         }
-        if(!flag)
+        if(!isMove)
           return
         if(updateActions){
           getFinalActionPositions()
@@ -195,7 +195,7 @@ export function CleanOut({
             deleteWhitespace(state)
           })
         } 
-        setFlag(false)
+        setIsMove(false)
     }
     else{
       
@@ -204,10 +204,10 @@ export function CleanOut({
       zeroingNullTarget()
       UpdateBlockAction(state)
       updateEventAction(dataIdEvent,true)
-      setFlag(false)
+      setIsMove(false)
       setIsBlockMoved(false)}
       setApdateActions(false)
-      setFlag(false)
+      setIsMove(false)
       setIsBlockMoved(false)
     }
     if(fireKey !== ''){

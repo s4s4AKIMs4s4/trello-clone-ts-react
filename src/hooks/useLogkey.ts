@@ -5,7 +5,7 @@ import { children, IState } from '../store/reducers/block/types'
 import {deleteWhitespace} from './UseCleanOut'
 
 interface props {
-    flag:boolean,
+    isMove:boolean,
     clientMouse: IclientMouse
     setClientMouse: (state: IclientMouse) => void,
     isBlockMoved: boolean,
@@ -16,12 +16,11 @@ interface props {
     left: number
     basis: number
     idBlock: string | null
-    setFlagUpdateAction:Function,
     ApdateActions: boolean
 }
 
 export function useLogKey({
-  flag,
+  isMove,
   setClientMouse,
   clientMouse,
   isBlockMoved,
@@ -32,7 +31,6 @@ export function useLogKey({
   left,
   basis,
   idBlock,
-  setFlagUpdateAction,
   ApdateActions}: props) 
   {
     const [currentInterseptionBlcok, SetCurrentInterseptionBlcok] = useState<number | null>(null)
@@ -40,7 +38,6 @@ export function useLogKey({
 
     const deleteTwoWihiteSpace = (newState: IState[]) => {
       let isTwoWhite = false
-      console.log('New State')
       newState.forEach((val) =>{
         console.log(val)
       })
@@ -52,7 +49,6 @@ export function useLogKey({
         } 
         console.log(isTwoWhite)   
         if(newState[i].header === 'white space' && isTwoWhite === true){
-          console.log('delete')
           newState.splice(i,1)
         }  
       }
@@ -119,8 +115,7 @@ export function useLogKey({
         xBasis = -state[0].left
       }
       const Xposition = xBasis + Number(e.clientX) - basis
-      console.log('Xposition');
-      console.log(Xposition);
+
       
       targetDiv.style.position = 'absolute'
       targetDiv.style.left = `${Xposition}px`
@@ -151,16 +146,13 @@ export function useLogKey({
       for(let i = 0;i< state.length;i++){
         stateSizeble[i] = sum
         sum += difSpace
-        // console.log('stateSizeble ',i)
-        // console.log(stateSizeble[i])
       }
       if(xBasis === 0){
         difSpace = 0
       }
       
       const cl = xBasis + e.clientX
-      // console.log('clientX')
-      // console.log(cl)
+
       for(let i = 0; i < state.length-1; i++ ){
         if( (stateSizeble[i]   < cl && stateSizeble[i+1] > cl || (stateSizeble[stateSizeble.length-1] <= e.screenX && i === state.length - 2 )) ){
 
@@ -174,7 +166,7 @@ export function useLogKey({
           }
             deleteWhitespace(state)
             const prevChildren = state[i].childrens
-            let flag = false
+            let isMove = false
 
             for (let it = 0; it < prevChildren.length; it++){
                 if(it === 0 && prevChildren[it].y + 7  >= e.clientY ){
@@ -189,11 +181,11 @@ export function useLogKey({
                     continue
                 }
               if(prevChildren[it].text === 'white space'){
-                flag = true
+                isMove = true
                 continue
               }   
               if(  (prevChildren[it+1].y >= e.clientY && prevChildren[it].y <= e.clientY)  ){
-                flag = true
+                isMove = true
                 
                 
                 newClildren.push(prevChildren[it])
@@ -226,13 +218,12 @@ export function useLogKey({
         clientY:e.clientY.toString()
       }
       setClientMouse(obj)
-      if(flag)
+      if(isMove)
         {
           if(isBlockMoved){
             moveBlock(e)
           }
           if(ApdateActions){
-              console.log('all')
             setTimeout(() => {
               moveAction(e)
             });

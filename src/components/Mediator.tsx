@@ -16,8 +16,7 @@ const  App:FC = ()=> {
   const {UpdateBlockAction,updateEventAction, SetFalse, deleteAction,deleteBlcok} = UseActions()
   const state  = useTypedSelector( state => state.block )
   const auth  = useTypedSelector( state => state.googleAuth )
-  const client = useRef<HTMLDivElement>(null)
-  const [flag,setFlag] = useState<boolean>(false)
+  const [isMove,setIsMove] = useState<boolean>(false)
   const [updateActions, setApdateActions] = useState<boolean>(false)
   const [targetDiv,setTargetDiv] = useState<HTMLDivElement>({} as HTMLDivElement)
   const [clientMouse,setClientMouse] = useState<IclientMouse>({clientX:'1',clientY:'1'})
@@ -33,7 +32,6 @@ const  App:FC = ()=> {
   const [idBlcok,setIdBlcok] = useState<string | null> (null)
   const [basis , setBasis] = useState<number>(0)
   const [fireKey,setfireKey] = useState<string>('')
-  const [flagUpdateAction,setFlagUpdateAction] = useState<boolean>(false)
   
   function getUser(users: IfirebaseUser, user:string):[val:string,val1:Istate[]] | undefined{
     for(let [key, val] of Object.entries(users)){
@@ -138,48 +136,40 @@ const  App:FC = ()=> {
     let target = e.target as HTMLDivElement
     
     if(target.className === 'deleteBlock'){
-      
       deleteBlcok(state,(target.parentNode?.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
     }
-    setFlag(true)
+    setIsMove(true)
     if(target.getAttribute('data-id') === 'sckip'){
       setIdBlcok((target.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
-      setFlag(false);
+      setIsMove(false);
       setIsBlockMoved(false)
       setApdateActions(false)
       return false
     }
     const initPosition = target.getBoundingClientRect().x
-    const basis = Number(clientMouse.clientX) - initPosition
+    const basis = Number(e.clientX) - initPosition
     setBasis(basis)
-    if(target.className === 'text'){
+    if(target.className === 'text')
       target = target.parentElement as HTMLDivElement
-    }
-    if(target.className === 'block__header'){
+    
+    if(target.className === 'block__header')
       target = blockHeaderHandler(e, target)
-    }
-
-    if(target.className === 'actions'){
-      setFlagUpdateAction(true)
+    
+    if(target.className === 'actions')
       actionHandler(e, target)
-    }
 
-  
-    else{
+    else
       blockHandler(e, target)
-    }
-    console.log(target.className )
+
     if(target.className === 'closeIcon' || target.parentElement?.tagName === 'SPAN' || target.parentElement?.tagName === 'svg' ){
       const idA = target.parentElement?.parentElement?.parentElement?.getAttribute('data-id')
       const idB = target.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.getAttribute('data-id')
       deleteAction(state,idA,idB)
-      setFlag(false)
+      setIsMove(false)
     }
-    if(target.textContent === 'add') {setFlag(false); return false}
+    if(target.textContent === 'add') {setIsMove(false); return false}
     return false
   }
-
-
   return (
     <>
 
@@ -189,7 +179,7 @@ const  App:FC = ()=> {
         {
           UpdateBlockAction: UpdateBlockAction,
           clientMouse: clientMouse,
-          flag: flag,
+          isMove: isMove,
           isBlockMoved: isBlockMoved,
           ApdateActions: updateActions,
           left: left,
@@ -199,7 +189,6 @@ const  App:FC = ()=> {
           targetDivElemnt:targetDivElemnt,
           basis:basis,
           idBlock:idBlcok,
-          setFlagUpdateAction:setFlagUpdateAction,
         }
       )
     } onMouseUp = {
@@ -207,7 +196,7 @@ const  App:FC = ()=> {
         {
           targetDivElemnt: targetDivElemnt,
           isBlockMoved: isBlockMoved,
-          setFlag: (boolValue) => setFlag(boolValue),
+          setIsMove: (boolValue) => setIsMove(boolValue),
           setIsBlockMoved: (boolValue) => setIsBlockMoved(boolValue),
           state: state,
           updateActions: updateActions,
@@ -223,13 +212,13 @@ const  App:FC = ()=> {
           eventState:eventState,
           idAction:idAction,
           idBlock:idBlcok,
-          flag:flag,
+          isMove:isMove,
           fireKey:fireKey
         }
       )
     }>
       <MemoListDiv  destribution = {destribution} idAction = {idAction} idBlock = {idBlcok}/>
-      <div className='Mouse Input' ref = {client} ></div>
+      
     </div>
     </div>
     </>
