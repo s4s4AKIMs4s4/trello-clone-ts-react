@@ -4,8 +4,6 @@ import { UseActions } from '../hooks/useActionsHook'
 import { refreshTokenSetup } from '../utils/refreshToken'
 
 
-//const clientId = '1063570108565-7ss78t1ivsudrkk6vnqhlr3c13g9tfnk.apps.googleusercontent.com'
-
 interface props{
     type: boolean
 }

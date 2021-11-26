@@ -14,7 +14,6 @@ interface props {
     targetDivElemnt: HTMLDivElement
     actionLeft: number
     basis: number
-    idBlock: string | null
     ApdateActions: boolean
 }
 
@@ -29,32 +28,26 @@ export function useLogKey({
   targetDivElemnt,
   actionLeft,
   basis,
-  idBlock,
   ApdateActions}: props) 
   {
     const [currentInterseptionBlcok, SetCurrentInterseptionBlcok] = useState<number | null>(null)
 
-
+    //mutation
     const deleteTwoWihiteSpace = (newState: IState[]) => {
       let isTwoWhite = false
-      newState.forEach((val) =>{
-        console.log(val)
-      })
-      
+
       for(let i = 0 ; i < newState.length;i++){
         if(newState[i].header === 'white space' && isTwoWhite === false){
           isTwoWhite = true
           continue
         } 
-        console.log(isTwoWhite)   
         if(newState[i].header === 'white space' && isTwoWhite === true){
           newState.splice(i,1)
         }  
       }
-      return newState
     }
 
-    const constructNewSateWithWhiteSpace = (e:React.MouseEvent) => {
+    const constructNewBlocksWithWhiteSpace = (e:React.MouseEvent) => {
       const newState = [] as Istate[]
       
       state.forEach((val, index) =>{
@@ -104,7 +97,8 @@ export function useLogKey({
         newState.push(val)
     
       })
-      return deleteTwoWihiteSpace(newState)
+      deleteTwoWihiteSpace(newState)
+      return newState
     }
 
     
@@ -113,14 +107,14 @@ export function useLogKey({
       if(state[0].left < 0 ){
         xBasis = -state[0].left
       }
+
       const Xposition = xBasis + Number(e.clientX) - basis
 
-      
       targetDiv.style.position = 'absolute'
       targetDiv.style.left = `${Xposition}px`
       targetDiv.style.top =`${e.clientY}px`
     
-      const newState = constructNewSateWithWhiteSpace(e)
+      const newState = constructNewBlocksWithWhiteSpace(e)
       UpdateBlockAction(newState)
     }
 
@@ -154,51 +148,45 @@ export function useLogKey({
 
       for(let i = 0; i < state.length-1; i++ ){
         if( (stateSizeble[i]   < cl && stateSizeble[i+1] > cl || (stateSizeble[stateSizeble.length-1] <= e.screenX && i === state.length - 2 )) ){
-
           if(stateSizeble[stateSizeble.length-1] <= cl && i === stateSizeble.length - 2 ) {           
             i++
           }
+
           if(state[i].id !== currentInterseptionBlcok)
           {
             deleteWhitespace(state)
             UpdateBlockAction(state)
           }
-            deleteWhitespace(state)
-            const prevChildren = state[i].childrens
-            let isMove = false
 
-            for (let it = 0; it < prevChildren.length; it++){
-                if(it === 0 && prevChildren[it].y + 7  >= e.clientY ){
-                  
-                  newClildren.push(whiteSpaceObj)
-                  newClildren.push(prevChildren[it])
-                  continue;
-                }
-                if(it === prevChildren.length - 1 ){
-                  
-                    newClildren.push(prevChildren[it])
-                    continue
-                }
-              if(prevChildren[it].text === 'white space'){
-                isMove = true
-                continue
-              }   
-              if(  (prevChildren[it+1].y >= e.clientY && prevChildren[it].y <= e.clientY)  ){
-                isMove = true
-                
-                
-                newClildren.push(prevChildren[it])
+          deleteWhitespace(state)
+          const prevChildren = state[i].childrens
+          let isMove = false
+
+          for (let it = 0; it < prevChildren.length; it++){
+              if(it === 0 && prevChildren[it].y + 7  >= e.clientY ){
                 newClildren.push(whiteSpaceObj)
-                
-
+                newClildren.push(prevChildren[it])
                 continue;
               }
-                newClildren.push(prevChildren[it])
+              if(it === prevChildren.length - 1 ){
+                  newClildren.push(prevChildren[it])
+                  continue
+              }
+            if(prevChildren[it].text === 'white space'){
+              isMove = true
+              continue
+            }   
+            if(  (prevChildren[it+1].y >= e.clientY && prevChildren[it].y <= e.clientY)  ){
+              isMove = true
+              newClildren.push(prevChildren[it])
+              newClildren.push(whiteSpaceObj)             
+              continue;
             }
-            SetCurrentInterseptionBlcok(state[i].id)
-            state[i].childrens = newClildren  
-
-          } 
+              newClildren.push(prevChildren[it])
+          }
+          SetCurrentInterseptionBlcok(state[i].id)
+          state[i].childrens = newClildren  
+        } 
       }
       return state
     }
@@ -208,7 +196,7 @@ export function useLogKey({
       const calc  = Number(clientMouse.clientX) - actionLeft
       targetDivElemnt.style.left = `${calc}px`
       targetDivElemnt.style.top =`${clientMouse.clientY}px`
-      UpdateBlockAction(newActionWithWhiteSpace(e,actionLeft), )
+      UpdateBlockAction(newActionWithWhiteSpace(e,actionLeft))
     }
     
   return (e:React.MouseEvent) => {

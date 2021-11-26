@@ -3,7 +3,7 @@ import '../styles/card.scss'
 import { useTypedSelector } from '../hooks/typedSelector';
 import { UseActions } from '../hooks/useActionsHook';
 import {MemoListDiv} from './list/index'
-import {CleanOut, deleteWhitespace} from '../hooks/UseCleanOut'
+import {useCleanOut, deleteWhitespace} from '../hooks/UseCleanOut'
 import {useLogKey} from '../hooks/useLogkey'
 import {updateActionSize} from '../tools/updateActions' 
 import {IclientMouse,children, Istate} from '../data/board'
@@ -33,7 +33,7 @@ const  App:FC = ()=> {
   const eventState  = useTypedSelector( state => state.event )
   const [dataIdEvent,setDataIdEvent] = useState<number>(0)
   //id current user 
-  const [userId,setUserId] = useState<string>('')
+  const [userId,setUserId] = useState<string| null>('')
   //main state of App (set of Blocks and Actions)
   const state  = useTypedSelector( state => state.block )
   //google auth
@@ -54,16 +54,18 @@ const  App:FC = ()=> {
       try{
        const users = await FireBase.getUsers()
        let userDate = getUser(users.data, auth.userEmail)
+       let idUser: string | null = null
 
        if(userDate){
         const [key, stateFirebas] = userDate
         UpdateBlockAction(stateFirebas)
-        setUserId(key)
+        idUser = key
        }
        else{
-        const firebaseResponse: any = await FireBase.initNewUser(auth)      
-        setUserId(firebaseResponse.data.name)
+        const firebaseResponse: any = await FireBase.initNewUser(auth)
+        idUser = firebaseResponse.data.name      
        }
+       setUserId(idUser)
       }
       catch(err:any){
         console.log(err.message)
@@ -75,13 +77,13 @@ const  App:FC = ()=> {
   function resizeBlocks(){
     const blocks = document.querySelectorAll('.block') 
     blocks.forEach((element, index)=>{
-    if(index === state.length) return
-    const block = element as HTMLDivElement
-    const num = block.getBoundingClientRect().x
-    if(state[index].target !== 1)
-      state[index].left = num 
-  })
-  UpdateBlockAction(state)
+      if(index === state.length) return
+      const block = element as HTMLDivElement
+      const num = block.getBoundingClientRect().x
+      if(state[index].target !== 1)
+        state[index].left = num 
+    })
+    UpdateBlockAction(state)
   }
 
 
@@ -94,7 +96,6 @@ const  App:FC = ()=> {
       targetDivElemnt:targetDivElemnt,
     })
     resizeBlocks()
-
   },[updateActions])
 
 
@@ -198,11 +199,10 @@ const  App:FC = ()=> {
           targetDiv: targetDiv,
           targetDivElemnt:targetDivElemnt,
           basis:basis,
-          idBlock:idBlcok,
         }
       )
     } onMouseUp = {
-      CleanOut(
+      useCleanOut(
         {
           targetDivElemnt: targetDivElemnt,
           isBlockMoved: isBlockMoved,

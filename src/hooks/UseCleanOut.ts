@@ -23,7 +23,7 @@ interface props {
     idAction: string | null,
     idBlock: string | null,
     isMove: boolean,
-    userId: string
+    userId: string | null
 }
 
 export function   deleteWhitespace(state:Istate[]){
@@ -38,7 +38,7 @@ export function   deleteWhitespace(state:Istate[]){
 }
 
 
-export function CleanOut({
+export function useCleanOut({
     targetDivElemnt,
     isBlockMoved,
     setIsMove,
@@ -104,12 +104,13 @@ export function CleanOut({
       }
   }
   
-  function deleteNode(state:Istate[], targetDivElemnt: HTMLDivElement){
+  function deleteOldAction(state:Istate[], targetDivElemnt: HTMLDivElement){
     if(!targetDivElemnt.children[0])
       return 
     for(let sIterator = 0; sIterator< state.length;sIterator++){
       const childrens = state[sIterator].childrens
       for(let aIterator = 0 ; aIterator < childrens.length; aIterator++){
+        //replace with comparsion by ID
         if(targetDivElemnt.children[0].textContent?.split(' ').join('') === childrens[aIterator].text?.split(' ').join('')){             
           state[sIterator].childrens.splice(aIterator,1)
           break
@@ -121,7 +122,7 @@ export function CleanOut({
  
   
   function sortY(){    
-    state.forEach((val, it)=>{
+    state.forEach((val)=>{
       val.childrens.sort(sortingAlgortimY)
     })
   }
@@ -131,10 +132,11 @@ export function CleanOut({
   }
   
   
-  function getNewAction(){
+  function putInBlockNewAction(){
     const action = currentAction
     action.x = Number(clientMouse.clientX)
     action.y = Number(clientMouse.clientY)
+
     for(let i = 0; i < state.length; i++){
       state[i].length = state[i].childrens.length
       if(i === 0){
@@ -167,12 +169,12 @@ export function CleanOut({
       val.target = null
     })
   }
-  function getFinalActionPositions()
+  function CreateNewActionPositions()
     {
   
-      deleteNode(state, targetDivElemnt)
+      deleteOldAction(state, targetDivElemnt)
       deleteWhitespace(state)
-      getNewAction()
+      putInBlockNewAction()
   
       sortY()
       UpdateBlockAction(state)        
@@ -190,7 +192,7 @@ export function CleanOut({
         if(!isMove)
           return
         if(updateActions){
-          getFinalActionPositions()
+          CreateNewActionPositions()
           setTimeout(() =>{
             deleteWhitespace(state)
           })
@@ -198,23 +200,17 @@ export function CleanOut({
         setIsMove(false)
     }
     else{
-      
-      if(!updateActions)
-      {
-      zeroingNullTarget()
-      UpdateBlockAction(state)
-      updateEventAction(dataIdEvent,true)
-      setIsMove(false)
-      setIsBlockMoved(false)}
-      setApdateActions(false)
-      setIsMove(false)
-      setIsBlockMoved(false)
+      if(!updateActions){
+        zeroingNullTarget()
+        UpdateBlockAction(state)
+        updateEventAction(dataIdEvent,true)
+        setIsMove(false)
+        setIsBlockMoved(false)}
+        setApdateActions(false)
+        setIsMove(false)
+        setIsBlockMoved(false)
     }
     if(userId !== ''){
-      const firebaseInit = {
-        email:[auth.userEmail],
-        initialState:state
-      }
       FireBase.sendData(auth,state,userId).then(() => console.log('ok') )
     }
 

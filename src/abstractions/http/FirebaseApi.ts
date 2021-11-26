@@ -17,7 +17,7 @@ class FireBase{
         return axios.post(FireBase.firebaseApi+'/notes.json', JSON.stringify(firebaseInit))
     }
 
-    static sendData(auth:GoogleState, state: IState[], fireKey: string){
+    static sendData(auth:GoogleState, state: IState[], fireKey: string | null){
         const DataToSend = {
             email:[auth.userEmail],
             initialState:state
