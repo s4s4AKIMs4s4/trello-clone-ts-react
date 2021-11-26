@@ -33,7 +33,6 @@ export const AddActionModal:FC<IChangeModal> = ({state, idAction, idBlock, isMod
     
     return (
         <>
-        <h1>ss</h1>
         <Modal title="Basic Modal" visible={isModalVisibleChange} onOk={handleOkChange} onCancel={handleCancelChange}>
             <p>idAction - {idAction} </p>
             <p>id block - {idBlock}</p>

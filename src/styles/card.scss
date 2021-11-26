@@ -16,6 +16,8 @@ $ActionWidth: 260px;
   background: $blockColor;
   cursor: pointer;
   border-radius: 5px;
+  margin-top: 10px;
+  margin-left: 3px;
 }
 
 .block__header{
@@ -26,7 +28,7 @@ $ActionWidth: 260px;
 
 .blocklast{
   @extend %commonBlock;
-  background-color:  $blockColor;
+  background-color:  transparent;
   border-radius: 5px;
   cursor: pointer;
 }
@@ -97,6 +99,7 @@ $ActionWidth: 260px;
 }
 .addBlockButton{
   border-radius: 4px;
+  top: 15px;
 }
 .container{
   width: 100vw;
@@ -123,16 +126,16 @@ $ActionWidth: 260px;
 .loginHidden{
   visibility: hidden;
 }
-.loginButtom + span{
+.loginButtom span{
 
   z-index: 5;
-  font-size: 2rem;
-  font-weight: 700;
-}
-span{
-  font-weight: 700;
   font-size: 1.1rem;
+  font-weight: 700;
 }
+// span{
+//   font-weight: 700;
+//   font-size: 1.1rem;
+// }
 
 @keyframes typing {
   from {

@@ -31,7 +31,7 @@ export const AddBlockModal:FC<IAddModal> = ({state, isModalVisibleChange, setMod
     
     return (
         <>
-        <h1>ss</h1>
+        
         <Modal title="Basic Modal" visible={isModalVisibleChange} onOk={handleOkChange} onCancel={handleCancelChange}>
             <p>add new header</p>
             <Input placeholder="description" value = {headerAdd} onChange = {handleInputChange}/>
