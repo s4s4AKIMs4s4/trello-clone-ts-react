@@ -118,7 +118,8 @@ export function useLogKey({
       UpdateBlockAction(newState)
     }
 
-    const newActionWithWhiteSpace = (e:React.MouseEvent, left: number) => {
+    //mutation
+    const newActionsWithWhiteSpace = (e:React.MouseEvent, left: number) => {
       const whiteSpaceObj = {
         index: Date.now(),
         text:'white space',
@@ -188,7 +189,6 @@ export function useLogKey({
           state[i].childrens = newClildren  
         } 
       }
-      return state
     }
     
     const moveAction = (e:React.MouseEvent) => {
@@ -196,7 +196,8 @@ export function useLogKey({
       const calc  = Number(clientMouse.clientX) - actionLeft
       targetDivElemnt.style.left = `${calc}px`
       targetDivElemnt.style.top =`${clientMouse.clientY}px`
-      UpdateBlockAction(newActionWithWhiteSpace(e,actionLeft))
+      newActionsWithWhiteSpace(e,actionLeft)
+      UpdateBlockAction(state)
     }
     
   return (e:React.MouseEvent) => {
