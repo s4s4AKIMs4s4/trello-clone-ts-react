@@ -4,7 +4,8 @@ import { UseActions } from '../hooks/useActionsHook'
 import { refreshTokenSetup } from '../utils/refreshToken'
 
 
-const clientId = '1063570108565-7ss78t1ivsudrkk6vnqhlr3c13g9tfnk.apps.googleusercontent.com'
+//const clientId = '1063570108565-7ss78t1ivsudrkk6vnqhlr3c13g9tfnk.apps.googleusercontent.com'
+
 interface props{
     type: boolean
 }
@@ -15,11 +16,8 @@ function Login({type}:props) {
     const onSuccess = (res: any) =>{
         try{
         refreshTokenSetup(res, res.profileObj.email)
-        console.log(auth.userEmail)
         SetUserEmail(res.profileObj.email)
-        console.log(auth.userEmail)
         localStorage.setItem('userEmail',res.profileObj.email)
-        console.log(localStorage.getItem('userEmail'))
         }
         catch(e:any){
             localStorage.removeItem('userEmail')
@@ -32,7 +30,7 @@ function Login({type}:props) {
     return (
         <div className = { (type)? `loginWrapper` : 'loginHidden'}>
             <GoogleLogin
-                clientId = {clientId}
+                clientId = {process.env.REACT_APP_CLIENT_ID as string}
                 buttonText = "Login with Google"
                 onSuccess = {onSuccess}
                 onFailure = {onFailure}

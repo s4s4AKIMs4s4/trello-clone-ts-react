@@ -2,6 +2,7 @@ import axios from 'axios'
 import {Istate, children, IclientMouse} from '../data/board'
 import { useTypedSelector } from './typedSelector'
 import {IState as ISateEvent} from '../store/reducers/event/types'
+import FireBase from '../abstractions/http/FirebaseApi'
 interface props {
     targetDivElemnt: HTMLDivElement,
     isBlockMoved: boolean, 
@@ -214,7 +215,7 @@ export function CleanOut({
         email:[auth.userEmail],
         initialState:state
       }
-      axios.patch(`https://trello-b4421-default-rtdb.europe-west1.firebasedatabase.app/notes/${fireKey}.json`,JSON.stringify(firebaseInit)).then(()=>{console.log('Ok')})
+      FireBase.sendData(auth,state,fireKey).then(() => console.log('ok') )
     }
 
   }

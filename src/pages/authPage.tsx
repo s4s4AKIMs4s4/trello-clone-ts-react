@@ -1,10 +1,6 @@
-import { useTypedSelector } from "../hooks/typedSelector";
 import Login from "../components/Login";
-import App from "../components/Mediator";
 
-function AuthPage() {
-    const auth  = useTypedSelector( state => state.googleAuth )
-    
+function AuthPage() {    
     return <div className ="containerAuthPage">
             {
             (localStorage.getItem('userEmail'))

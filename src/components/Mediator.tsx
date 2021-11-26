@@ -11,6 +11,7 @@ import "../styles/App.scss"
 import {initialState} from '../store/reducers/block/index'
 import axios from 'axios'
 import {IfirebaseUser} from '../data/fireBase'
+import FireBase from '../abstractions/http/FirebaseApi';
 
 
 const  App:FC = ()=> {
@@ -47,28 +48,23 @@ const  App:FC = ()=> {
   }
   useEffect(() => {
     async function fetch(){
-      const firebaseInit = {
-        email:[auth.userEmail],
-        initialState
-      }
-      let key:string = ''
+
       try{
-       const users =  await axios.get('https://trello-b4421-default-rtdb.europe-west1.firebasedatabase.app/notes.json')
+       const users = await FireBase.getUsers()
        let userDate = getUser(users.data, auth.userEmail)
        if(userDate){
         const [key, stateFirebas] = userDate
         UpdateBlockAction(stateFirebas)
         setfireKey(key)
        }
-       else{      
-        const firebaseResponse: any = await axios.post('https://trello-b4421-default-rtdb.europe-west1.firebasedatabase.app/notes.json', JSON.stringify(firebaseInit))
+       else{
+        const firebaseResponse: any = await FireBase.initNewUser(auth)      
         setfireKey(firebaseResponse.data.name)
        }
-        }
+      }
       catch(err:any){
         console.log(err.message)
       }
-     
     }
     fetch()
   },[])
@@ -153,15 +149,12 @@ const  App:FC = ()=> {
     
     if(target.className === 'deleteBlock'){
       
-      //setIdBlcok
       console.log((target.parentNode?.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
       deleteBlcok(state,(target.parentNode?.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
     }
     setFlag(true)
     if(target.getAttribute('data-id') === 'sckip'){
-      console.log('hello')
       setIdBlcok((target.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
-      //actionHandler(e, target)
       setFlag(false);
       setIsBlockMoved(false)
       setApdateActions(false)
@@ -182,9 +175,7 @@ const  App:FC = ()=> {
       actionHandler(e, target)
     }
 
-    // if(target.className === 'deleteBlock'){
-    //   console.log('aboba')
-    // }
+  
     else{
       blockHandler(e, target)
     }
