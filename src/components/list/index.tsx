@@ -30,7 +30,6 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
   useEffect(() => {
     if(inputRef.current)
     {
-      console.log(inputRef)
       inputRef!.current!.focus()
 
     }
