@@ -32,9 +32,9 @@ export const AddBlockModal:FC<IAddModal> = ({state, isModalVisibleChange, setMod
     return (
         <>
         
-        <Modal title="Basic Modal" visible={isModalVisibleChange} onOk={handleOkChange} onCancel={handleCancelChange}>
-            <p>add new header</p>
-            <Input placeholder="description" value = {headerAdd} onChange = {handleInputChange}/>
+        <Modal title="Add Block" visible={isModalVisibleChange} onOk={handleOkChange} onCancel={handleCancelChange}>
+            
+            <Input placeholder="" value = {headerAdd} onChange = {handleInputChange}/>
         </Modal>
         </>
     )

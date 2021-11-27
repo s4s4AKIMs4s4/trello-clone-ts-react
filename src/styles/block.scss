@@ -1,0 +1,53 @@
+
+$blockColor: #ebecf0;
+$blockWidth: 280px;
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+%commonBlock{
+    position: relative;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+.block{
+    @extend %commonBlock; 
+    text-align: center;
+    width:$blockWidth;
+  
+    background: $blockColor;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-left: 3px;
+  }
+  
+  .block__header{
+    @extend %commonBlock;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  
+  .blocklast{
+    @extend %commonBlock;
+    background-color:  transparent;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  
+  .block.hidden{
+    @extend %commonBlock;
+    text-align: center;
+    width: 150px;
+    height: 100px;
+    background: white;
+    z-index: -1;
+    color:white
+  }
+  
+  .deleteBlock{
+    position: absolute;
+    right:5px;
+    font-weight: 600;
+    border-radius: 4px;
+  }

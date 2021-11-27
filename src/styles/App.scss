@@ -1,47 +1,4 @@
-.root{
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  overflow-x: scroll;
-  overflow-y: hidden;
-}
-.hiddenT{
-  background-color: red;
-  visibility: hidden;
-}
-.containerAuthPage::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0,0,0,0.5);  
-  z-index: 1;
-}
-
-.containerAuthPage{
-  backdrop-filter: blur(9px);
-  position: relative;
-  backdrop-filter: grayscale(30%);
-  height: 100vh;
-  width: 100vw;
-  background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1537x1920/de342fdc09a1fdc41b9b740ca299f923/photo-1584611488576-dec3ac160327.jpg");
-  //background-color:rgba(0,0,0,.9);
-  background-position: 50%;
-  overflow: hidden;
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  column-gap: 400px;
-  
-
-}
-
-
-
-.container1{
+.MainAppContainer{
   position: absolute;
   height: 100%;
   width: 100%;
@@ -51,6 +8,13 @@
   overflow-y: visible;
 }
 
+.root{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
 
 .container{
   display: flex;
@@ -58,29 +22,6 @@
   user-select: none;
   align-items: flex-start;
   overflow: visible;
-}
-
-
-.wrapper{
-  width: 100vw;
-  height: 100vh;
-}
-.mario{
-  position:absolute;
-  top: 400px;
-  left: 300px;
-  width:50px;
-  height: 50px;
-  background: violet;
-  overflow: hidden;
-}
-
-
-.loginButtom{
-  position: inherit;
-  
-  font-weight: 700;
-  width: 250px;
 }
 
 

@@ -1,0 +1,48 @@
+$ActionWidth: 260px;
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+%commonBlock{
+    position: relative;
+    font-family: 'Roboto', sans-serif;
+  }
+.actions{
+    @extend %commonBlock;
+    font-weight: 0;
+    margin: 0 7px 0 7px;
+    width: $ActionWidth;
+    position: relative;
+    margin-bottom: 5px;
+    background-color: rgb(255, 255, 255);
+    box-shadow:  0 1px 0 #091e4240;
+    border-radius: 3px;
+    font-size: 1rem;
+    z-index: 3;
+    overflow-wrap: break-word;
+  }
+  .add{
+    color:red;
+    background-color: rgb(147, 235, 238);
+    margin-bottom: 7px;
+  }
+  .closeIcon{
+    position: absolute;
+    right: 5px;
+    visibility: hidden;
+  }
+  
+  .actions:hover .closeIcon{
+    visibility: visible;
+  }
+  .hiddenAction{
+    visibility: hidden;
+  }
+  .actionLast{
+    background-color:transparent;
+    box-shadow:  0 0 0;
+  }
+  
+  .actionLast:hover{
+    background-color: rgb(255, 255, 255);
+    box-shadow:  0 1px 0 #091e4240;
+    border-radius: 3px;
+  }

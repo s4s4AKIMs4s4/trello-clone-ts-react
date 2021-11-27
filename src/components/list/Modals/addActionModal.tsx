@@ -32,11 +32,8 @@ export const ChangeModal:FC<IChangeModal> = ({state, idAction, idBlock, isModalV
     }
     
     return (
-        <Modal title="Basic Modal" visible={isModalVisibleChange} onOk={handleOkChange} onCancel={handleCancelChange}>
-            <p>idAction - {idAction} </p>
-            <p>id block - {idBlock}</p>
-            <p>add new header</p>
-            <Input placeholder="Basic usage" value = {headerChange} onChange = {handleInputChange}/>
+        <Modal title="New Action" visible={isModalVisibleChange} onOk={handleOkChange} onCancel={handleCancelChange}>
+            <Input placeholder="" value = {headerChange} onChange = {handleInputChange}/>
         </Modal>
     )
 } 

@@ -1,5 +1,7 @@
+import '../styles/action.scss'
+import "../styles/block.scss"
+
 import React, {useEffect, useState, FC} from 'react';
-import '../styles/card.scss'
 import { useTypedSelector } from '../hooks/typedSelector';
 import { UseActions } from '../hooks/useActionsHook';
 import {MemoListDiv} from './list/index'
@@ -7,7 +9,6 @@ import {useCleanOut, deleteWhitespace} from '../hooks/UseCleanOut'
 import {useLogKey} from '../hooks/useLogkey'
 import {updateActionSize} from '../tools/updateActions' 
 import {IclientMouse,children, Istate} from '../data/board'
-import "../styles/App.scss"
 import {IfirebaseUser} from '../data/fireBase'
 import FireBase from '../abstractions/http/FirebaseApi';
 
@@ -184,7 +185,7 @@ const  App:FC = ()=> {
   return (
     <>
 
-    <div className = 'container1'>
+    <div className = 'MainAppContainer'>
     <div className = 'root'  onMouseMove = {useLogKey
       (
         {
