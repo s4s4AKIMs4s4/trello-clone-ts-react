@@ -7,7 +7,7 @@ interface IAction{
     setAddModalState:(value:boolean) => void,
     showModalChange:() => void,
 }
-//not work 
+//does not work
 export const ActionAdd:FC<IAction> = ({val,setAddModalState,showModalChange} ) => {
     return <div className = "actions" key = {val.index} onClick = {(e) =>{setAddModalState(true)} }>
     {val.text }
