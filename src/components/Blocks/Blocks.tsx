@@ -1,8 +1,7 @@
-import { FC } from "react";
+import React,{ FC } from "react";
 import {useTypedSelector} from '../../hooks/typedSelector'
 import {Istate,children} from '../../data/board'
-import { Action, ActionAdd, ActionHidden } from './actions';
-
+import { Action, ActionAdd, ActionHidden } from '../list/actions';
 interface IProps{
     val: Istate,
     index:number,

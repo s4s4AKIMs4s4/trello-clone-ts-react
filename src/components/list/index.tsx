@@ -1,13 +1,13 @@
 import React, { FC, useRef, useState,useEffect } from 'react'
-import {Istate,children} from '../../data/board'
+import {Istate} from '../../data/board'
 import {useTypedSelector} from '../../hooks/typedSelector'
 import {UseActions} from '../../hooks/useActionsHook'
 import { ChangeModal } from './Modals/changeModal';
 import { AddActionModal } from './Modals/addBlockModal';
 import {AddBlockModal} from './Modals/addBlock'
 import { Button } from 'antd';
-import { Action, ActionAdd, ActionHidden } from './actions';
-import { Block, HiddenBlcok } from './Blocks';
+import {MemoBlcok} from '../Blocks/Block';
+import {MemoHiddenBlock} from '../Blocks/HiddenBlock';
 
 interface IListDiv{
   destribution:(e:React.MouseEvent<HTMLDivElement>)=>void,
@@ -18,7 +18,7 @@ interface IListDiv{
 
 const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
   
-  const {UpdateHeader,UpdateActionHeader} = UseActions()
+  const {UpdateHeader} = UseActions()
   const EventState  = useTypedSelector( state => state.event )
   const state  = useTypedSelector( state => state.block )
   const inputRef = useRef<HTMLInputElement>(null)
@@ -26,6 +26,7 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
   const [isModalVisibleChange, setIsModalVisibleChange] = useState(false);
   const [isModalVisibleAddAction, setIsModalVisibleAddAction] = useState(false);
   const [isModalVisibleAddBlock, setIsModalVisibleAddBlock,] = useState(false);
+  
   useEffect(() => {
     if(inputRef.current)
     {
@@ -36,13 +37,13 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
   function mappingBlockWithAction(val:Istate , index: number){
 
     if(val.header ==='white space')
-      return <HiddenBlcok 
+      return <MemoHiddenBlock 
                 key={val.id}
                 destribution={destribution}
                 val={val} 
               />
     else
-      return<Block 
+      return<MemoBlcok 
               key={val.id} 
               destribution={destribution}
               handleInput={handleInput}
@@ -76,17 +77,6 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
   const showModalBlock = () => {
     setIsModalVisibleAddBlock(true)
   }
-
-  function insertAction(val:children){
-    if(val.text !== 'add')
-      if(val.text === 'white space')
-        return <ActionHidden  key ={val.index} showModalChange ={showModalChange} setAddModalState ={setAddModalState} val = {val} />
-      else  
-        return  <Action key ={val.index} showModalChange ={showModalChange} setAddModalState={setAddModalState} val={val}/>
-    else
-    return <ActionAdd key ={val.index} val ={val} setAddModalState = {setAddModalState} showModalChange = {showModalChange}/>                
-  }
-
 
     return (
   
