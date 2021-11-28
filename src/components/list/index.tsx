@@ -7,6 +7,7 @@ import { AddActionModal } from './Modals/addBlockModal';
 import { CloseOutlined } from '@ant-design/icons'
 import {AddBlockModal} from './Modals/addBlock'
 import { Button } from 'antd';
+import { Action, ActionAdd, ActionHidden } from './actions';
 
 interface IListDiv{
   destribution:(e:React.MouseEvent<HTMLDivElement>)=>void,
@@ -82,28 +83,13 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
   }
 
   function insertAction(val:children){
-    const style = {
-      backgroundColor:'transparent',
-      boxShadow:  '0 0 0' ,
-    }
     if(val.text !== 'add')
       if(val.text === 'white space')
-        return <div className = "actions hiddenAction" key = {val.index} onClick = {showModalChange} data-id = {val.index}>
-                <span className = 'text'> {val.text } </span>
-                <span className = 'closeIcon'> <CloseOutlined  data-id = "SVG" onClick = {() => {console.log('f');alert('а вот и я неждали!')}}/> </span> 
-              </div>
+        return <ActionHidden  key ={val.index} showModalChange ={showModalChange} setAddModalState ={setAddModalState} val = {val} />
       else  
-        return  <div className = "actions" key = {val.index} onClick = {showModalChange} data-id = {val.index}>
-                            <span className = 'text'> {val.text } </span>
-                            <span className = 'closeIcon'> <CloseOutlined  data-id = "SVG" onClick = {() => {console.log('f');alert('а вот и я неждали!')}}/> </span> 
-                </div>
+        return  <Action key ={val.index} showModalChange ={showModalChange} setAddModalState={setAddModalState} val={val}/>
     else
-    return <div className = "actions" data-id = "sckip"style = {style} key = {val.index} onClick = {(e) =>{setAddModalState(true)} }>
-                        {val.text }
-                        <span className= 'deleteBlock'>
-                          delete
-                        </span>
-                      </div>                  
+    return <ActionAdd key ={val.index} val ={val} setAddModalState = {setAddModalState} showModalChange = {showModalChange}/>                
   }
 
 
