@@ -4,10 +4,10 @@ import {useTypedSelector} from '../../hooks/typedSelector'
 import {UseActions} from '../../hooks/useActionsHook'
 import { ChangeModal } from './Modals/changeModal';
 import { AddActionModal } from './Modals/addBlockModal';
-import { CloseOutlined } from '@ant-design/icons'
 import {AddBlockModal} from './Modals/addBlock'
 import { Button } from 'antd';
 import { Action, ActionAdd, ActionHidden } from './actions';
+import { Block, HiddenBlcok } from './Blocks';
 
 interface IListDiv{
   destribution:(e:React.MouseEvent<HTMLDivElement>)=>void,
@@ -17,8 +17,6 @@ interface IListDiv{
 
 
 const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
-
-  const [header,setHeader] = useState<string>('add block')
   
   const {UpdateHeader,UpdateActionHeader} = UseActions()
   const EventState  = useTypedSelector( state => state.event )
@@ -32,33 +30,30 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
     if(inputRef.current)
     {
       inputRef!.current!.focus()
-
     }
   }, [EventState])
   
   function mappingBlockWithAction(val:Istate , index: number){
 
     if(val.header ==='white space')
-    return (
-      <div className="block hidden" key={val.id} onMouseDown = {destribution} > 
-        {val.header}
-      </div>)
+      return <HiddenBlcok 
+                key={val.id}
+                destribution={destribution}
+                val={val} 
+              />
     else
-      return(
-        <div className="block" key={val.id} data-id = {val.id}  onMouseDown = {destribution} >
-                  {(!EventState[index]) 
-                    ? <div  className = "block__header"  data-id = {index}> {val.header} </div>
-                    : <input type = 'text' ref = {inputRef}  data-id = {val.id} onChange = {handleInput}/>
-                  }
-                  <div className = "block__element">
-                    {val.childrens.map((val:children,index:any) => 
-                      insertAction(val)
-                    )}
-                  </div>
-        </div>)
+      return<Block 
+              key={val.id} 
+              destribution={destribution}
+              handleInput={handleInput}
+              index={index}
+              inputRef={inputRef}
+              setAddModalState={setAddModalState}
+              showModalChange={showModalChange}
+              val={val}
+           />
   }
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value)
     const target = e.target 
     UpdateHeader(target.value,Number(target.getAttribute('data-id')))
   }
