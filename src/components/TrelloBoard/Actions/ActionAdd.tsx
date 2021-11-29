@@ -1,13 +1,12 @@
 import React, { FC } from "react";
-import { children } from "../../data/board";
+import { children } from "../../../data/board";
 import { CloseOutlined } from '@ant-design/icons'
 
-interface IAction{
+interface IActionAdd{
     val:children,
     setAddModalState:(value:boolean) => void,
-    showModalChange:() => void,
 }
-const ActionAdd:FC<IAction> = ({val,setAddModalState,showModalChange} ) => {
+const ActionAdd:FC<IActionAdd> = ({val,setAddModalState} ) => {
   const style = {
     backgroundColor:'transparent',
     boxShadow:  '0 0 0' ,

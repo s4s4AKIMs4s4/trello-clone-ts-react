@@ -6,8 +6,8 @@ import { ChangeModal } from './Modals/changeModal';
 import { AddActionModal } from './Modals/addBlockModal';
 import {AddBlockModal} from './Modals/addBlock'
 import { Button } from 'antd';
-import {MemoBlcok} from '../Blocks/Block';
-import {MemoHiddenBlock} from '../Blocks/HiddenBlock';
+import {MemoBlcok} from './Blocks/Block';
+import {MemoHiddenBlock} from './Blocks/HiddenBlock';
 
 interface IListDiv{
   destribution:(e:React.MouseEvent<HTMLDivElement>)=>void,
@@ -16,7 +16,7 @@ interface IListDiv{
 }
 
 
-const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
+const TrelloBoard:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
   
   const {UpdateHeader} = UseActions()
   const EventState  = useTypedSelector( state => state.event )
@@ -117,4 +117,4 @@ const ListDiv:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
     )
 }
 
-export const MemoListDiv =  ListDiv
+export const MemoTrelloBoard =  React.memo(TrelloBoard)

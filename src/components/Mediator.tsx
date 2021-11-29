@@ -4,7 +4,7 @@ import "../styles/block.scss"
 import React, {useEffect, useState, FC} from 'react';
 import { useTypedSelector } from '../hooks/typedSelector';
 import { UseActions } from '../hooks/useActionsHook';
-import {MemoListDiv} from './list/index'
+import {MemoTrelloBoard} from './TrelloBoard/index'
 import {useCleanOut, deleteWhitespace} from '../hooks/UseCleanOut'
 import {useLogKey} from '../hooks/useLogkey'
 import {updateActionSize} from '../tools/updateActions' 
@@ -228,7 +228,7 @@ const  App:FC = ()=> {
         }
       )
     }>
-      <MemoListDiv  destribution = {destribution} idAction = {idAction} idBlock = {idBlcok}/>
+      <MemoTrelloBoard  destribution = {destribution} idAction = {idAction} idBlock = {idBlcok}/>
       
     </div>
     </div>

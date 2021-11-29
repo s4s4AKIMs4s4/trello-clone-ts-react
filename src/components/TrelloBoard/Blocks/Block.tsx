@@ -1,7 +1,6 @@
 import React,{ FC } from "react";
-import {useTypedSelector} from '../../hooks/typedSelector'
-import {Istate,children} from '../../data/board'
-//import { Action, ActionAdd } from '../list/actions'
+import {useTypedSelector} from '../../../hooks/typedSelector'
+import {Istate,children} from '../../../data/board'
 import ActionHidden from '../Actions/ActionHidden'
 import ActionAdd from '../Actions/ActionAdd'
 import Action from '../Actions/Action'
@@ -22,11 +21,11 @@ const Block:FC<IProps> = ({val, index,inputRef,destribution,handleInput,setAddMo
     function insertAction(val:children){
         if(val.text !== 'add')
           if(val.text === 'white space')
-            return <ActionHidden  key ={val.index} showModalChange ={showModalChange} setAddModalState ={setAddModalState} val = {val} />
+            return <ActionHidden  key ={val.index} showModalChange ={showModalChange} val = {val} />
           else  
-            return  <Action key ={val.index} showModalChange ={showModalChange} setAddModalState={setAddModalState} val={val}/>
+            return  <Action key ={val.index} showModalChange ={showModalChange}  val={val}/>
         else
-        return <ActionAdd key ={val.index} val ={val} setAddModalState = {setAddModalState} showModalChange = {showModalChange}/>                
+        return <ActionAdd key ={val.index} val ={val} setAddModalState = {setAddModalState} />                
       }
 
      return <div className="block" data-id = {val.id}  onMouseDown = {destribution} >

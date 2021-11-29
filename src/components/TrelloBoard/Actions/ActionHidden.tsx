@@ -1,14 +1,13 @@
 import React,{ FC } from "react";
-import { children } from "../../data/board";
+import { children } from "../../../data/board";
 import { CloseOutlined } from '@ant-design/icons'
 
-interface IAction{
+interface IActionHidden{
     val:children,
-    setAddModalState:(value:boolean) => void,
     showModalChange:() => void,
 }
 
-const ActionHidden:FC<IAction> = ({val,setAddModalState,showModalChange} ) => {
+const ActionHidden:FC<IActionHidden> = ({val,showModalChange} ) => {
     return <div className = "actions hiddenAction"  onClick = {showModalChange} data-id = {val.index}>
             <span className = 'text'> {val.text } </span>
             <span className = 'closeIcon'> <CloseOutlined  data-id = "SVG" onClick = {() => {console.log('f');alert('а вот и я неждали!')}}/> </span> 

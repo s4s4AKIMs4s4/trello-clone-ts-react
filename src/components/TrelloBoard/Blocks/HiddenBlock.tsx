@@ -1,5 +1,5 @@
 import React,{ FC } from "react";
-import {Istate} from '../../data/board'
+import {Istate} from '../../../data/board'
 
 interface IHidden{
     val: Istate,
