@@ -22,6 +22,7 @@ function Login({type}:props) {
         }
     }
     const onFailure = (res:any) => {
+        console.log(res)
         console.log('fail')
     }
 
