@@ -213,7 +213,6 @@ export function useCleanOut({
     if(userId !== ''){
       FireBase.sendData(auth,state,userId).then(() => console.log('ok') )
     }
-
   }
   
 }

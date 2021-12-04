@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState,useEffect } from 'react'
+import React, { FC, useRef, useState,useEffect, useCallback } from 'react'
 import {Istate} from '../../data/board'
 import {useTypedSelector} from '../../hooks/typedSelector'
 import {UseActions} from '../../hooks/useActionsHook'
@@ -8,17 +8,22 @@ import {AddBlockModal} from './Modals/addBlock'
 import { Button } from 'antd';
 import {MemoBlcok} from './Blocks/Block';
 import {MemoHiddenBlock} from './Blocks/HiddenBlock';
+import FireBase from '../../abstractions/http/FirebaseApi';
+import _ from "lodash";
 
 interface IListDiv{
   destribution:(e:React.MouseEvent<HTMLDivElement>)=>void,
   idAction: string | null,
   idBlock: string | null,
+  userId:string | null
 }
 
 
-const TrelloBoard:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
+const TrelloBoard:FC<IListDiv> = ({destribution, idAction, idBlock,userId}) => {
   
   const {UpdateHeader} = UseActions()
+  const auth  = useTypedSelector( state => state.googleAuth )
+
   const EventState  = useTypedSelector( state => state.event )
   const state  = useTypedSelector( state => state.block )
   const inputRef = useRef<HTMLInputElement>(null)
@@ -46,7 +51,7 @@ const TrelloBoard:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
       return<MemoBlcok 
               key={val.id} 
               destribution={destribution}
-              handleInput={handleInput}
+              handleInput={debouncedChangeHandler}
               index={index}
               inputRef={inputRef}
               setAddModalState={setAddModalState}
@@ -56,8 +61,15 @@ const TrelloBoard:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
   }
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target 
-    UpdateHeader(target.value,Number(target.getAttribute('data-id')))
+    console.log(e.target)
+    console.log(userId)
+    UpdateHeader(target.value,Number(target.getAttribute('data-id')),state,userId,auth)
+    
   }
+  
+  const debouncedChangeHandler = useCallback(
+    _.debounce(handleInput, 300)
+  , [state,userId]);
 
   const showModalChange = () => {
     setIsModalVisibleChange(true);
@@ -76,6 +88,7 @@ const TrelloBoard:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
   }
   const showModalBlock = () => {
     setIsModalVisibleAddBlock(true)
+    
   }
 
     return (
@@ -96,6 +109,7 @@ const TrelloBoard:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
           state = {state}
           isModalVisibleChange = {isModalVisibleAddBlock}
           setModalSate ={setAddBlockState}
+          userId={userId}
         />
 
         <ChangeModal 
@@ -104,6 +118,7 @@ const TrelloBoard:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
           idBlock = {idBlock}
           isModalVisibleChange = {isModalVisibleChange}
           changeModalSate = {changeModalState}
+          userId={userId}
         />
 
         <AddActionModal  
@@ -112,6 +127,7 @@ const TrelloBoard:FC<IListDiv> = ({destribution, idAction, idBlock}) => {
           idAction = {idAction}
           idBlock = {idBlock}
           state = {state}
+          userId={userId}
         />
       </div>
     )

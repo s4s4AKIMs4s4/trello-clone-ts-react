@@ -228,7 +228,7 @@ const  App:FC = ()=> {
         }
       )
     }>
-      <MemoTrelloBoard  destribution = {destribution} idAction = {idAction} idBlock = {idBlcok}/>
+      <MemoTrelloBoard  destribution = {destribution} idAction = {idAction} idBlock = {idBlcok}  userId = {userId} />
       
     </div>
     </div>

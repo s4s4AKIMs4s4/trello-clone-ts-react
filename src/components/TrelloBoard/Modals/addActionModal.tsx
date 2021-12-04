@@ -3,6 +3,7 @@ import { Input } from 'antd';
 import { FC, useState } from 'react';
 import { UseActions } from '../../../hooks/useActionsHook';
 import { Istate } from '../../../data/board';
+import { useTypedSelector } from '../../../hooks/typedSelector';
 
 interface IChangeModal{
     idAction: string | null,
@@ -10,16 +11,19 @@ interface IChangeModal{
     isModalVisibleChange: boolean,
     changeModalSate: (value: boolean) => void,
     state:Istate[],   
+    userId:string | null,   
+
 }
 
 
 
-export const ChangeModal:FC<IChangeModal> = ({state, idAction, idBlock, isModalVisibleChange, changeModalSate, }) => {
+export const ChangeModal:FC<IChangeModal> = ({state, idAction, idBlock, isModalVisibleChange, changeModalSate,userId }) => {
     const [headerChange, setHeaderChange] = useState<string>('')
     const {UpdateActionHeader} = UseActions()
-  
+    const auth  = useTypedSelector( state => state.googleAuth )
+
     const handleOkChange = () => {
-        UpdateActionHeader(state, idBlock, idAction, headerChange)
+        UpdateActionHeader(state, idBlock, idAction, headerChange,userId,auth)
         setHeaderChange('')
         changeModalSate(false)
     }

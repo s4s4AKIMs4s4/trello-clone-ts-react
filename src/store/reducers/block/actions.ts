@@ -4,6 +4,8 @@ import {AppDispatch} from '../../index'
 import { Istate } from '../../../data/board'
 import { Children } from 'react'
 import { stringify } from 'querystring'
+import FireBase from '../../../abstractions/http/FirebaseApi'
+import {Istate as GoogleState} from '../../../store/reducers/googleAuth/types'
 
 
 
@@ -14,16 +16,31 @@ export const BlockActionCreators = {
             payload:state
         }
     },
-    UpdateHeader: (payload:string, id: number): UpdateHeader => {
-        return{
-            type: BlockActionEnum.SET_HEADER,
-            payload:{
-                header: payload,
-                id: id
-            }
+    UpdateHeader: (payload:string, id: number,state:Istate[],userId:string | null,auth:GoogleState): SetBlock => {
+        
+        state.forEach((val) => {
+            if( id === val.id ){
+              val.header = payload
+            } 
+        })
+        
+        if(userId !== ''){
+            FireBase.sendData(auth,state,userId).then(() => console.log('ok') )
         }
+
+        return {
+            type:BlockActionEnum.SET_BLOCK_SIZE,
+            payload:state
+        }  
+        // return{
+        //     type: BlockActionEnum.SET_HEADER,
+        //     payload:{
+        //         header: payload,
+        //         id: id
+        //     }
+        // }
     },
-    UpdateActionHeader:(state: IState[],idBlock: string | null, idAction: string | null, payload: string) =>
+    UpdateActionHeader:(state: IState[],idBlock: string | null, idAction: string | null, payload: string,userId: string | null, auth:GoogleState) =>
     (dispatch:AppDispatch) =>
     {
         for(let iB = 0; iB < state.length; iB++ ){
@@ -38,9 +55,12 @@ export const BlockActionCreators = {
             }
             
         }
+        if(userId !== ''){
+            FireBase.sendData(auth,state,userId).then(() => console.log('ok') )
+          }
     },
    
-    AddAction: (state:Istate[],idBlock: string | null, description: string) =>
+    AddAction: (state:Istate[],idBlock: string | null, description: string,userId: string | null, auth:GoogleState) =>
         (dispatch: AppDispatch) =>
         {
         for(let i = 0; i < state.length; i++){
@@ -59,6 +79,9 @@ export const BlockActionCreators = {
             }    
         }
         BlockActionCreators.UpdateBlockAction(state)
+        if(userId !== ''){
+            FireBase.sendData(auth,state,userId).then(() => console.log('ok') )
+          }
     },
     
     deleteAction:(state: Istate[], idAction: string | null | undefined, IdBlock: string | null | undefined) =>

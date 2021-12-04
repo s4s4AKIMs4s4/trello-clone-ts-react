@@ -3,23 +3,27 @@ import { Input } from 'antd';
 import { FC, useState } from 'react';
 import { UseActions } from '../../../hooks/useActionsHook';
 import { Istate } from '../../../data/board';
+import FireBase from '../../../abstractions/http/FirebaseApi';
+import { useTypedSelector } from '../../../hooks/typedSelector';
 
 interface IChangeModal{
     idAction: string | null,
     idBlock: string | null,
     isModalVisibleChange: boolean,
     changeModalSate: (value: boolean) => void,
-    state:Istate[],   
+    state:Istate[],
+    userId:string | null,   
 }
 
 
 
-export const ChangeModal:FC<IChangeModal> = ({state, idAction, idBlock, isModalVisibleChange, changeModalSate, }) => {
+export const ChangeModal:FC<IChangeModal> = ({state, idAction, idBlock, isModalVisibleChange, changeModalSate,userId }) => {
     const [headerChange, setHeaderChange] = useState<string>('')
+    const auth  = useTypedSelector( state => state.googleAuth )
     const {UpdateActionHeader} = UseActions()
   
     const handleOkChange = () => {
-        UpdateActionHeader(state, idBlock, idAction, headerChange)
+        UpdateActionHeader(state, idBlock, idAction, headerChange,userId,auth)
         setHeaderChange('')
         changeModalSate(false)
     }
@@ -29,6 +33,7 @@ export const ChangeModal:FC<IChangeModal> = ({state, idAction, idBlock, isModalV
     }
     const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setHeaderChange(e.target.value)
+        
     }
     
     return (
