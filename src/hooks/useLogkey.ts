@@ -32,7 +32,7 @@ export function useLogKey({
   {
     const [currentInterseptionBlcok, SetCurrentInterseptionBlcok] = useState<number | null>(null)
 
-    //mutation
+    //mutation!!!
     const deleteTwoWihiteSpace = (newState: IState[]) => {
       let isTwoWhite = false
 
@@ -118,41 +118,21 @@ export function useLogKey({
       UpdateBlockAction(newState)
     }
 
-    //mutation
-    const newActionsWithWhiteSpace = (e:React.MouseEvent, left: number) => {
+    const pickRightPositionOfActions = (stateSizeble:Array<number>, mousePosition:number, e:React.MouseEvent ): Istate[] => {
       const whiteSpaceObj = {
         index: Date.now(),
         text:'white space',
         x:0,
         y:0,
       }
-    
       let newClildren:children[] = [] 
-      let xBasis = 0
-      if(state[0].left < 0 ){
-        xBasis = -state[0].left
-      }
-    
-  
-    let difSpace = Math.abs(state[1].left - state[0].left)
-      let stateSizeble:Array<number> = []
-      let sum = 0
-      for(let i = 0;i< state.length;i++){
-        stateSizeble[i] = sum
-        sum += difSpace
-      }
-      if(xBasis === 0){
-        difSpace = 0
-      }
-      
-      const cl = xBasis + e.clientX
+      let newState:Istate[] = [...state]
 
       for(let i = 0; i < state.length-1; i++ ){
-        if( (stateSizeble[i]   < cl && stateSizeble[i+1] > cl || (stateSizeble[stateSizeble.length-1] <= e.screenX && i === state.length - 2 )) ){
-          if(stateSizeble[stateSizeble.length-1] <= cl && i === stateSizeble.length - 2 ) {           
+        if( (stateSizeble[i]   < mousePosition && stateSizeble[i+1] > mousePosition || (stateSizeble[stateSizeble.length-1] <= e.screenX && i === state.length - 2 )) ){
+          if(stateSizeble[stateSizeble.length-1] <= mousePosition && i === stateSizeble.length - 2 ) {           
             i++
           }
-
           if(state[i].id !== currentInterseptionBlcok)
           {
             deleteWhitespace(state)
@@ -164,15 +144,15 @@ export function useLogKey({
           let isMove = false
 
           for (let it = 0; it < prevChildren.length; it++){
-              if(it === 0 && prevChildren[it].y + 7  >= e.clientY ){
-                newClildren.push(whiteSpaceObj)
+            if(it === 0 && prevChildren[it].y + 7  >= e.clientY ){
+              newClildren.push(whiteSpaceObj)
+              newClildren.push(prevChildren[it])
+              continue;
+            }
+            if(it === prevChildren.length - 1 ){
                 newClildren.push(prevChildren[it])
-                continue;
-              }
-              if(it === prevChildren.length - 1 ){
-                  newClildren.push(prevChildren[it])
-                  continue
-              }
+                continue
+            }
             if(prevChildren[it].text === 'white space'){
               isMove = true
               continue
@@ -186,9 +166,30 @@ export function useLogKey({
               newClildren.push(prevChildren[it])
           }
           SetCurrentInterseptionBlcok(state[i].id)
-          state[i].childrens = newClildren  
+          newState[i].childrens = newClildren  
         } 
       }
+      return newState
+    }
+    //mutation
+    const createNewActionsWithWhiteSpace = (e:React.MouseEvent, left: number):Istate[] => {
+      let xBasis = 0
+      if(state[0].left < 0 ){
+        xBasis = -state[0].left
+      }
+      let difSpace = Math.abs(state[1].left - state[0].left)
+      let stateSizeble:Array<number> = []
+      let sum = 0
+      for(let i = 0;i< state.length;i++){
+        stateSizeble[i] = sum
+        sum += difSpace
+      }
+      if(xBasis === 0){
+        difSpace = 0
+      }   
+      const mousePosition = xBasis + e.clientX
+      return pickRightPositionOfActions(stateSizeble, mousePosition, e)
+    
     }
     
     const moveAction = (e:React.MouseEvent) => {
@@ -196,8 +197,7 @@ export function useLogKey({
       const calc  = Number(clientMouse.clientX) - actionLeft
       targetDivElemnt.style.left = `${calc}px`
       targetDivElemnt.style.top =`${clientMouse.clientY}px`
-      newActionsWithWhiteSpace(e,actionLeft)
-      UpdateBlockAction(state)
+      UpdateBlockAction(createNewActionsWithWhiteSpace(e,actionLeft))
     }
     
   return (e:React.MouseEvent) => {
