@@ -32,9 +32,9 @@ export function useLogKey({
   {
     const [currentInterseptionBlcok, SetCurrentInterseptionBlcok] = useState<number | null>(null)
 
-    //mutation!!!
-    const deleteTwoWihiteSpace = (newState: IState[]) => {
+    const deleteTwoWihiteSpace = (state: IState[]) => {
       let isTwoWhite = false
+      let newState:IState[] = [...state]
 
       for(let i = 0 ; i < newState.length;i++){
         if(newState[i].header === 'white space' && isTwoWhite === false){
@@ -45,11 +45,20 @@ export function useLogKey({
           newState.splice(i,1)
         }  
       }
+      return newState
     }
 
     const constructNewBlocksWithWhiteSpace = (e:React.MouseEvent) => {
       const newState = [] as Istate[]
-      
+      const whiteSpaceObject = {
+        header:'white space',
+        id:Math.floor(1000*Math.random()),
+        left: e.clientX,
+        target:null,
+        childrens:[{x:1,y:1,text:'', index:20}],
+        length:1
+      }
+
       state.forEach((val, index) =>{
         if(state[index].target === 1){
           newState.push(state[index])
@@ -67,14 +76,7 @@ export function useLogKey({
         }
         if(index === 0){
           if(val.left+ 50>= e.clientX ){
-          newState.push({
-            header:'white space',
-            id:Math.floor(1000*Math.random()),
-            left: e.clientX,
-            target:null,
-            childrens:[{x:1,y:1,text:'', index:20}],
-            length:1
-          })
+          newState.push(whiteSpaceObject)
           newState.push(state[index])
           return
           }
@@ -83,22 +85,12 @@ export function useLogKey({
         
         if(e.clientX > val.left   &&  e.clientX < state[index+1].left ){  
           newState.push(state[index])
-          newState.push({
-            header:'white space',
-            id:Math.floor(1000*Math.random()),
-            left: e.clientX,
-            target:null,
-            childrens:[{x:1,y:1,text:'', index:20}],
-            length:1
-          })
-        
+          newState.push(whiteSpaceObject)
           return 
         }
         newState.push(val)
-    
       })
-      deleteTwoWihiteSpace(newState)
-      return newState
+      return deleteTwoWihiteSpace(newState)
     }
 
     
@@ -171,7 +163,6 @@ export function useLogKey({
       }
       return newState
     }
-    //mutation
     const createNewActionsWithWhiteSpace = (e:React.MouseEvent, left: number):Istate[] => {
       let xBasis = 0
       if(state[0].left < 0 ){

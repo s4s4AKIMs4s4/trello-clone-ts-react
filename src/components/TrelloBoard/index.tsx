@@ -8,7 +8,6 @@ import {AddBlockModal} from './Modals/addBlock'
 import { Button } from 'antd';
 import {MemoBlcok} from './Blocks/Block';
 import {MemoHiddenBlock} from './Blocks/HiddenBlock';
-import FireBase from '../../abstractions/http/FirebaseApi';
 import _ from "lodash";
 
 interface IListDiv{
@@ -63,8 +62,7 @@ const TrelloBoard:FC<IListDiv> = ({destribution, idAction, idBlock,userId}) => {
     const target = e.target 
     console.log(e.target)
     console.log(userId)
-    UpdateHeader(target.value,Number(target.getAttribute('data-id')),state,userId,auth)
-    
+    UpdateHeader(target.value,Number(target.getAttribute('data-id')), state, userId, auth)
   }
   
   const debouncedChangeHandler = useCallback(

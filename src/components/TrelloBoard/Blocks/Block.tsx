@@ -16,7 +16,7 @@ interface IProps{
     handleInput: (e:React.ChangeEvent<HTMLInputElement>) => void,
 }
 
-const Block:FC<IProps> = ({val, index,inputRef,destribution,handleInput,setAddModalState,showModalChange}) => {
+const Block:FC<IProps> = ({val, index, inputRef, destribution, handleInput, setAddModalState, showModalChange}) => {
     const EventState  = useTypedSelector( state => state.event )
     function insertAction(val:children){
         if(val.text !== 'add')
@@ -28,13 +28,13 @@ const Block:FC<IProps> = ({val, index,inputRef,destribution,handleInput,setAddMo
         return <ActionAdd key ={val.index} val ={val} setAddModalState = {setAddModalState} />                
       }
 
-     return <div className="block" data-id = {val.id}  onMouseDown = {destribution} >
+     return <div className="block" data-id = {val.id}  onPointerDown = {destribution} >
         {(!EventState[index]) 
             ? <div  className = "block__header"  data-id = {index}> {val.header} </div>
             : <input type = 'text' ref = {inputRef}  data-id = {val.id} onChange = {handleInput}/>
         }
         <div className = "block__element">
-        {val.childrens.map((val:children,index:any) => 
+        {val.childrens.map((val:children) => 
             insertAction(val)
         )}
      </div>

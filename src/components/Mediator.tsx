@@ -186,7 +186,7 @@ const  App:FC = ()=> {
     <>
 
     <div className = 'MainAppContainer'>
-    <div className = 'root'  onMouseMove = {useLogKey
+    <div className = 'root'  onPointerMove = {useLogKey
       (
         {
           UpdateBlockAction: UpdateBlockAction,
@@ -202,7 +202,7 @@ const  App:FC = ()=> {
           basis:basis,
         }
       )
-    } onMouseUp = {
+    } onPointerUp = {
       useCleanOut(
         {
           targetDivElemnt: targetDivElemnt,
