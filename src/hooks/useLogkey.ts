@@ -121,7 +121,7 @@ export function useLogKey({
       let newState:Istate[] = [...state]
 
       for(let i = 0; i < state.length-1; i++ ){
-        if( (stateSizeble[i]   < mousePosition && stateSizeble[i+1] > mousePosition || (stateSizeble[stateSizeble.length-1] <= e.screenX && i === state.length - 2 )) ){
+        if( (stateSizeble[i] <= mousePosition && stateSizeble[i+1] >= mousePosition || (stateSizeble[stateSizeble.length-1] <= e.screenX && i === state.length - 2 )) ){
           if(stateSizeble[stateSizeble.length-1] <= mousePosition && i === stateSizeble.length - 2 ) {           
             i++
           }
@@ -141,6 +141,7 @@ export function useLogKey({
               newClildren.push(prevChildren[it])
               continue;
             }
+           
             if(it === prevChildren.length - 1 ){
                 newClildren.push(prevChildren[it])
                 continue
@@ -160,6 +161,7 @@ export function useLogKey({
           SetCurrentInterseptionBlcok(state[i].id)
           newState[i].childrens = newClildren  
         } 
+
       }
       return newState
     }

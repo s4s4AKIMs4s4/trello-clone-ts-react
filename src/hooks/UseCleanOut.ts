@@ -118,6 +118,19 @@ export function useCleanOut({
       }    
     }
   }
+
+
+  function findOldAction(state:Istate[], targetDivElemnt: HTMLDivElement){
+    if(!targetDivElemnt.children[0])
+      return 
+    for(let sIterator = 0; sIterator< state.length;sIterator++){
+      const childrens = state[sIterator].childrens
+      for(let aIterator = 0 ; aIterator < childrens.length; aIterator++){
+
+        state[sIterator].length = state[sIterator].childrens.length
+      }    
+    }
+  }
   
  
   
@@ -136,14 +149,18 @@ export function useCleanOut({
     const action = currentAction
     action.x = Number(clientMouse.clientX)
     action.y = Number(clientMouse.clientY)
-
     for(let i = 0; i < state.length; i++){
       state[i].length = state[i].childrens.length
       if(i === 0){
-        if( state[i].childrens[0].x  >= Number(clientMouse.clientX) ){
+       
+        
+
+        if( state[i].childrens[0].x > Number(clientMouse.clientX) ){
+          findOldAction(state,targetDivElemnt)
           action.index = Date.now()
           state[i].childrens.push(action)
           state[i].length = state[i].childrens.length
+          
           break;
         }
       }
@@ -155,7 +172,7 @@ export function useCleanOut({
         }
         break;
       }
-  
+      
       if( (state[i].childrens[0].x <= Number(clientMouse.clientX) )  && (  Number(clientMouse.clientX) <= state[i+1].childrens[0].x))  {
         action.index = Date.now()
         state[i].childrens.push(action) 
