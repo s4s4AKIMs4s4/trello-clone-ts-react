@@ -56,6 +56,7 @@ export function useCleanOut({
     eventState,
     isMove,
     userId,
+    idAction,
 } : props )
 
 {
@@ -110,8 +111,7 @@ export function useCleanOut({
     for(let sIterator = 0; sIterator< state.length;sIterator++){
       const childrens = state[sIterator].childrens
       for(let aIterator = 0 ; aIterator < childrens.length; aIterator++){
-        //replace with comparsion by ID
-        if(targetDivElemnt.children[0].textContent?.split(' ').join('') === childrens[aIterator].text?.split(' ').join('')){             
+        if( Number(idAction) === childrens[aIterator].index){             
           state[sIterator].childrens.splice(aIterator,1)
           break
         }

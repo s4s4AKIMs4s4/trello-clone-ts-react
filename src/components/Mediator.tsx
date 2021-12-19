@@ -95,6 +95,7 @@ const  App:FC = ()=> {
       setCurrentUction: setCurrentUction,
       state: state,
       targetDivElemnt:targetDivElemnt,
+      idAction:idAction,
     })
     resizeBlocks()
   },[updateActions])

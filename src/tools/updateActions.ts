@@ -5,9 +5,10 @@ interface props{
     UpdateBlockAction: Function,
     targetDivElemnt: HTMLDivElement,
     setCurrentUction:(children: children) => void
+    idAction:string | null
 }
 
-export function  updateActionSize({targetDivElemnt,UpdateBlockAction,setCurrentUction,state}: props) {
+export function  updateActionSize({targetDivElemnt,UpdateBlockAction,setCurrentUction,state,idAction}: props) {
 
   function getCurrentAction(){
     if(Object.keys(targetDivElemnt).length === 0 )
@@ -18,11 +19,17 @@ export function  updateActionSize({targetDivElemnt,UpdateBlockAction,setCurrentU
     }
     for(let sIterator = 0; sIterator< state.length;sIterator++){
         const childrens = state[sIterator].childrens
+  
         for(let aIterator = 0 ; aIterator < childrens.length; aIterator++){
-          if(targetDivElemnt.children[0].textContent?.split(' ').join('') === childrens[aIterator].text?.split(' ').join('')){
+          if(Number(idAction) === childrens[aIterator].index){
             setCurrentUction(childrens[aIterator])
             return
           }
+
+          // if(targetDivElemnt.children[0].textContent?.split(' ').join('') === childrens[aIterator].text?.split(' ').join('')){
+          //   setCurrentUction(childrens[aIterator])
+          //   return
+          // }
         }
       }
     }
