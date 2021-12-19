@@ -25,6 +25,8 @@
   column-gap: 400px;
 }
 
+
+
 .typing {
     width: 27ch;
     animation: typing 2.8s steps(27), blink .5s step-end infinite alternate;
@@ -36,6 +38,22 @@
     color: white;
     font-weight: 800;
     z-index: 5;  
+  }
+
+
+  @media screen and (max-width: 590px) {
+    .typing {
+      width: 27ch;
+      animation: typing 2.8s steps(27), blink .5s step-end infinite alternate;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid;
+      font-family: monospace;
+      font-size: 1.9em;
+      color: white;
+      font-weight: 800;
+      z-index: 5;  
+    }
   }
 
   .loginButtom{
