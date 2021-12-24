@@ -1,3 +1,17 @@
+
+export enum ImportantText{
+  whiteSpace = 'white space'
+}
+export enum clases {
+  deleteBlaock = 'deleteBlock',
+  textToChange = 'text',
+  headerBlock = 'block__header',
+  action = 'action',
+  block = 'block',
+  closeIcon = 'closeIcon' 
+}
+
+
 export interface IclientMouse{
     clientX:string,
     clientY:string

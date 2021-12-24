@@ -33,9 +33,6 @@ export interface SetBlock{
     payload:IState[],
 }
 
-// export interface UpdateUnit{
-//     type:BlockActionEnum.UPDATE_UNIT_SIZE
-// }
 
 export interface UpdateHeader{
   type: BlockActionEnum.SET_HEADER,

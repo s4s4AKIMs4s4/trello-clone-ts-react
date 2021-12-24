@@ -25,11 +25,7 @@ export function  updateActionSize({targetDivElemnt,UpdateBlockAction,setCurrentU
             setCurrentUction(childrens[aIterator])
             return
           }
-
-          // if(targetDivElemnt.children[0].textContent?.split(' ').join('') === childrens[aIterator].text?.split(' ').join('')){
-          //   setCurrentUction(childrens[aIterator])
-          //   return
-          // }
+          
         }
       }
     }

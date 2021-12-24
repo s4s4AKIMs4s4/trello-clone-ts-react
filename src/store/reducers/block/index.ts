@@ -1,4 +1,3 @@
-import { bindActionCreators } from "redux";
 import {IState, actionType, BlockActionEnum} from './types'
 
 
@@ -43,7 +42,7 @@ export const initialState: IState[] = [
 export default function blockModelReducer(state: IState[] = initialState, action:actionType){
     switch(action.type) {
         case BlockActionEnum.SET_BLOCK_SIZE:
-          return action.payload
+          return [...action.payload]
         case BlockActionEnum.ADD_BlOCK:
           return [...action.payload]  
         case BlockActionEnum.SET_HEADER:{

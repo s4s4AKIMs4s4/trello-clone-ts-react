@@ -1,4 +1,4 @@
-import {EventTypesEnum, IState, IUpdateEvent, eventAction} from './types'
+import {EventTypesEnum, IState, eventAction} from './types'
 
 const initialState: IState = {
     0:false,

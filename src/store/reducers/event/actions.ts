@@ -1,6 +1,4 @@
-import { store } from '../..'
 import {IUpdateEvent, EventTypesEnum, IState, ISetFalse} from './types'
-import {useTypedSelector} from '../../../hooks/typedSelector'
 
 export const AllEventActionCreators = {
     updateEventAction:(index: number, isAccess: boolean):IUpdateEvent => 

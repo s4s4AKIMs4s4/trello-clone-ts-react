@@ -2,13 +2,14 @@ import {Istate, children, IclientMouse} from '../data/board'
 import { useTypedSelector } from './typedSelector'
 import {IState as ISateEvent} from '../store/reducers/event/types'
 import FireBase from '../abstractions/http/FirebaseApi'
+import {ImportantText} from '../data/board'
+import {clases} from '../data/board'
 
 interface props {
     targetDivElemnt: HTMLDivElement,
     isBlockMoved: boolean, 
     setIsMove: (val:boolean) => void,
     setIsBlockMoved: (val:boolean) => void,
-    state: Istate[],
     updateActions :boolean,
     currentAction : children, 
     clientMouse:IclientMouse,
@@ -26,15 +27,16 @@ interface props {
     userId: string | null
 }
 
-export function   deleteWhitespace(state:Istate[]){
+export function deleteWhitespace(state:Istate[]){
+  const newState = [...state] 
   for(let i = 0 ; i < state.length;i++){
     for(let it = 0 ; it < state[i].childrens.length;it++){
-      if(state[i].childrens[it].text === 'white space'){
-        state[i].childrens.splice(it,1)
+      if(state[i].childrens[it].text === ImportantText.whiteSpace){
+        newState[i].childrens.splice(it,1)
       }
     }
   }
-  
+  return newState
 }
 
 
@@ -43,7 +45,6 @@ export function useCleanOut({
     isBlockMoved,
     setIsMove,
     setIsBlockMoved,
-    state,
     updateActions,
     currentAction,
     clientMouse,
@@ -60,6 +61,7 @@ export function useCleanOut({
 } : props )
 
 {
+  const state  = useTypedSelector( state => state.block )
   const auth  = useTypedSelector( state => state.googleAuth )
 
   function isDeltaMouse(){
@@ -86,14 +88,14 @@ export function useCleanOut({
       if(isBlockMoved){
         setIsMove(false)
         setIsBlockMoved(false)
-        const blocks = document.querySelectorAll('.block') 
+        const blocks = document.querySelectorAll(clases.block) 
         let select = -1
         
         blocks.forEach((val, index)=>{
           if(index === state.length) return
           const bl = val as HTMLDivElement
           const num = bl.getBoundingClientRect().x 
-          if(bl.textContent === 'white space') { select = index; return}
+          if(bl.textContent === ImportantText.whiteSpace) { select = index; return}
           state[index].left = num
           state[index].id = Math.floor(1000* Math.random())  * Math.floor(1000* Math.random()) *  Math.floor(1000* Math.random())
         })
@@ -131,8 +133,6 @@ export function useCleanOut({
       }    
     }
   }
-  
- 
   
   function sortY(){    
     state.forEach((val)=>{
@@ -190,13 +190,12 @@ export function useCleanOut({
     {
   
       deleteOldAction(state, targetDivElemnt)
-      deleteWhitespace(state)
+      const newState = deleteWhitespace(state)
       putInBlockNewAction()
   
       sortY()
-      UpdateBlockAction(state)        
+      UpdateBlockAction(newState)        
       setApdateActions(false)
-      deleteWhitespace(state)
   }
   return () => {
       if( isDeltaMouse()  )
@@ -211,7 +210,7 @@ export function useCleanOut({
         if(updateActions){
           CreateNewActionPositions()
           setTimeout(() =>{
-            deleteWhitespace(state)
+            UpdateBlockAction(deleteWhitespace(state))
           })
         } 
         setIsMove(false)

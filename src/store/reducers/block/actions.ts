@@ -1,13 +1,8 @@
-import { store } from '../..'
-import {BlockActionEnum,SetBlock,IState,UpdateHeader, children,IAddBlock} from './types'
+import {BlockActionEnum,SetBlock,IState,IAddBlock} from './types'
 import {AppDispatch} from '../../index'
 import { Istate } from '../../../data/board'
-import { Children } from 'react'
-import { stringify } from 'querystring'
 import FireBase from '../../../abstractions/http/FirebaseApi'
 import {Istate as GoogleState} from '../../../store/reducers/googleAuth/types'
-
-
 
 export const BlockActionCreators = {
     UpdateBlockAction: (state: IState[]): SetBlock => {

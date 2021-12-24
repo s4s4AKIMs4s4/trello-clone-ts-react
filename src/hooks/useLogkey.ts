@@ -2,6 +2,8 @@ import {useState } from 'react'
 import {IclientMouse, Istate} from '../data/board'
 import { children, IState } from '../store/reducers/block/types'
 import {deleteWhitespace} from './UseCleanOut'
+import {ImportantText} from '../data/board'
+import { useTypedSelector } from './typedSelector'
 
 interface props {
     isMove:boolean,
@@ -9,7 +11,6 @@ interface props {
     setClientMouse: (state: IclientMouse) => void,
     isBlockMoved: boolean,
     targetDiv: HTMLDivElement
-    state: Istate[]
     UpdateBlockAction:Function
     targetDivElemnt: HTMLDivElement
     actionLeft: number
@@ -23,7 +24,6 @@ export function useLogKey({
   clientMouse,
   isBlockMoved,
   UpdateBlockAction,
-  state,
   targetDiv,
   targetDivElemnt,
   actionLeft,
@@ -31,17 +31,18 @@ export function useLogKey({
   ApdateActions}: props) 
   {
     const [currentInterseptionBlcok, SetCurrentInterseptionBlcok] = useState<number | null>(null)
+    const state  = useTypedSelector( state => state.block )
 
     const deleteTwoWihiteSpace = (state: IState[]) => {
       let isTwoWhite = false
       let newState:IState[] = [...state]
 
       for(let i = 0 ; i < newState.length;i++){
-        if(newState[i].header === 'white space' && isTwoWhite === false){
+        if(newState[i].header === ImportantText.whiteSpace && isTwoWhite === false){
           isTwoWhite = true
           continue
         } 
-        if(newState[i].header === 'white space' && isTwoWhite === true){
+        if(newState[i].header === ImportantText.whiteSpace && isTwoWhite === true){
           newState.splice(i,1)
         }  
       }
@@ -51,7 +52,7 @@ export function useLogKey({
     const constructNewBlocksWithWhiteSpace = (e:React.MouseEvent) => {
       const newState = [] as Istate[]
       const whiteSpaceObject = {
-        header:'white space',
+        header:ImportantText.whiteSpace,
         id:Math.floor(1000*Math.random()),
         left: e.clientX,
         target:null,
@@ -64,7 +65,7 @@ export function useLogKey({
           newState.push(state[index])
           return
         }
-        if(val.header === 'white space'){ 
+        if(val.header === ImportantText.whiteSpace){ 
           if(index === 0){
             if(val.left+ 50>= e.clientX ){
             
@@ -113,7 +114,7 @@ export function useLogKey({
     const pickRightPositionOfActions = (stateSizeble:Array<number>, mousePosition:number, e:React.MouseEvent ): Istate[] => {
       const whiteSpaceObj = {
         index: Date.now(),
-        text:'white space',
+        text:ImportantText.whiteSpace,
         x:0,
         y:0,
       }
@@ -127,11 +128,10 @@ export function useLogKey({
           }
           if(state[i].id !== currentInterseptionBlcok)
           {
-            deleteWhitespace(state)
-            UpdateBlockAction(state)
+            UpdateBlockAction(deleteWhitespace(state))
           }
 
-          deleteWhitespace(state)
+          UpdateBlockAction(deleteWhitespace(state))
           const prevChildren = state[i].childrens
           let isMove = false
 
@@ -146,7 +146,7 @@ export function useLogKey({
                 newClildren.push(prevChildren[it])
                 continue
             }
-            if(prevChildren[it].text === 'white space'){
+            if(prevChildren[it].text === ImportantText.whiteSpace){
               isMove = true
               continue
             }   
@@ -165,7 +165,7 @@ export function useLogKey({
       }
       return newState
     }
-    const createNewActionsWithWhiteSpace = (e:React.MouseEvent, left: number):Istate[] => {
+    const createNewActionsWithWhiteSpace = (e:React.MouseEvent):Istate[] => {
       let xBasis = 0
       if(state[0].left < 0 ){
         xBasis = -state[0].left
@@ -173,7 +173,7 @@ export function useLogKey({
       let difSpace = Math.abs(state[1].left - state[0].left)
       let stateSizeble:Array<number> = []
       let sum = 0
-      for(let i = 0;i< state.length;i++){
+      for(let i = 0; i < state.length; i++){
         stateSizeble[i] = sum
         sum += difSpace
       }
@@ -190,7 +190,7 @@ export function useLogKey({
       const calc  = Number(clientMouse.clientX) - actionLeft
       targetDivElemnt.style.left = `${calc}px`
       targetDivElemnt.style.top =`${clientMouse.clientY}px`
-      UpdateBlockAction(createNewActionsWithWhiteSpace(e,actionLeft))
+      UpdateBlockAction(createNewActionsWithWhiteSpace(e))
     }
     
   return (e:React.MouseEvent) => {
@@ -210,8 +210,5 @@ export function useLogKey({
             });
           }
         }
-
-      
-
     }
 }

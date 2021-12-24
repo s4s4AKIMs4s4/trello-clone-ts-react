@@ -11,7 +11,7 @@ import {updateActionSize} from '../tools/updateActions'
 import {IclientMouse,children, Istate} from '../data/board'
 import {IfirebaseUser} from '../data/fireBase'
 import FireBase from '../abstractions/http/FirebaseApi';
-
+import {clases} from '../data/board'
 
 const  App:FC = ()=> {
   const [isMove,setIsMove] = useState<boolean>(false)
@@ -43,13 +43,12 @@ const  App:FC = ()=> {
   const {UpdateBlockAction,updateEventAction, SetFalse, deleteAction,deleteBlcok} = UseActions()
   //flag to indicate moving block or action
   
-  function getUser(users: IfirebaseUser, user:string):[val:string,val1:Istate[]] | undefined{
-    for(let [key, val] of Object.entries(users)){
-      if(val.email[0] === user){
+  function getUser(users: IfirebaseUser, user:string):[val:string,val1:Istate[]] | undefined {
+    for(let [key, val] of Object.entries(users))
+      if(val.email[0] === user)
         return [key, val.initialState]
-      }
-    }
   }
+
   useEffect(() => {
     async function fetch(){
       try{
@@ -88,23 +87,17 @@ const  App:FC = ()=> {
   }
 
 
-  useEffect(() => {
-    deleteWhitespace(state)
+  useEffect(() => {  
     updateActionSize({
       UpdateBlockAction: UpdateBlockAction,
       setCurrentUction: setCurrentUction,
-      state: state,
+      state: deleteWhitespace(state),
       targetDivElemnt:targetDivElemnt,
       idAction:idAction,
     })
     resizeBlocks()
   },[updateActions])
 
-
- useEffect (() => { 
-  resizeBlocks()
- }, [state])
-  
  const blockHeaderHandler = (e:React.MouseEvent<HTMLDivElement>, target:HTMLDivElement) => {
   setSelectInput(true)
   setLastClientMouse({
@@ -136,7 +129,7 @@ const  App:FC = ()=> {
  const blockHandler = (e:React.MouseEvent<HTMLDivElement>, target:HTMLDivElement) => {
   setIsBlockMoved(true)
   setTargetDiv(target)   
-  const textTarget = target.querySelector('.block__header')?.textContent?.split(' ').join('');
+  const textTarget = target.querySelector(clases.headerBlock)?.textContent?.split(' ').join('');
 
   state.forEach((val, index) => {    
     if(val.header === textTarget){
@@ -148,7 +141,7 @@ const  App:FC = ()=> {
   function destribution(e:React.MouseEvent<HTMLDivElement>){
     let target = e.target as HTMLDivElement
     
-    if(target.className === 'deleteBlock'){
+    if(target.className === clases.deleteBlaock){
       deleteBlcok(state,(target.parentNode?.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
     }
     setIsMove(true)
@@ -162,19 +155,19 @@ const  App:FC = ()=> {
     const initPosition = target.getBoundingClientRect().x
     const basis = Number(e.clientX) - initPosition
     setBasis(basis)
-    if(target.className === 'text')
+    if(target.className === clases.textToChange)
       target = target.parentElement as HTMLDivElement
     
-    if(target.className === 'block__header')
+    if(target.className === clases.headerBlock)
       target = blockHeaderHandler(e, target)
     
-    if(target.className === 'actions')
+    if(target.className === clases.action)
       actionHandler(e, target)
 
     else
       blockHandler(e, target)
 
-    if(target.className === 'closeIcon' || target.parentElement?.tagName === 'SPAN' || target.parentElement?.tagName === 'svg' ){
+    if(target.className === clases.closeIcon || target.parentElement?.tagName === 'SPAN' || target.parentElement?.tagName === 'svg' ){
       const idA = target.parentElement?.parentElement?.parentElement?.getAttribute('data-id')
       const idB = target.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.getAttribute('data-id')
       deleteAction(state,idA,idB)
@@ -197,7 +190,6 @@ const  App:FC = ()=> {
           ApdateActions: updateActions,
           actionLeft: actionLeft,
           setClientMouse: setClientMouse,
-          state: state,
           targetDiv: targetDiv,
           targetDivElemnt:targetDivElemnt,
           basis:basis,
@@ -210,7 +202,6 @@ const  App:FC = ()=> {
           isBlockMoved: isBlockMoved,
           setIsMove: (boolValue) => setIsMove(boolValue),
           setIsBlockMoved: (boolValue) => setIsBlockMoved(boolValue),
-          state: state,
           updateActions: updateActions,
           currentAction: currentAction,
           clientMouse: clientMouse,
