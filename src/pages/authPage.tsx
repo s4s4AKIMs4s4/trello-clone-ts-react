@@ -6,7 +6,7 @@ function AuthPage() {
     const setTimer = () => {
         setTimeout(() => {
             SetIsTyping(true)
-        }, 2500)
+        }, 1500)
     }
     return <div className ="containerAuthPage">
             {

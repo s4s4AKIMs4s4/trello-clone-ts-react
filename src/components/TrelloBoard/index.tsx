@@ -60,8 +60,6 @@ const TrelloBoard:FC<IListDiv> = ({destribution, idAction, idBlock,userId}) => {
   }
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target 
-    console.log(e.target)
-    console.log(userId)
     UpdateHeader(target.value,Number(target.getAttribute('data-id')), state, userId, auth)
   }
   

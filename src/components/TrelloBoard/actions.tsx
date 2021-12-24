@@ -23,13 +23,13 @@ export const ActionAdd:FC<IAction> = ({val,setAddModalState,showModalChange} ) =
 export const Action:FC<IAction> = ({val,setAddModalState,showModalChange} ) => {
     return <div className = "actions" onClick = {showModalChange} data-id = {val.index}>
             <span className = 'text'> {val.text } </span>
-            <span className = 'closeIcon'> <CloseOutlined  data-id = "SVG" onClick = {() => {console.log('f');alert('а вот и я неждали!')}}/> </span> 
+            <span className = 'closeIcon'> <CloseOutlined  data-id = "SVG" onClick = {() => {alert('а вот и я неждали!')}}/> </span> 
         </div>
 }
 export const ActionHidden:FC<IAction> = ({val,setAddModalState,showModalChange} ) => {
     return <div className = "actions hiddenAction"  onClick = {showModalChange} data-id = {val.index}>
             <span className = 'text'> {val.text } </span>
-            <span className = 'closeIcon'> <CloseOutlined  data-id = "SVG" onClick = {() => {console.log('f');alert('а вот и я неждали!')}}/> </span> 
+            <span className = 'closeIcon'> <CloseOutlined  data-id = "SVG" onClick = {() => {alert('а вот и я неждали!')}}/> </span> 
           </div>
 }
 
