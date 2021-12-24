@@ -152,9 +152,11 @@ const  App:FC = ()=> {
       setApdateActions(false)
       return false
     }
+
     const initPosition = target.getBoundingClientRect().x
     const basis = Number(e.clientX) - initPosition
     setBasis(basis)
+
     if(target.className === clases.textToChange)
       target = target.parentElement as HTMLDivElement
     
@@ -174,6 +176,7 @@ const  App:FC = ()=> {
       setIsMove(false)
     }
     if(target.textContent === 'add') {setIsMove(false); return false}
+    
     return false
   }
   return (

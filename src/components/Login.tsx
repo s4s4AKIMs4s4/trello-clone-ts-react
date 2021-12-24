@@ -1,5 +1,4 @@
 import {GoogleLogin} from 'react-google-login'
-import { useTypedSelector } from '../hooks/typedSelector'
 import { UseActions } from '../hooks/useActionsHook'
 import { refreshTokenSetup } from '../utils/refreshToken'
 
@@ -9,7 +8,6 @@ interface props{
 }
 function Login({type}:props) {
     const {SetUserEmail} = UseActions()
-    const auth  = useTypedSelector( state => state.googleAuth )
 
     const onSuccess = (res: any) =>{
         try{
