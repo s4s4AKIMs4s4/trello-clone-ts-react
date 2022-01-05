@@ -3,7 +3,7 @@ import { useTypedSelector } from './typedSelector'
 import {IState as ISateEvent} from '../store/reducers/event/types'
 import FireBase from '../abstractions/http/FirebaseApi'
 import {ImportantText} from '../data/board'
-import {clases} from '../data/board'
+import {classes} from '../data/board'
 
 interface props {
     targetDivElemnt: HTMLDivElement,
@@ -88,7 +88,7 @@ export function useCleanOut({
       if(isBlockMoved){
         setIsMove(false)
         setIsBlockMoved(false)
-        const blocks = document.querySelectorAll(clases.block) 
+        const blocks = document.querySelectorAll(classes.block) 
         let select = -1
         
         blocks.forEach((val, index)=>{

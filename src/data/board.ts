@@ -2,7 +2,7 @@
 export enum ImportantText{
   whiteSpace = 'white space'
 }
-export enum clases {
+export enum classes {
   deleteBlaock = 'deleteBlock',
   textToChange = 'text',
   headerBlock = 'block__header',

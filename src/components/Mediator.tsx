@@ -11,7 +11,7 @@ import {updateActionSize} from '../tools/updateActions'
 import {IclientMouse,children, Istate} from '../data/board'
 import {IfirebaseUser} from '../data/fireBase'
 import FireBase from '../abstractions/http/FirebaseApi';
-import {clases} from '../data/board'
+import {classes} from '../data/board'
 
 const  App:FC = ()=> {
   const [isMove,setIsMove] = useState<boolean>(false)
@@ -129,7 +129,7 @@ const  App:FC = ()=> {
  const blockHandler = (e:React.MouseEvent<HTMLDivElement>, target:HTMLDivElement) => {
   setIsBlockMoved(true)
   setTargetDiv(target)   
-  const textTarget = target.querySelector(clases.headerBlock)?.textContent?.split(' ').join('');
+  const textTarget = target.querySelector(classes.headerBlock)?.textContent?.split(' ').join('');
 
   state.forEach((val, index) => {    
     if(val.header === textTarget){
@@ -141,7 +141,7 @@ const  App:FC = ()=> {
   function destribution(e:React.MouseEvent<HTMLDivElement>){
     let target = e.target as HTMLDivElement
     
-    if(target.className === clases.deleteBlaock){
+    if(target.className === classes.deleteBlaock){
       deleteBlcok(state,(target.parentNode?.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
     }
     setIsMove(true)
@@ -157,19 +157,19 @@ const  App:FC = ()=> {
     const basis = Number(e.clientX) - initPosition
     setBasis(basis)
 
-    if(target.className === clases.textToChange)
+    if(target.className === classes.textToChange)
       target = target.parentElement as HTMLDivElement
     
-    if(target.className === clases.headerBlock)
+    if(target.className === classes.headerBlock)
       target = blockHeaderHandler(e, target)
     
-    if(target.className === clases.action)
+    if(target.className === classes.action)
       actionHandler(e, target)
 
     else
       blockHandler(e, target)
 
-    if(target.className === clases.closeIcon || target.parentElement?.tagName === 'SPAN' || target.parentElement?.tagName === 'svg' ){
+    if(target.className === classes.closeIcon || target.parentElement?.tagName === 'SPAN' || target.parentElement?.tagName === 'svg' ){
       const idA = target.parentElement?.parentElement?.parentElement?.getAttribute('data-id')
       const idB = target.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.getAttribute('data-id')
       deleteAction(state,idA,idB)
