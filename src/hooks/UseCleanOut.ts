@@ -13,7 +13,7 @@ interface props {
     updateActions :boolean,
     currentAction : children, 
     clientMouse:IclientMouse,
-    setApdateActions:(val: boolean) => void, 
+    setUpdateActions:(val: boolean) => void, 
     UpdateBlockAction: Function,
     isSelectInput: boolean,
     lastClientMouse: IclientMouse,
@@ -48,7 +48,7 @@ export function useCleanOut({
     updateActions,
     currentAction,
     clientMouse,
-    setApdateActions,
+    setUpdateActions,
     UpdateBlockAction,
     lastClientMouse,
     updateEventAction,
@@ -195,7 +195,7 @@ export function useCleanOut({
   
       sortY()
       UpdateBlockAction(newState)        
-      setApdateActions(false)
+      setUpdateActions(false)
   }
   return () => {
       if( isDeltaMouse()  )
@@ -222,7 +222,7 @@ export function useCleanOut({
         updateEventAction(dataIdEvent,true)
         setIsMove(false)
         setIsBlockMoved(false)}
-        setApdateActions(false)
+        setUpdateActions(false)
         setIsMove(false)
         setIsBlockMoved(false)
     }

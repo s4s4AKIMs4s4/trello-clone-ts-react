@@ -4,11 +4,11 @@ interface props{
     state: Istate[],
     UpdateBlockAction: Function,
     targetDivElemnt: HTMLDivElement,
-    setCurrentUction:(children: children) => void
+    setCurrentAction:(children: children) => void
     idAction:string | null
 }
 
-export function  updateActionSize({targetDivElemnt,UpdateBlockAction,setCurrentUction,state,idAction}: props) {
+export function  updateActionSize({targetDivElemnt,UpdateBlockAction,setCurrentAction,state,idAction}: props) {
 
   function getCurrentAction(){
     if(Object.keys(targetDivElemnt).length === 0 )
@@ -22,7 +22,7 @@ export function  updateActionSize({targetDivElemnt,UpdateBlockAction,setCurrentU
   
         for(let aIterator = 0 ; aIterator < childrens.length; aIterator++){
           if(Number(idAction) === childrens[aIterator].index){
-            setCurrentUction(childrens[aIterator])
+            setCurrentAction(childrens[aIterator])
             return
           }
           

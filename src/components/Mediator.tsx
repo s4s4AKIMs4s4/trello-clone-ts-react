@@ -17,7 +17,7 @@ const  App:FC = ()=> {
   const [isMove,setIsMove] = useState<boolean>(false)
   const [isBlockMoved,setIsBlockMoved] = useState<boolean>(false)
   const [isSelectInput,setSelectInput] = useState<boolean>(false)
-  const [updateActions, setApdateActions] = useState<boolean>(false)
+  const [updateActions, setUpdateActions] = useState<boolean>(false)
   //mouse position
   const [clientMouse,setClientMouse] = useState<IclientMouse>({clientX:'1',clientY:'1'})
   const [lastClientMouse,setLastClientMouse] = useState<IclientMouse>({} as IclientMouse)
@@ -27,7 +27,7 @@ const  App:FC = ()=> {
   //Action and Block itself
   const [targetDiv,setTargetDiv] = useState<HTMLDivElement>({} as HTMLDivElement)
   const [targetDivElemnt,setTargetDivElement] = useState<HTMLDivElement>({} as HTMLDivElement)
-  const [currentAction,setCurrentUction] = useState<children>({} as children)
+  const [currentAction,setCurrentAction] = useState<children>({} as children)
   const [actionLeft,setActionLeft] = useState<number>(0)
   const [basis , setBasis] = useState<number>(0)
   //states for data Input in block ([0,length of Blocks])
@@ -90,7 +90,7 @@ const  App:FC = ()=> {
   useEffect(() => {  
     updateActionSize({
       UpdateBlockAction: UpdateBlockAction,
-      setCurrentUction: setCurrentUction,
+      setCurrentAction: setCurrentAction,
       state: deleteWhitespace(state),
       targetDivElemnt:targetDivElemnt,
       idAction:idAction,
@@ -110,7 +110,7 @@ const  App:FC = ()=> {
  }
 
  const actionHandler = (e:React.MouseEvent<HTMLDivElement>, target:HTMLDivElement) => {
-  setApdateActions(true)
+  setUpdateActions(true)
 
   setLastClientMouse({
     clientX:`${e.clientX}`,
@@ -120,7 +120,7 @@ const  App:FC = ()=> {
   setIdAction(target.getAttribute('data-id'))
   setIdBlcok((target.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
 
-  setApdateActions(true)
+  setUpdateActions(true)
   setIsBlockMoved(false)
   setTargetDivElement(target)
   setActionLeft(target.getBoundingClientRect().x)
@@ -149,7 +149,7 @@ const  App:FC = ()=> {
       setIdBlcok((target.parentNode?.parentNode as HTMLDivElement).getAttribute('data-id'))
       setIsMove(false);
       setIsBlockMoved(false)
-      setApdateActions(false)
+      setUpdateActions(false)
       return false
     }
 
@@ -208,7 +208,7 @@ const  App:FC = ()=> {
           updateActions: updateActions,
           currentAction: currentAction,
           clientMouse: clientMouse,
-          setApdateActions: (boolValue) => setApdateActions(boolValue),
+          setUpdateActions: (boolValue) => setUpdateActions(boolValue),
           UpdateBlockAction: UpdateBlockAction,
           isSelectInput: isSelectInput,
           lastClientMouse:lastClientMouse,
